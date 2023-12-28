@@ -1,0 +1,58 @@
+$purple_color: #c931f5;
+$milk_color: #fffefb;
+
+.ovrCover {
+    .titleUp {
+        font-size: 22px;
+        font-weight: 500;
+        margin: 0 0 15px 0;
+    }
+
+    .inputCover {
+        padding: 10px 0;
+    
+        .inpTitle {
+            font-size: 17px;
+            font-weight: 500;
+            padding: 0 0 5px;text-transform: capitalize;
+        }
+        .inpInput {
+            input {
+                width: 60%;
+                height: 50px;
+                padding: 0 15px;
+                border-radius: 3px;
+                border: 2px solid $purple_color;
+            }
+            p {
+                display: block;
+                position: relative;
+                margin: 6px 0 0;
+                font-size: 13px;
+                font-weight: bold;
+                color: #df0e3a;
+            }
+        }
+    }
+    .btnCvr {
+        margin: 10px 0 0;
+
+        button, p {
+            width: 160px;
+            text-align: center;
+            background-color: $purple_color;
+            padding: 10px 25px;
+            font-size: 17px;
+            font-weight: bold;
+            letter-spacing: 0.6px;
+            color: $milk_color;
+            border-radius: 2px;
+            box-shadow: 3px 3px 0 rgba(0,0,0,0.12);
+        }
+        p {
+            opacity: .5;
+            box-shadow: none;
+            cursor: progress;
+        }
+    }
+}

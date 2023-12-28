@@ -1,0 +1,73 @@
+.reviewsSection {
+    .RvwDtsCvr {
+        .EchGameCvr {
+            display: block;
+            position: relative;
+            overflow: hidden;
+            padding: 20px 0;
+
+            .it_fl {
+                float: left;
+                position: relative;
+            }
+
+            .profImg {
+                width: 50px;
+                height: 50px;
+                border-radius: 100px;
+                background-color: bisque;
+                text-transform: uppercase;
+                text-align: center;
+                line-height: 50px;
+                font-weight: bold;
+            }
+        }
+    }
+
+    .AddReviewMCvr {
+        .GInp_General {
+            padding: 10px 0;
+    
+            .GInp_cvr {
+                padding: 15px 0;
+    
+                .GInp_title {
+                    padding: 0 0 5px;
+                }
+                .GInp_input {
+                    input, textarea {
+                        padding: 10px 15px;
+                        background-color: #f1f2f6;
+                    }
+
+                    input {
+                        font-size: 14px;
+                
+                        &:focus {
+                            background-color: #fff;
+                        }
+                    }
+                }
+            }
+    
+            .GInp_Btn {
+                padding: 12px 0;
+            }
+            .GenBtn1 {
+                button {
+                    padding: 13px 18px;
+                    margin: 0 15px 0 0;
+                    border-radius: 2px;
+                    color: #0056b6;
+                    font-size: 15px;
+                    font-weight: 600;
+                    box-shadow: 4px 4px 0 rgba($color: #000000, $alpha: 0.05), 0 0 3px rgba($color: #000, $alpha: 0.1);
+        
+                    &:hover {
+                        border: 1px solid #000;
+                    }
+                }
+            }
+        }
+    }
+}

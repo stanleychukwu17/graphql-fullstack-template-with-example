@@ -1,0 +1,58 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@200;300;400;500;600;700;800&family=Titillium+Web:wght@300;400;500;600;700;800;900&display=swap');
+
+:root {
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    position: relative;
+    width: 100vw;
+    overflow-x: hidden;
+}
+main {
+    font-family: 'Titillium Web', sans-serif;
+}
+
+header {
+    font-family: 'Source Sans 3', sans-serif;
+}
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
+._d5H {
+    display: block;
+    position: relative;
+    overflow: hidden;
+}
+button {
+    position: relative;
+}
+button:hover {
+    box-shadow: none !important;
+}
+button:active {
+    top: 1px;
+}
+
+@layer components {
+    .max-container {
+        max-width: 1440px;
+        margin: 0 auto;
+    }
+}
+@layer utilities {
+    .padding-x {
+        @apply sm:px-8 px-3;
+    }
+}

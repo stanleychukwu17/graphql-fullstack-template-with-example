@@ -1,0 +1,93 @@
+.GameMCvr {
+    input {
+        padding: 10px 15px;
+        font-size: 14px;
+        background-color: #f1f2f6;
+
+        &:focus {
+            background-color: #fff;
+        }
+    }
+    .GenBtn1 {
+        button {
+            padding: 13px 18px;
+            margin: 0 15px 0 0;
+            border-radius: 2px;
+            color: #0056b6;
+            font-size: 15px;
+            font-weight: 600;
+            box-shadow: 4px 4px 0 rgba($color: #000000, $alpha: 0.05), 0 0 3px rgba($color: #000, $alpha: 0.1);
+
+            &:hover {
+                border: 1px solid #000;
+            }
+        }
+    }
+
+    .G_activitiesC {
+        & > div {
+            margin: 4px 15px 0 0;
+            padding: 0 30px;
+            border-right: 1px solid #e3e3e3;
+
+            &:first-child {
+                padding-left: 10px;
+            }
+            &:last-child {
+                border-right: 0;
+            }
+        }
+    }
+    .G_workBtn {
+        padding: 12px 0;
+        display: flex;
+
+        button {
+            background-color: #f1f2f6;
+            padding: 6px 10px 6px 18px;
+            margin: 0 15px 0 0;
+            border: 1px solid #f1f2f6;
+            border-radius: 2px;
+            font-size: 13px;
+            font-weight: 600;
+            box-shadow: 2px 3px 0 rgba($color: #000000, $alpha: 0.03);
+
+            display: flex;
+            align-items: center;
+            position: relative;
+
+            & > span {
+                margin: 0 8px 0 0;
+            }
+
+            &:hover {
+                background-color: #fff;
+                border: 1px solid #000;
+            }
+        }
+    }
+
+
+    .GInp_General {
+        padding: 10px 0;
+
+        .GInp_cvr {
+            padding: 15px 0;
+
+            .GInp_title {
+                padding: 0 0 5px;
+            }
+            .GInp_input {
+                input {
+                    padding: 10px 15px;
+                }
+            }
+        }
+
+        .GInp_Btn {
+            padding: 12px 0;
+
+
+        }
+    }
+}
