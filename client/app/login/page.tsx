@@ -132,30 +132,38 @@ export default function LoginPage() {
                     <div className="titleUp">Register</div>
                     <form onSubmit={handleRegisterSubmit(submitRegistration)}>
                         <div className="inputCover">
-                            <div className="inpTitle font-bold">name</div>
+                            <div className="inpTitle font-bold">
+                                <label htmlFor="name">name</label>
+                            </div>
                             <div className="inpInput">
-                                <input type="text" {...registerReg("name", {required: true})} />
+                                <input id="name" type="text" {...registerReg("name", {required: true})} />
                                 {regError.name && <p>This field is required!!!</p>}
                             </div>
                         </div>
                         <div className="inputCover">
-                            <div className="inpTitle font-bold">username</div>
+                            <div className="inpTitle font-bold">
+                                <label htmlFor="username">username</label>
+                            </div>
                             <div className="inpInput">
-                                <input type="text" {...registerReg("username", {required: true})} />
+                                <input id='username' type="text" {...registerReg("username", {required: true})} />
                                 {regError.username && <p>This field is required!!!</p>}
                             </div>
                         </div>
                         <div className="inputCover">
-                            <div className="inpTitle font-bold">email</div>
+                            <div className="inpTitle font-bold">
+                                <label htmlFor="email">email</label>
+                            </div>
                             <div className="inpInput">
-                                <input type="text" {...registerReg("email", {required: true})} />
+                                <input id='email' type="text" {...registerReg("email", {required: true})} />
                                 {regError.email && <p>This field is required!!!</p>}
                             </div>
                         </div>
                         <div className="inputCover">
-                            <div className="inpTitle font-bold">gender</div>
+                            <div className="inpTitle font-bold">
+                                <label htmlFor="gender">gender</label>
+                            </div>
                             <div className="inpInput">
-                                <select {...registerReg("gender", {required: true})}>
+                                <select id='gender' {...registerReg("gender", {required: true})}>
                                     <option value="">Select your gender</option>
                                     <option value="male">male</option>
                                     <option value="female">female</option>
@@ -164,16 +172,20 @@ export default function LoginPage() {
                             </div>
                         </div>
                         <div className="inputCover">
-                            <div className="inpTitle">Password</div>
+                            <div className="inpTitle">
+                                <label htmlFor="password">password</label>
+                            </div>
                             <div className="inpInput">
-                                <input type="password" {...registerReg("password", {required: true})} />
+                                <input id="password" type="password" {...registerReg("password", {required: true})} />
                                 {regError.password && <p>This field is required!!!</p>}
                             </div>
                         </div>
                         <div className="inputCover">
-                            <div className="inpTitle">Re-enter Password</div>
+                            <div className="inpTitle">
+                                <label htmlFor="Re-enter Password">Re-enter Password</label>
+                            </div>
                             <div className="inpInput">
-                                <input type="password" {...registerReg("confirm_password", {required: true})} />
+                                <input id="Re-enter Password" type="password" {...registerReg("confirm_password", {required: true})} />
                                 {regError.confirm_password && <p>This field is required!!!</p>}
                             </div>
                         </div>
