@@ -11,9 +11,6 @@ import MessageComp, {MessageCompProps} from "../components/Message/MessageComp";
 
 import './page.scss'
 
-
-
-
 type LoginForRHF = {
     username: string
     password: string
