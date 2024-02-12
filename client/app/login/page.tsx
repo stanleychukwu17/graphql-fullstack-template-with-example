@@ -37,11 +37,12 @@ export default function LoginPage() {
     const { register: registerLogin, handleSubmit: handleLoginSubmit, setValue: loginSetValue, formState: {errors:loginError} } = useForm<LoginForRHF>()
     const { register: registerReg, handleSubmit: handleRegisterSubmit, setValue: regSetValue, formState: {errors:regError} } = useForm<RegisterRHF>()
 
-    const submitLogin: SubmitHandler<LoginForRHF> = (data) => {
+    const submitLogin: SubmitHandler<LoginForRHF> = async (data) => {
         setIsLoading1(true)
 
-        axios.post(`${backEndPort}/users/login`, data, {headers: {'Content-Type': 'application/json'}})
+        await axios.post(`${backEndPort}/users/login`, data, {headers: {'Content-Type': 'application/json'}})
         .then((res) => {
+
             if(res.data.msg === 'okay') {
                 localStorage.setItem('userDts', JSON.stringify(res.data));
                 dispatch(updateUser({loggedIn: 'yes', ...res.data}))
@@ -59,6 +60,7 @@ export default function LoginPage() {
                 setShowAlert(true)
                 setAlertMsg({'msg_type':res.data.msg, 'msg_dts':res.data.cause})
             }
+
             setIsLoading1(false)
         })
         .catch((err) => {
@@ -91,7 +93,10 @@ export default function LoginPage() {
 
     return (
         <div className="block relative my-14 padding-x">
-            {showAlert && <MessageComp {...alertMsg} closeAlert={setShowAlert} />}
+            {
+                showAlert &&
+                <MessageComp {...alertMsg} closeAlert={setShowAlert} />
+            }
 
             <div className="pb-10 text-4xl">Hi there!</div>
             <div className="ovrCover flex">
@@ -99,16 +104,20 @@ export default function LoginPage() {
                     <div className="titleUp">Login</div>
                     <form onSubmit={handleLoginSubmit(submitLogin)}>
                         <div className="inputCover">
-                            <div className="inpTitle font-bold">Username or Email</div>
+                            <div className="inpTitle font-bold">
+                                <label htmlFor="login_input">Username or Email</label>
+                            </div>
                             <div className="inpInput">
-                                <input type="text" {...registerLogin("username", { required: true })} />
+                                <input id='login_input' type="text" {...registerLogin("username", { required: true })} />
                                 {loginError.username && <p>This field is required!!!</p>}
                             </div>
                         </div>
                         <div className="inputCover">
-                            <div className="inpTitle">Password</div>
+                            <div className="inpTitle">
+                                <label htmlFor="login_password">Password</label>
+                            </div>
                             <div className="inpInput">
-                                <input type="password" {...registerLogin("password", { required: true })} />
+                                <input data-testid='login password' type="password" {...registerLogin("password", { required: true })} />
                                 {loginError.password && <p>This field is required!!!</p>}
                             </div>
                         </div>
