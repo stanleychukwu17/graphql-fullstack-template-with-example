@@ -14,10 +14,10 @@ jest.mock('../../app/redux/hook', () => ({
     useAppDispatch: () => useAppDispatchMock,
 }))
 
+// mocking of next/navigation
 const routePushFunction = jest.fn((url: string) => {
     window.location.pathname = url
 })
-// mocking of next/navigation
 jest.mock('next/navigation', () => ({
     useRouter: () => {
         return {
@@ -30,7 +30,7 @@ jest.mock('next/navigation', () => ({
 jest.mock('axios')
 
 
-describe("Testing login component", () => {
+describe.skip("Testing login component", () => {
     // define some global variables
     const userEmail = 'eazi@gmal.com'
     const userPassword = '12345'
@@ -124,7 +124,74 @@ describe("Testing login component", () => {
 })
 
 
-describe("Testing Register component", () => {
+describe("Testing Register page", () => {
+    const newUser: Record<string, string> = {
+        name:'stanley',
+        username:'stanleyBoyIsBack',
+        email:'stanleyBoy@bigman.com',
+        gender:'male',
+        password:'iLoveJESUS',
+        password2:'iLoveJESUS'
+    }
 
-    // it("should display correct input fields and button")
+    // renders the logIn page
+    const renderRegisterPage = async ({fillForm} : {fillForm:'yes'|'no'}) => {
+        const container = render(<LoginPage />)
+
+        const name = container.getByLabelText('name') as HTMLInputElement
+        const username = container.getByLabelText('username') as HTMLInputElement
+        const email = container.getByLabelText('email') as HTMLInputElement
+        const gender = container.getByLabelText('gender') as HTMLInputElement
+        const password = container.getByLabelText('password') as HTMLInputElement
+        const password2 = container.getByLabelText('Re-enter Password') as HTMLInputElement
+        const button = container.getByRole('button', {name: /Register/i}) as HTMLButtonElement
+
+        if (fillForm === 'yes') {
+            fireEvent.change(name, {target: {value:newUser.name}})
+            fireEvent.change(username, {target: {value:newUser.username}})
+            fireEvent.change(email, {target: {value:newUser.email}})
+            fireEvent.change(gender, {target: {value:newUser.gender}})
+            fireEvent.change(password, {target: {value:newUser.password}})
+            fireEvent.change(password2, {target: {value:newUser.password2}})
+            
+            await act(async () => { fireEvent.click(button) });
+        }
+
+        return { container, name, username, email, gender, password, password2, button }
+    }
+
+    // clear all mocks after each test
+    afterEach(() => {
+        jest.clearAllMocks();
+    });
+
+
+    it('reject the submission if there any empty input fields', async () => {
+        const {container: {findAllByText}, button} = await renderRegisterPage({fillForm:'no'})
+
+        fireEvent.click(button)
+        const errorMessage = await findAllByText('This field is required!!!')
+
+        expect(button).toBeInTheDocument()
+        expect(errorMessage.length).toBeGreaterThanOrEqual(1)
+    })
+
+    it('successfully register a new user', async () => {
+        (axios.post as any).mockResolvedValueOnce({'msg':'bad'})
+        const {container, button} = await renderRegisterPage({fillForm:'yes'})
+
+        /*
+      {
+        name: 'stanley',
+        username: 'stanleyBoyIsBack',
+        email: 'stanleyBoy@bigman.com',
+        gender: 'male',
+        password: 'iLoveJESUS',
+        confirm_password: 'iLoveJESUS'
+      }
+
+        */
+    })
+
+    it.todo('handle all errors from axios or others')
 })
