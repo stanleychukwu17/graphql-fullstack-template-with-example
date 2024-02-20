@@ -100,6 +100,7 @@ export default function LoginPage() {
 
             <div className="pb-10 text-4xl">Hi there!</div>
             <div className="ovrCover flex">
+                {/*--START-- the login section */}
                 <div className="w-1/2">
                     <div className="titleUp">Login</div>
                     <form onSubmit={handleLoginSubmit(submitLogin)}>
@@ -127,7 +128,9 @@ export default function LoginPage() {
                         </div>
                     </form>
                 </div>
+                {/* --END-- */}
 
+                {/* --START-- the registration section */}
                 <div className="w-1/2">
                     <div className="titleUp">Register</div>
                     <form onSubmit={handleRegisterSubmit(submitRegistration)}>
@@ -195,6 +198,7 @@ export default function LoginPage() {
                         </div>
                     </form>
                 </div>
+                {/* --END-- */}
             </div>
         </div>
     )
