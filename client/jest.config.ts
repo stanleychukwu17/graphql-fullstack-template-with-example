@@ -25,7 +25,7 @@ const config: Config = {
   clearMocks: true,
 
   // Indicates whether the coverage information should be collected while executing the test
-  collectCoverage: false,
+  collectCoverage: true,
 
   // An array of glob patterns indicating a set of files for which coverage information should be collected
   // collectCoverageFrom: undefined,
@@ -34,9 +34,10 @@ const config: Config = {
   coverageDirectory: "coverage",
 
   // An array of regexp pattern strings used to skip coverage collection
-  // coveragePathIgnorePatterns: [
-  //   "\\\\node_modules\\\\"
-  // ],
+  coveragePathIgnorePatterns: [
+    "/node_modules/", // Ignore node_modules
+    "/client/app/redux/features/" // Ignore client/app/redux/features
+  ],
 
   // Indicates which provider should be used to instrument code for coverage
   coverageProvider: "v8",
@@ -167,9 +168,10 @@ const config: Config = {
   // ],
 
   // An array of regexp pattern strings that are matched against all test paths, matched tests are skipped
-  // testPathIgnorePatterns: [
-  //   "\\\\node_modules\\\\"
-  // ],
+  testPathIgnorePatterns: [
+    "/node_modules/", // Ignore node_modules
+    "/client/app/redux/features/" // Ignore client/app/redux/features
+  ],
 
   // The regexp pattern or array of patterns that Jest uses to detect test files
   // testRegex: [],
