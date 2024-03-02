@@ -24,7 +24,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <ApolloWrapper>
                     <ReduxProvider>
                         <Header />
-                        <main className='max-container'>
+                        <main className='titi-font max-container'>
                             {children}
                         </main>
                     </ReduxProvider>
