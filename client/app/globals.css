@@ -12,40 +12,127 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     -webkit-text-size-adjust: 100%;
+
+    /* light theme */
+    --bg-100-light: oklch(1 0 0);
+    --bg-200-light: oklch(0.961151 0 0);
+    --bg-300-light: oklch(0.924169 0.00108 197.138);
+    --text-100-light: oklch(0.278078 0.029596 256.848);
+    --button1-bg-light: oklch(0.4912 0.3096 275.75);
+    --button1-text-light: oklch(0.89824 0.06192 275.75);
+    --button2-bg-light: oklch(0.6971 0.329 342.55);
+    --button2-text-light: oklch(0.9871 0.0106 342.55);
+    --button3-bg-light: oklch(0.7676 0.184 183.61);
+    --button3-text-light: oklch(0.15352 0.0368 183.61);
+    --button4-bg-light: oklch(0.321785 0.02476 255.702);
+    --button4-text-light: oklch(0.894994 0.011585 252.096);
+
+    /* dark theme */
+    --bg-100-dark: oklch(0.253267 0.015896 252.418);
+    --bg-200-dark: oklch(0.232607 0.013807 253.101);
+    --bg-300-dark: oklch(0.211484 0.01165 254.088);
+    --text-100-dark: oklch(0.746477 0.0216 264.436);
+    --button1-bg-dark: oklch(0.6569 0.196 275.75);
+    --button1-text-dark: oklch(0.13138 0.0392 275.75);
+    --button2-bg-dark: oklch(0.748 0.26 342.55);
+    --button2-text-dark: oklch(0.1496 0.052 342.55);
+    --button3-bg-dark: oklch(0.7451 0.167 183.61);
+    --button3-text-dark: oklch(0.14902 0.0334 183.61);
+    --button4-bg-dark: oklch(0.313815 0.021108 254.139);
+    --button4-text-dark: oklch(0.746477 0.0216 264.436);
+}
+@media (prefers-color-scheme: light) {
+    :root {
+        --bg-100: var(--bg-100-light);
+        --bg-200: var(--bg-200-light);
+        --bg-300: var(--bg-300-light);
+        --text-100: var(--text-100-light);
+        --button1-bg: var(--button1-bg-light);
+        --button1-text: var(--button1-text-light);
+        --button2-bg: var(--button2-bg-light);
+        --button2-text: var(--button2-text-light);
+        --button3-bg: var(--button3-bg-light);
+        --button3-text: var(--button3-text-light);
+        --button4-bg: var(--button4-bg-light);
+        --button4-text: var(--button4-text-light);
+        color-scheme: light;
+    }
+}
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg-100: var(--bg-100-dark);
+        --bg-200: var(--bg-200-dark);
+        --bg-300: var(--bg-300-dark);
+        --text-100: var(--text-100-dark);
+        --button1-bg: var(--button1-bg-dark);
+        --button1-text: var(--button1-text-dark);
+        --button2-bg: var(--button2-bg-dark);
+        --button2-text: var(--button2-text-dark);
+        --button3-bg: var(--button3-bg-dark);
+        --button3-text: var(--button3-text-dark);
+        --button4-bg: var(--button4-bg-dark);
+        --button4-text: var(--button4-text-dark);
+        color-scheme: dark;
+    }
 }
 
+/* light theme */
+:root[data-theme="light"] {
+    --bg-100: var(--bg-100-light);
+    --bg-200: var(--bg-200-light);
+    --bg-300: var(--bg-300-light);
+    --text-100: var(--text-100-light);
+    --button1-bg: var(--button1-bg-light);
+    --button1-text: var(--button1-text-light);
+    --button2-bg: var(--button2-bg-light);
+    --button2-text: var(--button2-text-light);
+    --button3-bg: var(--button3-bg-light);
+    --button3-text: var(--button3-text-light);
+    --button4-bg: var(--button4-bg-light);
+    --button4-text: var(--button4-text-light);
+    color-scheme: light;
+}
+
+/* dark theme */
+:root[data-theme="dark"] {
+    --bg-100: var(--bg-100-dark);
+    --bg-200: var(--bg-200-dark);
+    --bg-300: var(--bg-300-dark);
+    --text-100: var(--text-100-dark);
+    --button1-bg: var(--button1-bg-dark);
+    --button1-text: var(--button1-text-dark);
+    --button2-bg: var(--button2-bg-dark);
+    --button2-text: var(--button2-text-dark);
+    --button3-bg: var(--button3-bg-dark);
+    --button3-text: var(--button3-text-dark);
+    --button4-bg: var(--button4-bg-dark);
+    --button4-text: var(--button4-text-dark);
+    color-scheme: dark;
+}
+
+
+*, *::after, *::before {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: inherit;
+}
 body {
     position: relative;
     width: 100vw;
     overflow-x: hidden;
 }
-main {
-    font-family: 'Titillium Web', sans-serif;
-}
+.titi-font { font-family: 'Titillium Web', sans-serif; }
+.source-sans-3 { font-family: 'Source Sans 3', sans-serif; }
 
-header {
-    font-family: 'Source Sans 3', sans-serif;
-}
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    scroll-behavior: smooth;
-}
 ._d5H {
     display: block;
     position: relative;
     overflow: hidden;
 }
-button {
-    position: relative;
-}
-button:hover {
-    box-shadow: none !important;
-}
-button:active {
-    top: 1px;
-}
+button { position: relative; }
+button:is(:hover, :active) { box-shadow: none !important; }
+button:active { top: 1px; }
 
 
 /* configure tailwindCss */
