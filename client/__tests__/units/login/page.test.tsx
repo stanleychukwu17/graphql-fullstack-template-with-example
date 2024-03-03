@@ -2,16 +2,13 @@ import '@testing-library/jest-dom'
 import { fireEvent, render, screen, waitFor, within } from '@testing-library/react'
 import { act } from 'react-dom/test-utils';
 
-
-import axios from 'axios';
-import { BACKEND_PORT as backEndPort } from '@/my.config';
-import LoginPage from '@/app/login/page'
-
+import { BACKEND_PORT as backEndPort } from '@/my.config'; // port url for making request to backEnd
+import LoginPage from '@/app/login/page' // the component we're testing
 
 // mocking of redux
 const useAppDispatchMock = jest.fn()
-jest.mock('../../app/redux/hook', () => ({
-    useAppDispatch: () => useAppDispatchMock,
+jest.mock('../../../app/redux/hook', () => ({
+    useAppDispatch: () => useAppDispatchMock, // 1. COMMENT
 }))
 
 // mocking of next/navigation
@@ -19,22 +16,21 @@ const routePushFunction = jest.fn((url: string) => {
     window.location.pathname = url
 })
 jest.mock('next/navigation', () => ({
-    useRouter: () => {
-        return {
-            push: routePushFunction
-        }
-    }
+    useRouter: () => ({
+        push: routePushFunction
+    })
 }))
 
 // mocking of axios
+import axios from 'axios'; // importing axios because we want to mock the axios request
 jest.mock('axios')
 
 // mocking of react-hook-form
 const setValueMock = jest.fn()
-const { useForm } = jest.requireActual('react-hook-form');
+const { useForm } = jest.requireActual('react-hook-form'); // when you use jest.requireActual, you're telling jest to preserve all the methods that come from his package, i.e do not modify or mock any methods returned from the package/module, i.e leave everything as it is
 jest.mock('react-hook-form', () => ({
     useForm: () => ({
-        ...useForm(), // i'm preserving all the methods returned from the hook, i only want to modify setValue
+        ...useForm(), // i'm preserving all the methods returned from the 'useForm' hook, i only want to modify setValue
         setValue: setValueMock,
     }),
 }))
@@ -45,7 +41,12 @@ describe("Testing login component", () => {
     const userEmail = 'eazi@gmail.com'
     const userPassword = '12345'
 
-    // renders the logIn page
+    // clear all mocks after each test
+    afterEach(() => {
+        jest.clearAllMocks();
+    });
+
+    // renders the logIn page and fills the form if 'fillForm="yes"'
     const renderLoginPage = async ({fillForm} : {fillForm:'yes'|'no'}) => {
         const container = render(<LoginPage />)
 
@@ -56,6 +57,8 @@ describe("Testing login component", () => {
         if (fillForm === 'yes') {
             fireEvent.change(emailInput, {target: {value:userEmail}})
             fireEvent.change(passwordInput, {target: {value:userPassword}})
+
+            // we wrap the click in an act function because, the clicking of the button will cause a state change
             await act(async () => {
                 fireEvent.click(button)
             });
@@ -64,13 +67,7 @@ describe("Testing login component", () => {
         return {container, emailInput, passwordInput, button}
     }
 
-    // clear all mocks after each test
-    afterEach(() => {
-        jest.clearAllMocks();
-    });
-
-    // test-1
-    it("should render the page correctly", async () => {
+    it("should render the page correctly and display the input and button elements", async () => {
         const { emailInput, passwordInput, button } = await renderLoginPage({fillForm:'no'})
 
         expect(emailInput).toBeInTheDocument()
@@ -79,7 +76,7 @@ describe("Testing login component", () => {
     })
 
     it('should refuse to login if empty or short details are provided', async () => {
-        const {container, button} = await renderLoginPage({fillForm:'no'})
+        const {button} = await renderLoginPage({fillForm:'no'})
 
         // submit the form
         fireEvent.click(button)
@@ -95,18 +92,20 @@ describe("Testing login component", () => {
     // test-2
     it('should login a user if correct details are provided', async () => {
         // Mock the response from the server
-        (axios.post as any).mockResolvedValueOnce({ data: { msg: 'okay' } });
-        // (axios.post as any).mockImplementation({ data: responseData });
+        (axios.post as jest.Mock).mockResolvedValueOnce({ data: { msg: 'okay' } });
+        // (axios.post as jest.Mock).mockImplementation({ data: responseData });
 
-        const { emailInput, passwordInput, button } = await renderLoginPage({fillForm:'yes'})
+        const { button } = await renderLoginPage({fillForm:'yes'})
 
         // Wait for the login request to complete
         await waitFor(() => {
             // assert that all the axios calls and arguments are as we expect
             expect(axios.post).toHaveBeenCalledTimes(1);
-            expect((axios.post as any).mock.calls[0][0]).toBe(`${backEndPort}/users/login`);
-            expect((axios.post as any).mock.calls[0][1]).toEqual({username: userEmail, password: userPassword});
-            // console.log(JSON.stringify((axios.post as any).mock.calls[0]))
+
+            // for below: where .mock.calls[0][0] first [0] means we're accessing the first call, if the mock was called 3times, we would have had [0] t0 [2], while the second array, i.e [0]&[1] represents the arguments that the mock was called with
+            expect((axios.post as jest.Mock).mock.calls[0][0]).toBe(`${backEndPort}/users/login`);
+            expect((axios.post as jest.Mock).mock.calls[0][1]).toEqual({username: userEmail, password: userPassword});
+            // console.log(JSON.stringify((axios.post as jest.Mock).mock.calls[0]))
 
             // expect the redux dispatch function to have been called
             expect(useAppDispatchMock).toHaveBeenCalledTimes(1)
@@ -121,9 +120,9 @@ describe("Testing login component", () => {
     it('should show an error message if there is an issue from the server', async () => {
         // Mock the response from the server
         const responseData = { msg: 'bad', 'cause':'you provided an invalid username or password' };
-        (axios.post as any).mockResolvedValueOnce({ data: responseData });
+        (axios.post as jest.Mock).mockResolvedValueOnce({ data: responseData });
 
-        const { emailInput, passwordInput, button } = await renderLoginPage({fillForm:'yes'})
+        const { button } = await renderLoginPage({fillForm:'yes'})
 
         // Wait for the login request to complete
         await waitFor( async () => {
@@ -134,9 +133,9 @@ describe("Testing login component", () => {
 
     // test-4
     it('handle errors when form is submitted, i.e if there are any errors', async () => {
-        (axios.post as any).mockRejectedValueOnce(new Error('Server error'));
+        (axios.post as jest.Mock).mockRejectedValueOnce(new Error('Server error'));
 
-        const { emailInput, passwordInput, button } = await renderLoginPage({fillForm:'yes'})
+        const { button } = await renderLoginPage({fillForm:'yes'})
 
         // Wait and check to see if there were any errors
         await waitFor( async () => {
@@ -157,6 +156,11 @@ describe("Testing Register page", () => {
         password2:'iLoveJESUS'
     }
 
+    // clear all mocks after each test
+    afterEach(() => {
+        jest.clearAllMocks();
+    });
+
     // renders the logIn page
     const renderRegisterPage = async ({fillForm} : {fillForm:'yes'|'no'}) => {
         const container = render(<LoginPage />)
@@ -164,7 +168,7 @@ describe("Testing Register page", () => {
         const name = container.getByLabelText('name') as HTMLInputElement
         const username = container.getByLabelText('username') as HTMLInputElement
         const email = container.getByLabelText('email') as HTMLInputElement
-        const gender = container.getByLabelText('gender') as HTMLInputElement
+        const gender = container.getByLabelText('gender') as HTMLSelectElement
         const password = container.getByLabelText('password') as HTMLInputElement
         const password2 = container.getByLabelText('Re-enter Password') as HTMLInputElement
         const button = container.getByRole('button', {name: /Register/i}) as HTMLButtonElement
@@ -176,7 +180,7 @@ describe("Testing Register page", () => {
             fireEvent.change(gender, {target: {value:newUser.gender}})
             fireEvent.change(password, {target: {value:newUser.password}})
             fireEvent.change(password2, {target: {value:newUser.password2}})
-            
+
             await act(async () => {
                 fireEvent.click(button)
             });
@@ -184,11 +188,6 @@ describe("Testing Register page", () => {
 
         return { container, name, username, email, gender, password, password2, button }
     }
-
-    // clear all mocks after each test
-    afterEach(() => {
-        jest.clearAllMocks();
-    });
 
     it('reject the submission if there any empty input fields & also makes sure that the component is rendered properly', async () => {
         const {container: {findAllByText}, button} = await renderRegisterPage({fillForm:'no'})
@@ -202,7 +201,7 @@ describe("Testing Register page", () => {
 
     it('successfully registers a new user', async () => {
         // mock the axios request to return successful message from the backEnd
-        (axios.post as any).mockResolvedValueOnce({data: {msg:'okay'}})
+        (axios.post as jest.Mock).mockResolvedValueOnce({data: {msg:'okay'}})
 
         // render the registration page, fill the form and submit the form
         const {container, button} = await renderRegisterPage({fillForm:'yes'})
@@ -220,7 +219,7 @@ describe("Testing Register page", () => {
         (axios.post as jest.Mock).mockRejectedValueOnce({ message: cause, data: { msg: 'error', cause } });
     
         // render the registration page, fill the form and submit the form
-        const {container, button} = await renderRegisterPage({fillForm:'yes'})
+        const {button} = await renderRegisterPage({fillForm:'yes'})
 
         const msgBox = await screen.findByTestId('message-box')
         const errMsg = within(msgBox).getByText(new RegExp(cause))
@@ -229,9 +228,38 @@ describe("Testing Register page", () => {
         expect(msgBox).toBeInTheDocument()
         expect(errMsg).toBeInTheDocument()
     })
+})
+
+
 /**
 run
 clear && pnpm test
 clear && pnpm test:watch
 */
-})
+
+/**1. COMMENT ABOUT
+{
+    jest.mock('../../app/redux/hook', () => ({
+        useAppDispatch: () => useAppDispatchMock,
+    }))
+
+    useAppDispatch: () => useAppDispatchMock -> this was returned inside a function because in the main page.tsx component,
+    the hook is executed like this:
+    const dispatch = useAppDispatch()
+
+    when the 'useAppDispatch' hook is executed, it returns the jest mock function.. so anytime the 'dispatch' is called, jest can track it
+
+    if we did:
+    jest.mock('../../app/redux/hook', () => ({
+        useAppDispatch: useAppDispatchMock,
+    }))
+
+    then, there would have been a problem, because when you do:
+    const dispatch = useAppDispatch()
+    the jest function will be executed automatically and it will be executed with no arguments. so when next you call the 'dispatch' function,
+    it will throw an error. because the mock function has already been executed during initialization
+
+    and also, our test will fail when we do:
+    expect(useAppDispatchMock).toHaveBeenCalledWith(<any_arguments>)
+}
+*/
