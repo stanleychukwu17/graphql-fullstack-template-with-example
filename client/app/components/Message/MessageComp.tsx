@@ -35,6 +35,9 @@ export default function MessageComp({msg_type, msg_dts, closeAlert}: MessageComp
     return (
         <div data-testid="message-box" className="fixed z-10 top-0 right-0 bottom-0 left-0 bg-[rgba(0,0,0,0.8)] shadow-2xl">
             <div
+                role="button"
+                aria-label='close alert window'
+                data-testid="closeAlertMsg"
                 className='absolute top-0 right-5 bottom-auto left-auto bg-white text-4xl p-3 cursor-pointer hover:bg-[#f1f2f6] active:top-1'
                 onClick={timeToCloseThisAlert}
             >
