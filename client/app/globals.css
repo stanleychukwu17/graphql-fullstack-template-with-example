@@ -121,6 +121,8 @@ body {
     position: relative;
     width: 100vw;
     overflow-x: hidden;
+    background-color: var(--bg-100);
+    color: var(--text-100);
 }
 .titi-font { font-family: 'Titillium Web', sans-serif; }
 .source-sans-3 { font-family: 'Source Sans 3', sans-serif; }
@@ -131,7 +133,7 @@ body {
     overflow: hidden;
 }
 button { position: relative; }
-button:is(:hover, :active) { box-shadow: none !important; }
+button:is(:hover, :active) { top:-1px; box-shadow: none !important; }
 button:active { top: 1px; }
 
 
