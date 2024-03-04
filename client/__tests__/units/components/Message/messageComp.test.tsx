@@ -17,7 +17,6 @@ describe("Message Component test suite", () => {
 
     // set-up before each test
     beforeEach(async() => {
-        // const {findByText} = await renderComponent()
         container = await renderComponent({
             msg_type: 'okay',
             msg_dts: msg_dts,
