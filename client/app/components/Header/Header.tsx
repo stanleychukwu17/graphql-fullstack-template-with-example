@@ -1,6 +1,6 @@
 'use client'
 import axios from "axios";
-import { useLayoutEffect } from "react";
+import { useEffect, useLayoutEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAppSelector, useAppDispatch } from "../../redux/hook";
 import { updateUser, userDetailsType } from "../../redux/features/userSlice";
@@ -68,14 +68,32 @@ try {
 } catch (err) {}
 //--END--
 
+//--START-- for color theme
+function check_if_there_is_a_user_selected_theme () {
+    if (typeof window !== 'undefined') {
+        const myCustomTheme = window.localStorage.getItem("myCustomTheme")
 
+        myCustomTheme && update_this_user_preferred_theme(myCustomTheme)
+    }
+}
+
+function update_this_user_preferred_theme (theme: string) {
+    // Access the root HTML element
+    var htmlElement = document.documentElement;
+
+    // Add an attribute to the HTML element
+    htmlElement.setAttribute("data-theme", theme);
+
+    // update the item in the user localStorage
+    localStorage.setItem("myCustomTheme", theme)
+}
+//--END--
 
 export default function Header() {
     const userInfo = useAppSelector(state => state.user)
     const reduxDispatch = useAppDispatch()
     const route = useRouter()
 
-    // console.log(userDts, '\n', userInfo)
     useLayoutEffect(() => {
         if (userDts.loggedIn === 'yes' && userInfo.loggedIn === 'no') {
             reduxDispatch(updateUser(userDts))
@@ -86,14 +104,25 @@ export default function Header() {
         }
     }, [route, reduxDispatch, userInfo.must_logged_in_to_view_this_page, userInfo.loggedIn])
 
+    // for color theme
+    useLayoutEffect(() => {
+        check_if_there_is_a_user_selected_theme()
+    }, [])
 
     return (
-        <header className="flex justify-between items-center py-5 px-5 bg-[#e9f2ff]">
-            <div className="text-2xl font-bold">
-                <Link href="/">NEXT.</Link>
+        <header className="py-5 px-10">
+            <div className="flex justify-between items-center pb-5">
+                <div className="text-2xl font-bold">
+                    <Link href="/">NEXT.</Link>
+                </div>
+                {userInfo.loggedIn === 'no' && <LoggedOutCard />}
+                {userInfo.loggedIn === 'yes' && <LoggedInCard />}
             </div>
-            {userInfo.loggedIn === 'no' && <LoggedOutCard />}
-            {userInfo.loggedIn === 'yes' && <LoggedInCard />}
+            <div className="">
+                <button className="bg-yellow-200 mx-2" onClick={() => { update_this_user_preferred_theme('light') }}> light theme </button>
+                <button className="bg-yellow-200 mx-2" onClick={() => { update_this_user_preferred_theme('dark') }}> dark theme </button>
+                <button className="bg-yellow-200 mx-2" onClick={() => { update_this_user_preferred_theme('cupcake') }}> cupcake theme </button>
+            </div>
         </header>
     )
 }
