@@ -1,8 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@200;300;400;500;600;700;800&family=Titillium+Web:wght@300;400;500;600;700;800;900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@200;300;400;500;600;700;800&family=Titillium+Web:wght@300;400;500;600;700;800;900&display=swap');
 
 :root {
     scroll-behavior: smooth;
@@ -40,6 +41,20 @@
     --button3-text-dark: oklch(0.14902 0.0334 183.61);
     --button4-bg-dark: oklch(0.313815 0.021108 254.139);
     --button4-text-dark: oklch(0.746477 0.0216 264.436);
+
+    /* cupcake theme */
+    --bg-100-cupcake: oklch(0.977882 0.00418 56.3756);
+    --bg-200-cupcake: oklch(0.939822 0.007638 61.4493);
+    --bg-300-cupcake: oklch(0.915861 0.006811 53.4405);
+    --text-100-cupcake: oklch(0.235742 0.066235 313.19);
+    --button1-bg-cupcake: oklch(0.76172 0.089459 200.027);
+    --button1-text-cupcake: oklch(0.152344 0.017892 200.027);
+    --button2-bg-cupcake: oklch(0.789351 0.101246 356.3);
+    --button2-text-cupcake: oklch(0.15787 0.020249 356.3);
+    --button3-bg-cupcake: oklch(0.793811 0.146032 78.6188);
+    --button3-text-cupcake: oklch(0.158762 0.029206 78.6188);
+    --button4-bg-cupcake: oklch(0.235742 0.066235 313.19);
+    --button4-text-cupcake: oklch(0.847148 0.013247 313.19);
 }
 @media (prefers-color-scheme: light) {
     :root {
@@ -108,6 +123,23 @@
     --button4-bg: var(--button4-bg-dark);
     --button4-text: var(--button4-text-dark);
     color-scheme: dark;
+}
+
+/* cupcake theme */
+:root[data-theme="cupcake"] {
+    --bg-100: var(--bg-100-cupcake);
+    --bg-200: var(--bg-200-cupcake);
+    --bg-300: var(--bg-300-cupcake);
+    --text-100: var(--text-100-cupcake);
+    --button1-bg: var(--button1-bg-cupcake);
+    --button1-text: var(--button1-text-cupcake);
+    --button2-bg: var(--button2-bg-cupcake);
+    --button2-text: var(--button2-text-cupcake);
+    --button3-bg: var(--button3-bg-cupcake);
+    --button3-text: var(--button3-text-cupcake);
+    --button4-bg: var(--button4-bg-cupcake);
+    --button4-text: var(--button4-text-cupcake);
+    color-scheme: light;
 }
 
 
