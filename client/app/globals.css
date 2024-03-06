@@ -895,6 +895,7 @@
     scroll-behavior: inherit;
 }
 body {
+    display: block;
     position: relative;
     width: 100vw;
     overflow-x: hidden;
@@ -913,6 +914,8 @@ body {
 button { position: relative; }
 button:is(:hover, :active) { top:-1px; box-shadow: none !important; }
 button:active { top: 1px; }
+/* a { color: var(--button1-bg); } */
+
 
 
 /* configure tailwindCss */
