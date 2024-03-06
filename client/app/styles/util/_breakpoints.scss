@@ -1,0 +1,35 @@
+// we store different sizes for different screens here-
+$breakpoints-up: (
+    "medium": 37.5em, // i.e 43.75 * 16 = 600px
+    "large": 56.25em, // i.e 56.25 * 16 = 900px
+    "xlarge": 90em, // i.e 90 * 16 = 1440px
+);
+
+@mixin breakpoints($size) {
+    @media (min-width: map-get($breakpoints-up, $size)) {
+        @content
+    }
+};
+
+// Another mixin for maximum screens and they are 699.98, 899.98, 1439.98
+$breakpoints-down: (
+    'small': 43.7485em,
+    'medium': 56.24875em,
+    'large': 89.99875em,
+);
+
+@mixin breakpoint-down($size) {
+    @media (max-width: map-get($breakpoints-down, $size)) {
+        @content
+    }
+}
+
+@mixin button_one($bg_color: white, $text_color: pink) {
+    padding: 10px 15px;
+    background-color: $bg_color;
+    color: $text_color;
+    border-radius: 4px;
+    font-size: 15px;
+    border: 2px solid #fff;
+    @content;
+}

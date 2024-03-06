@@ -1,0 +1,31 @@
+@use 'sass:math';
+
+// converts numbers from pixels to rem
+// inside the function, we want to make sure that the argument received does not have any units such as px, rem, em e.t.c
+@function rem($pixels) {
+    @if math.is-unitless($pixels) {
+        $final: math.div($pixels, 16) + rem;
+        @return $final
+    } @else {
+        @error 'Don\'t send in arguments with units attached to it, please use the rem functions with only numbers' 
+    }
+};
+
+// the function below converts from mostly pixles to em
+@function em($pixels) {
+    @if math.is-unitless($pixels) {
+        $final: math.div($pixels, 16) + em;
+        @return $final
+    } @else {
+        @error 'Don\'t send in arguments with units attached to it, please use the em functions with only numbers' 
+    }
+};
+
+// for making an item display: block, position: relative, overflow: hidden
+@mixin block_display($hidden: yes) {
+    display: block;
+    position: relative;
+    @if ($hidden == yes) {
+        overflow: hidden;
+    }
+};

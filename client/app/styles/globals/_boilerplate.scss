@@ -1,0 +1,28 @@
+@use '../util/' as u1;
+
+html {
+    box-sizing: border-box;
+    font-size: 100%;
+}
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+    display: block;
+    position: relative;
+    font-family: u1.$font-main;
+    color: var(--text-color);
+    background: #ecf0f1 !important;
+    background: u1.$background_main_color !important;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body,h1,h2,h3,h4,h5,h6,pre,form,fieldset,input,p, blockquote {margin:0; padding:0;}
+a{text-decoration: none;}
+a:hover{text-decoration: underline;}
+img{border:0}
+a { color: u1.$link_color; }
