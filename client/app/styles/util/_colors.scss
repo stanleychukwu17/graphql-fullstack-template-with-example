@@ -1,7 +1,12 @@
 :root {
-    --background-color: #f5f6fa;
-    --text-color: #273054;
+    --custom-color1: #f5f6fa;
+    --custom-color2: #273054;
 }
 
-$background_main_color: #f5f6fa;
-$link_color: #044ad8;
+$color_array : (
+    'darkblue':#273054,
+    'darkred':#df0e3a,
+    'linkColor':#044ad8
+);
+
+$link_color: map-get($map: $color_array, $key: 'linkColor');
