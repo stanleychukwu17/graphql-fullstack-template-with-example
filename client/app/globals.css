@@ -1,5 +1,5 @@
-/* source of theme is: https://daisyui.com/docs/themes/ */
 @import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@200;300;400;500;600;700;800&family=Titillium+Web:wght@300;400;500;600;700;800;900&display=swap');
+/* source of theme is: https://daisyui.com/docs/themes/ */
 
 @tailwind base;
 @tailwind components;
@@ -16,7 +16,7 @@
     -webkit-text-size-adjust: 100%;
 
     /* default theme */
-    --bg-100-default: oklch(1 0 0);
+    --bg-100-default: #00d2bb;
     --bg-200-default: oklch(0.961151 0 0);
     --bg-300-default: oklch(0.924169 0.00108 197.138);
     --text-100-default: oklch(0.278078 0.029596 256.848);
@@ -388,7 +388,7 @@
     --button1-text-sunset: oklch(0.149408 0.031656 39.947);
     --button2-bg-sunset: oklch(0.725375 0.177654 2.72034);
     --button2-text-sunset: oklch(0.145075 0.035531 2.72034);
-    --button3-bg-sunset: oklch(0.145075 0.035531 2.72034);
+    --button3-bg-sunset: oklch(0.712947 0.166678 299.845);
     --button3-text-sunset: oklch(0.142589 0.033336 299.845);
     --button4-bg-sunset: oklch(0.26 0.019 237.69);
     --button4-text-sunset: oklch(0.7 0.019 237.69);
