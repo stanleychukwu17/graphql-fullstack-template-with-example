@@ -1,0 +1,20 @@
+@use '../../styles/util/' as u1;
+
+.headerCvr {
+    .changeThemeCover {
+        cursor: pointer;
+        padding: u1.rem(8);
+        border-radius: 4px;
+
+        &:hover {
+            background-color: var(--bg-200);
+        }
+        p {
+            font-size: u1.rem(25);
+
+            &:nth-child(2), &:nth-child(3) {
+                font-size: u1.rem(17);
+            }
+        }
+    }
+}
