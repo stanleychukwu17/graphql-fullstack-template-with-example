@@ -270,6 +270,20 @@
     --button3-text-wireframe: oklch(0.156521 0 0);
     --button4-bg-wireframe: oklch(0.94007 0 0);
     --button4-text-wireframe: oklch(0.188014 0 0);
+
+    /* black theme */
+    --bg-100-black: oklch(0 0 0);
+    --bg-200-black: oklch(0.191251 0 0);
+    --bg-300-black: oklch(0.268618 0 0);
+    --text-100-black: oklch(0.876096 0 0);
+    --button1-bg-black: oklch(0.336799 0 0);
+    --button1-text-black: oklch(0.86736 0 0);
+    --button2-bg-black: oklch(0.336799 0 0);
+    --button2-text-black: oklch(0.86736 0 0);
+    --button3-bg-black: oklch(0.336799 0 0);
+    --button3-text-black: oklch(0.86736 0 0);
+    --button4-bg-black: oklch(0.336799 0 0);
+    --button4-text-black: oklch(0.86736 0 0);
     
     /* night theme */
     --bg-100-night: oklch(0 0 0);
