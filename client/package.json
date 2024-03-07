@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "test": "jest",
+    "test:one": "jest --testPathPattern=Header.test.tsx",
     "test:watch": "jest --watch"
   },
   "dependencies": {
