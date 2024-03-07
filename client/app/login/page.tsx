@@ -11,9 +11,6 @@ import MessageComp, {MessageCompProps} from "../components/Message/MessageComp";
 
 import './page.scss'
 
-
-
-
 type LoginForRHF = {
     username: string
     password: string
@@ -40,11 +37,12 @@ export default function LoginPage() {
     const { register: registerLogin, handleSubmit: handleLoginSubmit, setValue: loginSetValue, formState: {errors:loginError} } = useForm<LoginForRHF>()
     const { register: registerReg, handleSubmit: handleRegisterSubmit, setValue: regSetValue, formState: {errors:regError} } = useForm<RegisterRHF>()
 
-    const submitLogin: SubmitHandler<LoginForRHF> = (data) => {
+    const submitLogin: SubmitHandler<LoginForRHF> = async (data) => {
         setIsLoading1(true)
 
-        axios.post(`${backEndPort}/users/login`, data, {headers: {'Content-Type': 'application/json'}})
+        await axios.post(`${backEndPort}/users/login`, data, {headers: {'Content-Type': 'application/json'}})
         .then((res) => {
+
             if(res.data.msg === 'okay') {
                 localStorage.setItem('userDts', JSON.stringify(res.data));
                 dispatch(updateUser({loggedIn: 'yes', ...res.data}))
@@ -62,6 +60,7 @@ export default function LoginPage() {
                 setShowAlert(true)
                 setAlertMsg({'msg_type':res.data.msg, 'msg_dts':res.data.cause})
             }
+
             setIsLoading1(false)
         })
         .catch((err) => {
@@ -94,24 +93,32 @@ export default function LoginPage() {
 
     return (
         <div className="block relative my-14 padding-x">
-            {showAlert && <MessageComp {...alertMsg} closeAlert={setShowAlert} />}
+            {
+                showAlert &&
+                <MessageComp {...alertMsg} closeAlert={setShowAlert} />
+            }
 
             <div className="pb-10 text-4xl">Hi there!</div>
             <div className="ovrCover flex">
+                {/*--START-- the login section */}
                 <div className="w-1/2">
                     <div className="titleUp">Login</div>
                     <form onSubmit={handleLoginSubmit(submitLogin)}>
                         <div className="inputCover">
-                            <div className="inpTitle font-bold">Username or Email</div>
+                            <div className="inpTitle font-bold">
+                                <label htmlFor="login_input">Username or Email</label>
+                            </div>
                             <div className="inpInput">
-                                <input type="text" {...registerLogin("username", { required: true })} />
+                                <input id='login_input' type="text" {...registerLogin("username", { required: true })} />
                                 {loginError.username && <p>This field is required!!!</p>}
                             </div>
                         </div>
                         <div className="inputCover">
-                            <div className="inpTitle">Password</div>
+                            <div className="inpTitle">
+                                <label htmlFor="login_password">Password</label>
+                            </div>
                             <div className="inpInput">
-                                <input type="password" {...registerLogin("password", { required: true })} />
+                                <input data-testid='login password' type="password" {...registerLogin("password", { required: true })} />
                                 {loginError.password && <p>This field is required!!!</p>}
                             </div>
                         </div>
@@ -121,35 +128,45 @@ export default function LoginPage() {
                         </div>
                     </form>
                 </div>
+                {/* --END-- */}
 
+                {/* --START-- the registration section */}
                 <div className="w-1/2">
                     <div className="titleUp">Register</div>
                     <form onSubmit={handleRegisterSubmit(submitRegistration)}>
                         <div className="inputCover">
-                            <div className="inpTitle font-bold">name</div>
+                            <div className="inpTitle font-bold">
+                                <label htmlFor="name">name</label>
+                            </div>
                             <div className="inpInput">
-                                <input type="text" {...registerReg("name", {required: true})} />
+                                <input id="name" type="text" {...registerReg("name", {required: true})} />
                                 {regError.name && <p>This field is required!!!</p>}
                             </div>
                         </div>
                         <div className="inputCover">
-                            <div className="inpTitle font-bold">username</div>
+                            <div className="inpTitle font-bold">
+                                <label htmlFor="username">username</label>
+                            </div>
                             <div className="inpInput">
-                                <input type="text" {...registerReg("username", {required: true})} />
+                                <input id='username' type="text" {...registerReg("username", {required: true})} />
                                 {regError.username && <p>This field is required!!!</p>}
                             </div>
                         </div>
                         <div className="inputCover">
-                            <div className="inpTitle font-bold">email</div>
+                            <div className="inpTitle font-bold">
+                                <label htmlFor="email">email</label>
+                            </div>
                             <div className="inpInput">
-                                <input type="text" {...registerReg("email", {required: true})} />
+                                <input id='email' type="text" {...registerReg("email", {required: true})} />
                                 {regError.email && <p>This field is required!!!</p>}
                             </div>
                         </div>
                         <div className="inputCover">
-                            <div className="inpTitle font-bold">gender</div>
+                            <div className="inpTitle font-bold">
+                                <label htmlFor="gender">gender</label>
+                            </div>
                             <div className="inpInput">
-                                <select {...registerReg("gender", {required: true})}>
+                                <select id='gender' {...registerReg("gender", {required: true})}>
                                     <option value="">Select your gender</option>
                                     <option value="male">male</option>
                                     <option value="female">female</option>
@@ -158,16 +175,20 @@ export default function LoginPage() {
                             </div>
                         </div>
                         <div className="inputCover">
-                            <div className="inpTitle">Password</div>
+                            <div className="inpTitle">
+                                <label htmlFor="password">password</label>
+                            </div>
                             <div className="inpInput">
-                                <input type="password" {...registerReg("password", {required: true})} />
+                                <input id="password" type="password" {...registerReg("password", {required: true})} />
                                 {regError.password && <p>This field is required!!!</p>}
                             </div>
                         </div>
                         <div className="inputCover">
-                            <div className="inpTitle">Re-enter Password</div>
+                            <div className="inpTitle">
+                                <label htmlFor="Re-enter Password">Re-enter Password</label>
+                            </div>
                             <div className="inpInput">
-                                <input type="password" {...registerReg("confirm_password", {required: true})} />
+                                <input id="Re-enter Password" type="password" {...registerReg("confirm_password", {required: true})} />
                                 {regError.confirm_password && <p>This field is required!!!</p>}
                             </div>
                         </div>
@@ -177,6 +198,7 @@ export default function LoginPage() {
                         </div>
                     </form>
                 </div>
+                {/* --END-- */}
             </div>
         </div>
     )
