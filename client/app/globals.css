@@ -15,10 +15,6 @@
     -moz-osx-font-smoothing: grayscale;
     -webkit-text-size-adjust: 100%;
 
-    /* default for all themes */
-    --_shadow1: #e3e3e3;
-    --_shadow2: #fff;
-
     /* default theme */
     --bg-100-default: #feffff;
     --bg-200-default: #f7f7f7;
