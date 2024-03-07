@@ -121,11 +121,6 @@ export default function Header() {
                     </div>
                 </div>
             </div>
-            <div className="">
-                <button className="bg-yellow-200 mx-2" onClick={() => { update_this_user_preferred_theme('light') }}> light theme </button>
-                <button className="bg-yellow-200 mx-2" onClick={() => { update_this_user_preferred_theme('dark') }}> dark theme </button>
-                <button className="bg-yellow-200 mx-2" onClick={() => { update_this_user_preferred_theme('cupcake') }}> cupcake theme </button>
-            </div>
             {openThemeMenu && <ThemesMenu closeMenu={setOpenThemeMenu} />}
         </header>
     )
