@@ -1,0 +1,111 @@
+@use '../../../styles/util/' as u1;
+
+:root {
+    --_shadow1: #e3e3e3;
+    --_shadow2: #fff;
+}
+:root[data-theme="dark"], :root[data-theme="synthwave"] , :root[data-theme="hallow"], :root[data-theme="forest"], :root[data-theme="aqua"], :root[data-theme="black"],
+:root[data-theme="luxury"], :root[data-theme="coffee"], :root[data-theme="sunset"] {
+    --_shadow1: transparent;
+    --_shadow2: transparent;
+}
+
+.ThemeAbsoluteCvr {
+    display: flex;
+    flex-wrap: wrap;
+    background-color: var(--bg-100);
+    overflow-y: auto;
+    overflow-x: hidden;
+    width: 100vw;
+    min-height: 100vh;
+    padding: u1.rem(25) 0;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 20;
+    transition: background 0.5s ease-out;
+
+    .ThemeCloser {
+        cursor: pointer;
+        background-color: var(--button3-bg);
+        color: var(--button3-text);
+        font-size: u1.rem(35);
+        width: u1.rem(60);
+        height: u1.rem(60);
+        border-bottom-left-radius: 4px;
+        border-bottom-right-radius: 4px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        top: -1px;
+        left: 20px;
+        right: auto;
+        bottom: auto;
+        z-index: 2;
+        transition: background 0.5s ease-out, color 0.5s ease-out;
+        @include u1.neumorphism_shadow(3px, 5px);
+        &:active {
+            top: 0;
+        }
+    }
+
+    .ThemeChildMain {
+        cursor: pointer;
+        display: flex;
+        position: relative;
+        overflow: hidden;
+        border-radius: 5px;
+        height: 120px;
+        min-width: 23%;
+        margin: u1.rem(20) 1%;
+        transition: all .2s ease-out;
+        @include u1.neumorphism_shadow(3px, 5px);
+        &:hover {
+            transform: scale(1.1);
+            @include u1.neumorphism_shadow(5px, 6px);
+        }
+        &:active {
+            transition: all .05s ease-out;
+            transform: translateX(0) translateY(5px) scale(1.05);
+            @include u1.neumorphism_shadow(3px, 5px);
+        }
+
+        & > div {
+            flex-grow: 1; /* Allow items to grow */
+            flex-basis: 0; /* Reset the initial size */
+
+            &:nth-child(1), &:nth-child(2) {
+                flex-grow: .75; /* 20% of available space for each of the first two boxes */
+            }
+            
+            &:nth-child(3) {
+                flex-grow: 3.25; /* 60% of available space for the last box */
+                font-weight: bold;
+
+                .themeTitle {
+                    padding: u1.rem(22) u1.rem(15) u1.rem(18);
+                    font-size: u1.rem(18.5);
+                    text-transform: capitalize;
+                }
+
+                .themeBtn {
+                    display: flex;
+                    padding: 0 u1.rem(10);
+
+                    p {
+                        width: u1.rem(35);
+                        height: u1.rem(35);
+                        line-height: u1.rem(35);
+                        text-align: center;
+                        font-size: u1.rem(14.5);
+                        margin-inline: u1.rem(5);
+                        border-radius: 100%;
+                    }
+                }
+            }
+        }
+    }
+}
