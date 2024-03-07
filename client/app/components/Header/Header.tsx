@@ -1,15 +1,21 @@
 'use client'
 import axios from "axios";
-import { useEffect, useLayoutEffect } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAppSelector, useAppDispatch } from "../../redux/hook";
 import { updateUser, userDetailsType } from "../../redux/features/userSlice";
 import { BACKEND_PORT as backEndPort } from "@/my.config";
 import Link from "next/link";
 
+import { CiLight } from "react-icons/ci";
+
+// import other components to use in this page
 import LoggedInCard from "./LoggedInCard";
 import LoggedOutCard from "./LoggedOutCard";
+import ThemesMenu, {update_this_user_preferred_theme} from './theme/ThemesMenu'
 
+// import the stylesheet
+import './Header.scss'
 
 //--START-- checks to see if there are any stored information about the user in the user's localStorage space
 let userDts: userDetailsType = {loggedIn: 'no'}
@@ -76,23 +82,13 @@ function check_if_there_is_a_user_selected_theme () {
         myCustomTheme && update_this_user_preferred_theme(myCustomTheme)
     }
 }
-
-function update_this_user_preferred_theme (theme: string) {
-    // Access the root HTML element
-    var htmlElement = document.documentElement;
-
-    // Add an attribute to the HTML element
-    htmlElement.setAttribute("data-theme", theme);
-
-    // update the item in the user localStorage
-    localStorage.setItem("myCustomTheme", theme)
-}
 //--END--
 
 export default function Header() {
     const userInfo = useAppSelector(state => state.user)
     const reduxDispatch = useAppDispatch()
     const route = useRouter()
+    const [openThemeMenu, setOpenThemeMenu] = useState<boolean>(false)
 
     useLayoutEffect(() => {
         if (userDts.loggedIn === 'yes' && userInfo.loggedIn === 'no') {
@@ -110,19 +106,27 @@ export default function Header() {
     }, [])
 
     return (
-        <header className="py-5 px-10">
+        <header className="headerCvr py-5 px-10">
             <div className="flex justify-between items-center pb-5">
                 <div className="text-2xl font-bold">
                     <Link href="/">NEXT.</Link>
                 </div>
-                {userInfo.loggedIn === 'no' && <LoggedOutCard />}
-                {userInfo.loggedIn === 'yes' && <LoggedInCard />}
+                <div className="flex space-x-10 items-center">
+                    {userInfo.loggedIn === 'no' && <LoggedOutCard />}
+                    {userInfo.loggedIn === 'yes' && <LoggedInCard />}
+
+                    <div className="changeThemeCover flex space-x-2" onClick={() => { setOpenThemeMenu(true) }}>
+                        <p><CiLight /></p>
+                        <p>Theme</p>
+                    </div>
+                </div>
             </div>
             <div className="">
                 <button className="bg-yellow-200 mx-2" onClick={() => { update_this_user_preferred_theme('light') }}> light theme </button>
                 <button className="bg-yellow-200 mx-2" onClick={() => { update_this_user_preferred_theme('dark') }}> dark theme </button>
                 <button className="bg-yellow-200 mx-2" onClick={() => { update_this_user_preferred_theme('cupcake') }}> cupcake theme </button>
             </div>
+            {openThemeMenu && <ThemesMenu closeMenu={setOpenThemeMenu} />}
         </header>
     )
 }
