@@ -25,6 +25,9 @@ export function update_the_userDetails_information (cached_user_details: string|
     
         userDts.loggedIn = 'yes'
         userDts = {...userDts, ...user_dtsParsed}
+        return true
+    } else {
+        return false
     }
 }
 
@@ -50,7 +53,7 @@ export function check_if_we_can_run_the_access_token_health_check (uDts: userDet
     }
 }
 
-export function run_access_token_health_check (uDts: userDetailsType) {
+export async function run_access_token_health_check (uDts: userDetailsType) {
     axios.post(`${backEndPort}/healthCheck/accessToken`, uDts, {headers: {'Content-Type': 'application/json'}})
     .then(re => {
         // update the lastTime checked to be the current time
@@ -65,13 +68,11 @@ export function run_access_token_health_check (uDts: userDetailsType) {
 
         // the below means the accessToken has expired and so a new accessToken was generated
         if (re.data.msg === 'okay' && re.data.new_token === 'yes') {
-            localStorage.setItem('userDts', JSON.stringify({...userDts, accessToken:re.data.dts.newAccessToken}));
+            localStorage.setItem('userDts', JSON.stringify({...uDts, accessToken:re.data.dts.newAccessToken}));
             location.reload()
         }
     })
-    .catch(err => {
-        console.log(err)
-    })
+    .catch(err => { })
 }
 
 check_if_we_can_run_the_access_token_health_check(userDts)
@@ -83,9 +84,9 @@ export default function Header() {
     const reduxDispatch = useAppDispatch()
     const route = useRouter()
 
-
     // console.log(userDts, '\n', userInfo)
     useLayoutEffect(() => {
+        // updates the redux store to have the current details of the user
         if (userDts.loggedIn === 'yes' && userInfo.loggedIn === 'no') {
             reduxDispatch(updateUser(userDts))
         }
