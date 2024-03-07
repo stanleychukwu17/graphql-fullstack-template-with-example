@@ -30,6 +30,15 @@
     }
 };
 
+// for neumorphism box-shadow
+@mixin neumorphism_shadow($side: 5px, $spread: 5px) {
+    $negative_side: -#{$side}; // Concatenate - to $side using string interpolation
+
+    box-shadow:
+        $side $side $spread var(--_shadow1), // bottom right corner
+        #{$negative_side} #{$negative_side} $spread var(--_shadow2); // top left corner
+}
+
 @mixin button_one($bg_color: white, $text_color: pink) {
     padding: 10px 15px;
     background-color: $bg_color;
