@@ -1,4 +1,4 @@
-$purple_color: #c931f5;
+$purple_color: var(--text-100);
 $milk_color: #fffefb;
 
 .ovrCover {
@@ -16,13 +16,14 @@ $milk_color: #fffefb;
             font-weight: 500;
             padding: 0 0 5px;text-transform: capitalize;
         }
+
         .inpInput {
             input {
                 width: 60%;
                 height: 50px;
                 padding: 0 15px;
                 border-radius: 3px;
-                border: 2px solid $purple_color;
+                background-color: var(--bg-300)
             }
             p {
                 display: block;
@@ -40,14 +41,15 @@ $milk_color: #fffefb;
         button, p {
             width: 160px;
             text-align: center;
-            background-color: $purple_color;
+            background-color: var(--button4-bg);
+            color: var(--button4-text);
             padding: 10px 25px;
             font-size: 17px;
             font-weight: bold;
             letter-spacing: 0.6px;
-            color: $milk_color;
             border-radius: 2px;
-            box-shadow: 3px 3px 0 rgba(0,0,0,0.12);
+            box-shadow: 5px 5px 0 rgba(0,0,0,0.12);
+            transition: all .5s ease-out;
         }
         p {
             opacity: .5;

@@ -1,0 +1,12 @@
+:root {
+    --custom-color1: #f5f6fa;
+    --custom-color2: #273054;
+}
+
+$color_array : (
+    'darkblue':#273054,
+    'darkred':#df0e3a,
+    'linkColor':#044ad8
+);
+
+$link_color: map-get($map: $color_array, $key: 'linkColor');

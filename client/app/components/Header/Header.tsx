@@ -1,15 +1,21 @@
 'use client'
 import axios from "axios";
-import { useLayoutEffect } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAppSelector, useAppDispatch } from "../../redux/hook";
 import { updateUser, userDetailsType } from "../../redux/features/userSlice";
 import { BACKEND_PORT as backEndPort } from "@/my.config";
 import Link from "next/link";
 
+import { CiLight } from "react-icons/ci";
+
+// import other components to use in this page
 import LoggedInCard from "./LoggedInCard";
 import LoggedOutCard from "./LoggedOutCard";
+import ThemesMenu, {update_this_user_preferred_theme} from './theme/ThemesMenu'
 
+// import the stylesheet
+import './Header.scss'
 
 //--START-- checks to see if there are any stored information about the user in the user's localStorage space
 let userDts: userDetailsType = {loggedIn: 'no'}
@@ -78,13 +84,24 @@ export async function run_access_token_health_check (uDts: userDetailsType) {
 check_if_we_can_run_the_access_token_health_check(userDts)
 //--END--
 
+//--START-- for color theme
+function check_if_there_is_a_user_selected_theme () {
+    if (typeof window !== 'undefined') {
+        const myCustomTheme = window.localStorage.getItem("myCustomTheme")
+
+        myCustomTheme && update_this_user_preferred_theme(myCustomTheme)
+    }
+}
+//--END--
+
+
 
 export default function Header() {
     const userInfo = useAppSelector(state => state.user)
     const reduxDispatch = useAppDispatch()
     const route = useRouter()
+    const [openThemeMenu, setOpenThemeMenu] = useState<boolean>(false)
 
-    // console.log(userDts, '\n', userInfo)
     useLayoutEffect(() => {
         // updates the redux store to have the current details of the user
         if (userDts.loggedIn === 'yes' && userInfo.loggedIn === 'no') {
@@ -96,13 +113,28 @@ export default function Header() {
         }
     }, [route, reduxDispatch, userInfo.must_logged_in_to_view_this_page, userInfo.loggedIn])
 
+    // for color theme
+    useLayoutEffect(() => {
+        check_if_there_is_a_user_selected_theme()
+    }, [])
+
     return (
-        <header className="flex justify-between items-center py-5 px-5 bg-[#e9f2ff]" data-testid="site header">
-            <div className="text-2xl font-bold">
-                <Link href="/">NEXT.</Link>
+        <header className="headerCvr py-5 px-10" data-testid="site header">
+            <div className="flex justify-between items-center pb-5">
+                <div className="text-2xl font-bold">
+                    <Link href="/">NEXT.</Link>
+                </div>
+                <div className="flex space-x-10 items-center">
+                    {userInfo.loggedIn === 'no' && <LoggedOutCard />}
+                    {userInfo.loggedIn === 'yes' && <LoggedInCard />}
+
+                    <div className="changeThemeCover flex space-x-2" onClick={() => { setOpenThemeMenu(true) }}>
+                        <p><CiLight /></p>
+                        <p>Theme</p>
+                    </div>
+                </div>
             </div>
-            {userInfo.loggedIn === 'no' && <LoggedOutCard />}
-            {userInfo.loggedIn === 'yes' && <LoggedInCard />}
+            {openThemeMenu && <ThemesMenu closeMenu={setOpenThemeMenu} />}
         </header>
     )
 }

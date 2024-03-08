@@ -1,0 +1,7 @@
+@use '../util/' as u1;
+
+body {
+    .canDelete {
+        font-family: u1.$font-main;
+    }
+}

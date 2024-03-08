@@ -1,0 +1,50 @@
+@use 'sass:math';
+
+// converts numbers from pixels to rem
+// inside the function, we want to make sure that the argument received does not have any units such as px, rem, em e.t.c
+@function rem($pixels) {
+    @if math.is-unitless($pixels) {
+        $final: math.div($pixels, 16) + rem;
+        @return $final
+    } @else {
+        @error 'Don\'t send in arguments with units attached to it, please use the rem functions with only numbers' 
+    }
+};
+
+// the function below converts from mostly pixels to em
+@function em($pixels) {
+    @if math.is-unitless($pixels) {
+        $final: math.div($pixels, 16) + em;
+        @return $final
+    } @else {
+        @error 'Don\'t send in arguments with units attached to it, please use the em functions with only numbers' 
+    }
+};
+
+// for making an item display: block, position: relative, overflow: hidden
+@mixin block_display($hidden: yes) {
+    display: block;
+    position: relative;
+    @if ($hidden == yes) {
+        overflow: hidden;
+    }
+};
+
+// for neumorphism box-shadow
+@mixin neumorphism_shadow($side: 5px, $spread: 5px) {
+    $negative_side: -#{$side}; // Concatenate - to $side using string interpolation
+
+    box-shadow:
+        $side $side $spread var(--_shadow1), // bottom right corner
+        #{$negative_side} #{$negative_side} $spread var(--_shadow2); // top left corner
+}
+
+@mixin button_one($bg_color: white, $text_color: pink) {
+    padding: 10px 15px;
+    background-color: $bg_color;
+    color: $text_color;
+    border-radius: 4px;
+    font-size: 15px;
+    border: 2px solid #fff;
+    @content;
+}
