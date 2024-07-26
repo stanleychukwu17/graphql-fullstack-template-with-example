@@ -9,11 +9,11 @@ importers:
   .:
     dependencies:
       '@apollo/server':
-        specifier: ^4.10.4
-        version: 4.10.4(graphql@16.9.0)
+        specifier: ^4.10.5
+        version: 4.10.5(graphql@16.9.0)
       '@apollo/subgraph':
-        specifier: ^2.8.2
-        version: 2.8.2(graphql@16.9.0)
+        specifier: ^2.8.4
+        version: 2.8.4(graphql@16.9.0)
       apollo-server-errors:
         specifier: ^3.3.1
         version: 3.3.1(graphql@16.9.0)
@@ -30,8 +30,8 @@ importers:
         specifier: ^2.8.5
         version: 2.8.5
       dayjs:
-        specifier: ^1.11.11
-        version: 1.11.11
+        specifier: ^1.11.12
+        version: 1.11.12
       dotenv:
         specifier: ^16.4.5
         version: 16.4.5
@@ -51,14 +51,14 @@ importers:
         specifier: ^8.12.0
         version: 8.12.0
       pino:
-        specifier: ^9.2.0
-        version: 9.2.0
+        specifier: ^9.3.2
+        version: 9.3.2
       pino-pretty:
-        specifier: ^11.2.1
-        version: 11.2.1
+        specifier: ^11.2.2
+        version: 11.2.2
       ts-node:
         specifier: ^10.9.2
-        version: 10.9.2(@types/node@20.14.9)(typescript@5.5.2)
+        version: 10.9.2(@types/node@20.14.12)(typescript@5.5.2)
     devDependencies:
       '@types/bcrypt':
         specifier: ^5.0.2
@@ -76,8 +76,8 @@ importers:
         specifier: ^9.0.6
         version: 9.0.6
       '@types/node':
-        specifier: ^20.14.9
-        version: 20.14.9
+        specifier: ^20.14.12
+        version: 20.14.12
 
 packages:
 
@@ -86,8 +86,8 @@ packages:
     peerDependencies:
       graphql: 14.x || 15.x || 16.x
 
-  '@apollo/federation-internals@2.8.2':
-    resolution: {integrity: sha512-EtHUF5Tcf2SHxRcWtchjT6Rqgp2jNYronoV/ynDvULIRl+U8Nvh1a3IgqTskWanyP/KGnYyRamk5x2DBQfxztg==}
+  '@apollo/federation-internals@2.8.4':
+    resolution: {integrity: sha512-m/vFu5btNfmvxZfe8B1m8jjCN/NxCYctxjdhXgQD4WGbDwtUk59+i7NuVMtX5IfmFMKycwqnbihkv5w2E00XDA==}
     engines: {node: '>=14.15.0'}
     peerDependencies:
       graphql: ^16.5.0
@@ -101,14 +101,14 @@ packages:
     peerDependencies:
       graphql: 14.x || 15.x || 16.x
 
-  '@apollo/server@4.10.4':
-    resolution: {integrity: sha512-HS12CUa1wq8f5zKXOKJRwRdESFp4por9AINecpcsEUV9jsCP/NqPILgx0hCOOFJuKxmnaL7070xO6l5xmOq4Fw==}
+  '@apollo/server@4.10.5':
+    resolution: {integrity: sha512-I+Oi1CnphXExSAAsZbclgRDN4k4CEMxyKRzYg3bir5N8OmydEhzXDlIGAOETP/TKblxR7HPXGvwn2cJKzbl46w==}
     engines: {node: '>=14.16.0'}
     peerDependencies:
       graphql: ^16.6.0
 
-  '@apollo/subgraph@2.8.2':
-    resolution: {integrity: sha512-DYzuyF+1/PSSLN/z3JReABAD7QCfUHIsCDtWk134Pz7vo2oaJCLfL67kdbGew4TZyTnBn08oh0Z4F3X/5ZSQKw==}
+  '@apollo/subgraph@2.8.4':
+    resolution: {integrity: sha512-+NMhY2PHrb1C28A3Osns98HWCQ5nlhYv0CSpdSkzY2OOdepaBnzC6btXKZB8J61FaMBmEgL+j2/5uAXJGmS1cQ==}
     engines: {node: '>=14.15.0'}
     peerDependencies:
       graphql: ^16.5.0
@@ -199,9 +199,6 @@ packages:
     resolution: {integrity: sha512-mB9oAsNCm9aM3/SOv4YtBMqZbYj10R7dkq8byBqxGY/ncFwhf2oQzMV+LCRlWoDSEBJ3COiR1yeDvMtsoOsuFQ==}
     peerDependencies:
       graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0 || ^17.0.0
-
-  '@josephg/resolvable@1.0.1':
-    resolution: {integrity: sha512-CtzORUwWTTOTqfVtHaKRJ0I1kNQd1bpn3sUh8I3nJDVY+5/M/Oe1DnEWzPQvqq/xPIIkzzzIP7mfCoAjFRvDhg==}
 
   '@jridgewell/resolve-uri@3.1.2':
     resolution: {integrity: sha512-bRISgCIjP20/tbWSPWMEi54QVPRZExkuD9lJL+UIxUKtwVJA8wW1Trb1jMs1RFXo1CBTNZ/5hpC9QvmKWdopKw==}
@@ -295,8 +292,8 @@ packages:
   '@types/node-fetch@2.6.11':
     resolution: {integrity: sha512-24xFj9R5+rfQJLRyM56qh+wnVSYhyXC2tkoBndtY0U+vubqNsYXGjufB2nn8Q6gt0LrARwL6UBtMCSVCwl4B1g==}
 
-  '@types/node@20.14.9':
-    resolution: {integrity: sha512-06OCtnTXtWOZBJlRApleWndH4JsRVs1pDCc8dLSQp+7PpUpX3ePdHyeNSFTeSe7FtKyQkrlPvHwJOW3SLd8Oyg==}
+  '@types/node@20.14.12':
+    resolution: {integrity: sha512-r7wNXakLeSsGT0H1AU863vS2wa5wBOK4bWMjZz2wj+8nBx+m5PeIn0k8AloSLpRuiwdRQZwarZqHE4FNArPuJQ==}
 
   '@types/qs@6.9.15':
     resolution: {integrity: sha512-uXHQKES6DQKKCLh441Xv/dwxOq1TVS3JPUMlEqoEglvlhR6Mxnlew/Xq/LRVHpLyk7iK3zODe1qYHIMltO7XGg==}
@@ -476,8 +473,8 @@ packages:
   dateformat@4.6.3:
     resolution: {integrity: sha512-2P0p0pFGzHS5EMnhdxQi7aJN+iMheud0UhG4dlE1DLAlvL8JHjJJTX/CSm4JXwV0Ka5nGk3zC5mcb5bUQUxxMA==}
 
-  dayjs@1.11.11:
-    resolution: {integrity: sha512-okzr3f11N6WuqYtZSvm+F776mB41wRZMhKP+hc34YdW+KmtYYK9iqvHSwo2k9FEH3fhGXvOPV6yz2IcSrfRUDg==}
+  dayjs@1.11.12:
+    resolution: {integrity: sha512-Rt2g+nTbLlDWZTwwrIXjy9MeiZmSDI375FvZs72ngxx8PDC6YXOeR3q5LAuPzjZQxhiWdRKac7RKV+YyQYfYIg==}
 
   debug@2.6.9:
     resolution: {integrity: sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==}
@@ -903,15 +900,15 @@ packages:
   pino-abstract-transport@1.2.0:
     resolution: {integrity: sha512-Guhh8EZfPCfH+PMXAb6rKOjGQEoy0xlAIn+irODG5kgfYV+BQ0rGYYWTIel3P5mmyXqkYkPmdIkywsn6QKUR1Q==}
 
-  pino-pretty@11.2.1:
-    resolution: {integrity: sha512-O05NuD9tkRasFRWVaF/uHLOvoRDFD7tb5VMertr78rbsYFjYp48Vg3477EshVAF5eZaEw+OpDl/tu+B0R5o+7g==}
+  pino-pretty@11.2.2:
+    resolution: {integrity: sha512-2FnyGir8nAJAqD3srROdrF1J5BIcMT4nwj7hHSc60El6Uxlym00UbCCd8pYIterstVBFlMyF1yFV8XdGIPbj4A==}
     hasBin: true
 
   pino-std-serializers@7.0.0:
     resolution: {integrity: sha512-e906FRY0+tV27iq4juKzSYPbUj2do2X2JX4EzSca1631EB2QJQUqGbDuERal7LCtOpxl6x3+nvo9NPZcmjkiFA==}
 
-  pino@9.2.0:
-    resolution: {integrity: sha512-g3/hpwfujK5a4oVbaefoJxezLzsDgLcNJeITvC6yrfwYeT9la+edCK42j5QpEQSQCZgTKapXvnQIdgZwvRaZug==}
+  pino@9.3.2:
+    resolution: {integrity: sha512-WtARBjgZ7LNEkrGWxMBN/jvlFiE17LTbBoH0konmBU684Kd0uIiDwBXlcTCW7iJnA6HfIKwUssS/2AC6cDEanw==}
     hasBin: true
 
   postgres-array@2.0.0:
@@ -930,8 +927,8 @@ packages:
     resolution: {integrity: sha512-9ZhXKM/rw350N1ovuWHbGxnGh/SNJ4cnxHiM0rxE4VN41wsg8P8zWn9hv/buK00RP4WvlOyr/RBDiptyxVbkZQ==}
     engines: {node: '>=0.10.0'}
 
-  process-warning@3.0.0:
-    resolution: {integrity: sha512-mqn0kFRl0EoqhnL0GQ0veqFHyIN1yig9RHh/InzORTUiZHFRAur+aMtRkELNwGs9aNwKS6tg/An4NYBPGwvtzQ==}
+  process-warning@4.0.0:
+    resolution: {integrity: sha512-/MyYDxttz7DfGMMHiysAsFE4qF+pQYAA8ziO/3NcRVrQ5fSk+Mns4QZA/oRPFzvcqNoVJXQNWNAsdwBXLUkQKw==}
 
   process@0.11.10:
     resolution: {integrity: sha512-cdGef/drWFoydD1JsMzuFf8100nZl+GT+yacc2bEced5f9Rjk4z+WtFUTBu9PhOi9j/jfmBPu0mMEY4wIdAF8A==}
@@ -1163,7 +1160,7 @@ snapshots:
     dependencies:
       graphql: 16.9.0
 
-  '@apollo/federation-internals@2.8.2(graphql@16.9.0)':
+  '@apollo/federation-internals@2.8.4(graphql@16.9.0)':
     dependencies:
       '@types/uuid': 9.0.8
       chalk: 4.1.2
@@ -1194,7 +1191,7 @@ snapshots:
       '@apollo/utils.logger': 2.0.1
       graphql: 16.9.0
 
-  '@apollo/server@4.10.4(graphql@16.9.0)':
+  '@apollo/server@4.10.5(graphql@16.9.0)':
     dependencies:
       '@apollo/cache-control-types': 1.0.3(graphql@16.9.0)
       '@apollo/server-gateway-interface': 1.1.1(graphql@16.9.0)
@@ -1207,7 +1204,6 @@ snapshots:
       '@apollo/utils.usagereporting': 2.1.0(graphql@16.9.0)
       '@apollo/utils.withrequired': 2.0.1
       '@graphql-tools/schema': 9.0.19(graphql@16.9.0)
-      '@josephg/resolvable': 1.0.1
       '@types/express': 4.17.21
       '@types/express-serve-static-core': 4.19.5
       '@types/node-fetch': 2.6.11
@@ -1226,10 +1222,10 @@ snapshots:
       - encoding
       - supports-color
 
-  '@apollo/subgraph@2.8.2(graphql@16.9.0)':
+  '@apollo/subgraph@2.8.4(graphql@16.9.0)':
     dependencies:
       '@apollo/cache-control-types': 1.0.3(graphql@16.9.0)
-      '@apollo/federation-internals': 2.8.2(graphql@16.9.0)
+      '@apollo/federation-internals': 2.8.4(graphql@16.9.0)
       graphql: 16.9.0
 
   '@apollo/usage-reporting-protobuf@4.1.1':
@@ -1313,8 +1309,6 @@ snapshots:
     dependencies:
       graphql: 16.9.0
 
-  '@josephg/resolvable@1.0.1': {}
-
   '@jridgewell/resolve-uri@3.1.2': {}
 
   '@jridgewell/sourcemap-codec@1.4.15': {}
@@ -1372,26 +1366,26 @@ snapshots:
 
   '@types/bcrypt@5.0.2':
     dependencies:
-      '@types/node': 20.14.9
+      '@types/node': 20.14.12
 
   '@types/body-parser@1.19.5':
     dependencies:
       '@types/connect': 3.4.38
-      '@types/node': 20.14.9
+      '@types/node': 20.14.12
 
   '@types/config@3.3.4': {}
 
   '@types/connect@3.4.38':
     dependencies:
-      '@types/node': 20.14.9
+      '@types/node': 20.14.12
 
   '@types/cors@2.8.17':
     dependencies:
-      '@types/node': 20.14.9
+      '@types/node': 20.14.12
 
   '@types/express-serve-static-core@4.19.5':
     dependencies:
-      '@types/node': 20.14.9
+      '@types/node': 20.14.12
       '@types/qs': 6.9.15
       '@types/range-parser': 1.2.7
       '@types/send': 0.17.4
@@ -1407,7 +1401,7 @@ snapshots:
 
   '@types/jsonwebtoken@9.0.6':
     dependencies:
-      '@types/node': 20.14.9
+      '@types/node': 20.14.12
 
   '@types/long@4.0.2': {}
 
@@ -1415,10 +1409,10 @@ snapshots:
 
   '@types/node-fetch@2.6.11':
     dependencies:
-      '@types/node': 20.14.9
+      '@types/node': 20.14.12
       form-data: 4.0.0
 
-  '@types/node@20.14.9':
+  '@types/node@20.14.12':
     dependencies:
       undici-types: 5.26.5
 
@@ -1429,12 +1423,12 @@ snapshots:
   '@types/send@0.17.4':
     dependencies:
       '@types/mime': 1.3.5
-      '@types/node': 20.14.9
+      '@types/node': 20.14.12
 
   '@types/serve-static@1.15.7':
     dependencies:
       '@types/http-errors': 2.0.4
-      '@types/node': 20.14.9
+      '@types/node': 20.14.12
       '@types/send': 0.17.4
 
   '@types/uuid@9.0.8': {}
@@ -1597,7 +1591,7 @@ snapshots:
 
   dateformat@4.6.3: {}
 
-  dayjs@1.11.11: {}
+  dayjs@1.11.12: {}
 
   debug@2.6.9:
     dependencies:
@@ -1995,7 +1989,7 @@ snapshots:
       readable-stream: 4.5.2
       split2: 4.2.0
 
-  pino-pretty@11.2.1:
+  pino-pretty@11.2.2:
     dependencies:
       colorette: 2.0.20
       dateformat: 4.6.3
@@ -2014,14 +2008,14 @@ snapshots:
 
   pino-std-serializers@7.0.0: {}
 
-  pino@9.2.0:
+  pino@9.3.2:
     dependencies:
       atomic-sleep: 1.0.0
       fast-redact: 3.5.0
       on-exit-leak-free: 2.1.2
       pino-abstract-transport: 1.2.0
       pino-std-serializers: 7.0.0
-      process-warning: 3.0.0
+      process-warning: 4.0.0
       quick-format-unescaped: 4.0.4
       real-require: 0.2.0
       safe-stable-stringify: 2.4.3
@@ -2038,7 +2032,7 @@ snapshots:
     dependencies:
       xtend: 4.0.2
 
-  process-warning@3.0.0: {}
+  process-warning@4.0.0: {}
 
   process@0.11.10: {}
 
@@ -2200,14 +2194,14 @@ snapshots:
 
   tr46@0.0.3: {}
 
-  ts-node@10.9.2(@types/node@20.14.9)(typescript@5.5.2):
+  ts-node@10.9.2(@types/node@20.14.12)(typescript@5.5.2):
     dependencies:
       '@cspotcode/source-map-support': 0.8.1
       '@tsconfig/node10': 1.0.11
       '@tsconfig/node12': 1.0.11
       '@tsconfig/node14': 1.0.3
       '@tsconfig/node16': 1.0.4
-      '@types/node': 20.14.9
+      '@types/node': 20.14.12
       acorn: 8.12.0
       acorn-walk: 8.3.3
       arg: 4.1.3
