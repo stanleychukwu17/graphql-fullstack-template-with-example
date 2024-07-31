@@ -1,0 +1,23 @@
+FROM node:20.16.0-alpine3.20
+
+RUN addgroup -S app && adduser -S -G app app
+
+USER app
+
+WORKDIR /usr/src/app
+
+COPY --chown=app:app packgae.json pnpm-lock.yaml ./
+
+RUN npm i -g pnpm
+
+# Ensure to set the volumes for the pnpm store
+RUN pnpm config set store-dir /usr/src/app/.pnpm-store
+
+# Install dependencies
+RUN pnpm install
+
+COPY --chown=app:app . .
+
+EXPOSE 3000
+
+CMD ["pnpm", "run", "dev"]
