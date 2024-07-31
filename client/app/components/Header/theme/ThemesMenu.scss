@@ -11,15 +11,13 @@
 }
 
 .ThemeAbsoluteCvr {
-    display: flex;
-    flex-wrap: wrap;
+    display: block;
+    position: absolute;
+    overflow: hidden;
     background-color: var(--bg-100);
-    overflow-y: auto;
-    overflow-x: hidden;
     width: 100vw;
     min-height: 100vh;
     padding: u1.rem(25) 0;
-    position: absolute;
     top: 0;
     right: 0;
     bottom: 0;
@@ -57,6 +55,7 @@
         display: flex;
         position: relative;
         overflow: hidden;
+        float: left;
         border-radius: 5px;
         height: 120px;
         min-width: 23%;
