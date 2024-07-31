@@ -1,0 +1,748 @@
+:root {
+    /* lofi theme */
+    --bg-100-lofi: oklch(1 0 0);
+    --bg-200-lofi: oklch(0.961151 0 0);
+    --bg-300-lofi: oklch(0.92268 0.001082 17.1793);
+    --text-100-lofi: oklch(0 0 0);
+    --button1-bg-lofi: oklch(0.159066 0 0);
+    --button1-text-lofi: oklch(1 0 0);
+    --button2-bg-lofi: oklch(0.21455 0.001566 17.279);
+    --button2-text-lofi: oklch(1 0 0);
+    --button3-bg-lofi: oklch(0.268618 0 0);
+    --button3-text-lofi: oklch(1 0 0);
+    --button4-bg-lofi: oklch(0 0 0);
+    --button4-text-lofi: oklch(1 0 0);
+
+    /* wireframe theme */
+    --bg-100-wireframe: oklch(1 0 0);
+    --bg-200-wireframe: oklch(0.949119 0 0);
+    --bg-300-wireframe: oklch(0.897547 0 0);
+    --text-100-wireframe: oklch(0.2 0 0);
+    --button1-bg-wireframe: oklch(0.782604 0 0);
+    --button1-text-wireframe: oklch(0.156521 0 0);
+    --button2-bg-wireframe: oklch(0.782604 0 0);
+    --button2-text-wireframe: oklch(0.156521 0 0);
+    --button3-bg-wireframe: oklch(0.782604 0 0);
+    --button3-text-wireframe: oklch(0.156521 0 0);
+    --button4-bg-wireframe: oklch(0.94007 0 0);
+    --button4-text-wireframe: oklch(0.188014 0 0);
+
+    /* black theme */
+    --bg-100-black: oklch(0 0 0);
+    --bg-200-black: oklch(0.191251 0 0);
+    --bg-300-black: oklch(0.268618 0 0);
+    --text-100-black: oklch(0.876096 0 0);
+    --button1-bg-black: oklch(0.336799 0 0);
+    --button1-text-black: oklch(0.86736 0 0);
+    --button2-bg-black: oklch(0.336799 0 0);
+    --button2-text-black: oklch(0.86736 0 0);
+    --button3-bg-black: oklch(0.336799 0 0);
+    --button3-text-black: oklch(0.86736 0 0);
+    --button4-bg-black: oklch(0.336799 0 0);
+    --button4-text-black: oklch(0.86736 0 0);
+
+    /* luxury theme */
+    --bg-100-luxury: oklch(0.140765 0.004386 285.823);
+    --bg-200-luxury: oklch(0.202191 0.004211 308.229);
+    --bg-300-luxury: oklch(0.298961 0.003818 308.319);
+    --text-100-luxury: oklch(0.756879 0.123666 76.8905);
+    --button1-bg-luxury: oklch(1 0 0);
+    --button1-text-luxury: oklch(0.2 0 0);
+    --button2-bg-luxury:  oklch(0.275815 0.064106 261.069);
+    --button2-text-luxury: oklch(0.855163 0.012821 261.069);
+    --button3-bg-luxury: oklch(0.366744 0.051741 338.826);
+    --button3-text-luxury: oklch(0.873349 0.010348 338.826);
+    --button4-bg-luxury: oklch(0.2427 0.057015 59.825);
+    --button4-text-luxury: oklch(0.932033 0.089631 90.8617);
+
+    /* pastel theme */
+    --bg-100-pastel: oklch(1 0 0);
+    --bg-200-pastel: oklch(0.984625 0.001706 247.839);
+    --bg-300-pastel: oklch(0.871681 0.009339 258.338);
+    --text-100-pastel: oklch(0.2 0 0);
+    --button1-bg-pastel: oklch(0.830828 0.034896 316.874);
+    --button1-text-pastel: oklch(0.166166 0.006979 316.874);
+    --button2-bg-pastel: oklch(0.880763 0.049197 8.68836);
+    --button2-text-pastel: oklch(0.176153 0.009839 8.68836);
+    --button3-bg-pastel: oklch(0.892096 0.06028 170.923);
+    --button3-text-pastel: oklch(0.178419 0.012056 170.923);
+    --button4-bg-pastel: oklch(0.713406 0.07351 228.184);
+    --button4-text-pastel: oklch(0.142681 0.014702 228.184);
+    
+    /* fantasy theme */
+    --bg-100-fantasy: oklch(1 0 0);
+    --bg-200-fantasy: oklch(0.93 0 0);
+    --bg-300-fantasy: oklch(0.86 0 0);
+    --text-100-fantasy: oklch(0.278078 0.029596 256.848);
+    --button1-bg-fantasy: oklch(0.3745 0.189 325.02);
+    --button1-text-fantasy: oklch(0.8749 0.0378 325.02);
+    --button2-bg-fantasy: oklch(0.5392 0.162 241.36);
+    --button2-text-fantasy: oklch(0.90784 0.0324 241.36);
+    --button3-bg-fantasy: oklch(0.7598 0.204 56.72);
+    --button3-text-fantasy: oklch(0.15196 0.0408 56.72);
+    --button4-bg-fantasy: oklch(0.278078 0.029596 256.848);
+    --button4-text-fantasy: oklch(0.855616 0.005919 256.848);
+
+    /* valentine theme */
+    --bg-100-valentine: oklch(0.946846 0.026703 337.063);
+    --bg-200-valentine: oklch(0.880567 0.024834 337.063);
+    --bg-300-valentine: oklch(0.814288 0.022964 337.063);
+    --text-100-valentine: oklch(0.373085 0.081131 4.60643);
+    --button1-bg-valentine: oklch(0.686197 0.153774 15.0665);
+    --button1-text-valentine: oklch(0.137239 0.030755 15.0665);
+    --button2-bg-valentine: oklch(0.71971 0.14629 293.19);
+    --button2-text-valentine: oklch(0.143942 0.029258 293.19);
+    --button3-bg-valentine: oklch(0.712685 0.074804 197.829);
+    --button3-text-valentine: oklch(0.142537 0.014961 197.829);
+    --button4-bg-valentine: oklch(0.546053 0.143342 358.005);
+    --button4-text-valentine: oklch(0.902701 0.037202 336.955);
+    
+    /* hallow theme */
+    --bg-100-hallow: oklch(0.247759 0 0);
+    --bg-200-hallow: oklch(0.230416 0 0);
+    --bg-300-hallow: oklch(0.213072 0 0);
+    --text-100-hallow: oklch(0.849552 0 0);
+    --button1-bg-hallow: oklch(0.7748 0.204 60.62);
+    --button1-text-hallow: oklch(0.196935 0.004671 196.779);
+    --button2-bg-hallow: oklch(0.4598 0.248 305.03);
+    --button2-text-hallow: oklch(0.89196 0.0496 305.03);
+    --button3-bg-hallow: oklch(0.648 0.223 136.073);
+    --button3-text-hallow: oklch(0 0 0);
+    --button4-bg-hallow: oklch(0.24371 0.046608 65.6815);
+    --button4-text-hallow: oklch(0.848742 0.009322 65.6815);
+    
+    /* garden theme */
+    --bg-100-garden: oklch(0.929519 0.002163 17.1974);
+    --bg-200-garden: oklch(0.864453 0.002011 17.1974);
+    --bg-300-garden: oklch(0.799386 0.00186 17.1974);
+    --text-100-garden: oklch(0.169617 0.001664 17.3207);
+    --button1-bg-garden: oklch(0.6245 0.278 3.83636);
+    --button1-text-garden: oklch(1 0 0);
+    --button2-bg-garden: oklch(0.484952 0.110985 355.096);
+    --button2-text-garden: oklch(0.89699 0.022197 355.096);
+    --button3-bg-garden: oklch(0.562735 0.054297 154.39);
+    --button3-text-garden: oklch(0.112547 0.010859 154.39);
+    --button4-bg-garden: oklch(0.241559 0.049362 89.0706);
+    --button4-text-garden: oklch(0.929519 0.002163 17.1974);
+
+    /* cupcake theme */
+    --bg-100-cupcake: oklch(0.977882 0.00418 56.3756);
+    --bg-200-cupcake: oklch(0.939822 0.007638 61.4493);
+    --bg-300-cupcake: oklch(0.915861 0.006811 53.4405);
+    --text-100-cupcake: oklch(0.235742 0.066235 313.19);
+    --button1-bg-cupcake: oklch(0.76172 0.089459 200.027);
+    --button1-text-cupcake: oklch(0.152344 0.017892 200.027);
+    --button2-bg-cupcake: oklch(0.789351 0.101246 356.3);
+    --button2-text-cupcake: oklch(0.15787 0.020249 356.3);
+    --button3-bg-cupcake: oklch(0.793811 0.146032 78.6188);
+    --button3-text-cupcake: oklch(0.158762 0.029206 78.6188);
+    --button4-bg-cupcake: oklch(0.235742 0.066235 313.19);
+    --button4-text-cupcake: oklch(0.847148 0.013247 313.19);
+
+    /* emerald theme */
+    --bg-100-emerald: oklch(1 0 0);
+    --bg-200-emerald: oklch(0.93 0 0);
+    --bg-300-emerald: oklch(0.86 0 0);
+    --text-100-emerald: oklch(0.355192 0.032071 262.989);
+    --button1-bg-emerald: oklch(0.766626 0.135433 153.45);
+    --button1-text-emerald: oklch(0.333872 0.040618 162.24);
+    --button2-bg-emerald: oklch(0.613028 0.202368 261.294);
+    --button2-text-emerald: oklch(1 0 0);
+    --button3-bg-emerald: oklch(0.727725 0.149783 33.2004);
+    --button3-text-emerald: oklch(0 0 0);
+    --button4-bg-emerald: oklch(0.355192 0.032071 262.989);
+    --button4-text-emerald: oklch(0.984625 0.001706 247.839);
+    
+    /* cooperate theme */
+    --bg-100-cooperate: oklch(1 0 0);
+    --bg-200-cooperate: oklch(0.93 0 0);
+    --bg-300-cooperate: oklch(0.86 0 0);
+    --text-100-cooperate: oklch(0.223899 0.031305 278.072);
+    --button1-bg-cooperate: oklch(0.6039 0.228 269.1);
+    --button1-text-cooperate: oklch(0.12078 0.0456 269.1);
+    --button2-bg-cooperate: oklch(0.653694 0.054756 256.688);
+    --button2-text-cooperate: oklch(0.130739 0.010951 256.688);
+    --button3-bg-cooperate: oklch(0.769669 0.113994 163.579);
+    --button3-text-cooperate: oklch(0.153934 0.022799 163.579);
+    --button4-bg-cooperate: oklch(0.223899 0.031305 278.072);
+    --button4-text-cooperate: oklch(0.958796 0.008588 247.915);
+
+    /* synthwave theme */
+    --bg-100-synthwave: oklch(0.218216 0.081948 287.836);
+    --bg-200-synthwave: oklch(0.202941 0.076211 287.836);
+    --bg-300-synthwave: oklch(0.187665 0.070475 287.836);
+    --text-100-synthwave: oklch(0.979365 0.00819 301.358);
+    --button1-bg-synthwave: oklch(0.722105 0.159514 342.009);
+    --button1-text-synthwave: oklch(0.144421 0.031903 342.009);
+    --button2-bg-synthwave: oklch(0.782714 0.118101 227.382);
+    --button2-text-synthwave: oklch(0.156543 0.02362 227.382);
+    --button3-bg-synthwave: oklch(0.8804 0.206 93.72);
+    --button3-text-synthwave: oklch(0.17608 0.0412 93.72);
+    --button4-bg-synthwave: oklch(0.255554 0.103537 286.508);
+    --button4-text-synthwave: oklch(0.979365 0.00819 301.358);
+
+    /* metro theme */
+    --bg-100-metro: oklch(0.916374 0.034554 90.5157);
+    --bg-200-metro: oklch(0.882722 0.049418 91.7743);
+    --bg-300-metro: oklch(0.84133 0.065952 90.8567);
+    --text-100-metro: oklch(0.265104 0.006243 0.522862);
+    --button1-bg-metro: oklch(0.768664 0.104092 22.6647);
+    --button1-text-metro: oklch(0.265104 0.006243 0.522862);
+    --button2-bg-metro: oklch(0.807415 0.052534 159.095);
+    --button2-text-metro: oklch(0.265104 0.006243 0.522862);
+    --button3-bg-metro: oklch(0.703919 0.125455 52.9534);
+    --button3-text-metro: oklch(0.265104 0.006243 0.522862);
+    --button4-bg-metro: oklch(0.284181 0.009519 355.534);
+    --button4-text-metro: oklch(0.925604 0.025113 89.2173);
+    
+    /* cyberpunk theme */
+    --bg-100-cyberpunk: oklch(0.9451 0.179 104.32);
+    --bg-200-cyberpunk: oklch(0.878943 0.16647 104.32);
+    --bg-300-cyberpunk: oklch(0.812786 0.15394 104.32);
+    --text-100-cyberpunk: oklch(0.18902 0.0358 104.32);
+    --button1-bg-cyberpunk: oklch(0.7422 0.209 6.35);
+    --button1-text-cyberpunk: oklch(0.14844 0.0418 6.35);
+    --button2-bg-cyberpunk: oklch(0.8333 0.184 204.72);
+    --button2-text-cyberpunk: oklch(0.16666 0.0368 204.72);
+    --button3-bg-cyberpunk: oklch(0.7186 0.2176 310.43);
+    --button3-text-cyberpunk: oklch(0.14372 0.04352 310.43);
+    --button4-bg-cyberpunk: oklch(0.2304 0.065 269.31);
+    --button4-text-cyberpunk: oklch(0.9451 0.179 104.32);
+
+    /* forest theme */
+    --bg-100-forest: oklch(0.188409 0.00829 17.9116);
+    --bg-200-forest: oklch(0.17522 0.007709 17.9116);
+    --bg-300-forest: oklch(0.162032 0.007129 17.9116);
+    --text-100-forest: oklch(0.837682 0.001658 17.9116);
+    --button1-bg-forest: oklch(0.686283 0.185567 148.959);
+    --button1-text-forest: oklch(0 0 0);
+    --button2-bg-forest: oklch(0.697764 0.135385 168.327);
+    --button2-text-forest: oklch(0.139553 0.027077 168.327);
+    --button3-bg-forest: oklch(0.706285 0.119451 185.713);
+    --button3-text-forest: oklch(0.141257 0.02389 185.713);
+    --button4-bg-forest: oklch(0.306985 0.039032 171.365);
+    --button4-text-forest: oklch(0.861397 0.007806 171.365);
+    
+    /* aqua theme */
+    --bg-100-aqua: oklch(0.487596 0.127539 261.182);
+    --bg-200-aqua: oklch(0.453464 0.118611 261.182);
+    --bg-300-aqua: oklch(0.419333 0.109683 261.182);
+    --text-100-aqua: oklch(0.897519 0.025508 261.182);
+    --button1-bg-aqua: oklch(0.856617 0.14498 198.646);
+    --button1-text-aqua: oklch(0.401249 0.068266 197.604);
+    --button2-bg-aqua: oklch(0.606827 0.108752 309.783);
+    --button2-text-aqua: oklch(0.121365 0.02175 309.783);
+    --button3-bg-aqua: oklch(0.934269 0.102225 94.5554);
+    --button3-text-aqua: oklch(0.186854 0.020445 94.5554);
+    --button4-bg-aqua: oklch(0.610622 0.117009 243.761);
+    --button4-text-aqua: oklch(0.122124 0.023402 243.761);
+
+    /* cmyk theme */
+    --bg-100-cmyk: oklch(1 0 0);
+    --bg-200-cmyk: oklch(0.93 0 0);
+    --bg-300-cmyk: oklch(0.86 0 0);
+    --text-100-cmyk: oklch(0.2 0 0);
+    --button1-bg-cmyk: oklch(0.717722 0.133298 239.443);
+    --button1-text-cmyk: oklch(0.143544 0.02666 239.443);
+    --button2-bg-cmyk: oklch(0.644766 0.202758 359.339);
+    --button2-text-cmyk: oklch(0.128953 0.040552 359.339);
+    --button3-bg-cmyk: oklch(0.942289 0.189741 105.307);
+    --button3-text-cmyk: oklch(0.188458 0.037948 105.307);
+    --button4-bg-cmyk: oklch(0.217787 0 0);
+    --button4-text-cmyk: oklch(0.843557 0 0);
+    
+    /* acid theme */
+    --bg-100-acid: oklch(0.985104 0 0);
+    --bg-200-acid: oklch(0.916146 0 0);
+    --bg-300-acid: oklch(0.847189 0 0);
+    --text-100-acid: oklch(0.197021 0 0);
+    --button1-bg-acid: oklch(0.719 0.357 330.76);
+    --button1-text-acid: oklch(0.1438 0.0714 330.76);
+    --button2-bg-acid: oklch(0.7337 0.224 48.2509);
+    --button2-text-acid: oklch(0.14674 0.0448 48.2509);
+    --button3-bg-acid: oklch(0.9278 0.264 122.963);
+    --button3-text-acid: oklch(0.18556 0.0528 122.963);
+    --button4-bg-acid: oklch(0.2131 0.128 278.68);
+    --button4-text-acid: oklch(0.84262 0.0256 278.68);
+    
+    /* lemonade theme */
+    --bg-100-lemonade: oklch(0.9871 0.02 123.72);
+    --bg-200-lemonade: oklch(0.918003 0.0186 123.72);
+    --bg-300-lemonade: oklch(0.848906 0.0172 123.72);
+    --text-100-lemonade: oklch(0.19742 0.004 123.72);
+    --button1-bg-lemonade: oklch(0.5892 0.199 134.6);
+    --button1-text-lemonade: oklch(0.11784 0.0398 134.6);
+    --button2-bg-lemonade: oklch(0.7775 0.196 111.09);
+    --button2-text-lemonade: oklch(0.1555 0.0392 111.09);
+    --button3-bg-lemonade: oklch(0.8539 0.201 100.73);
+    --button3-text-lemonade: oklch(0.17078 0.0402 100.73);
+    --button4-bg-lemonade: oklch(0.3098 0.075 108.6);
+    --button4-text-lemonade: oklch(0.86196 0.015 108.6);
+    
+    /* coffee theme */
+    --bg-100-coffee: oklch(0.216758 0.023072 329.709);
+    --bg-200-coffee: oklch(0.201585 0.021457 329.709);
+    --bg-300-coffee: oklch(0.186412 0.019842 329.709);
+    --text-100-coffee: oklch(0.723547 0.092794 79.1294);
+    --button1-bg-coffee: oklch(0.719967 0.123825 62.7564);
+    --button1-text-coffee: oklch(0.143993 0.024765 62.7564);
+    --button2-bg-coffee: oklch(0.34465 0.029849 199.194);
+    --button2-text-coffee: oklch(0.86893 0.00597 199.194);
+    --button3-bg-coffee: oklch(0.426213 0.074405 224.389);
+    --button3-text-coffee: oklch(0.885243 0.014881 224.389);
+    --button4-bg-coffee: oklch(0.165109 0.015743 326.261);
+    --button4-text-coffee: oklch(0.833022 0.003149 326.261);
+
+    /* winter theme */
+    --bg-100-winter: oklch(1 0 0);
+    --bg-200-winter: oklch(0.974663 0.011947 259.823);
+    --bg-300-winter: oklch(0.932686 0.016223 262.751);
+    --text-100-winter: oklch(0.418869 0.053885 255.825);
+    --button1-bg-winter: oklch(0.5686 0.255 257.57);
+    --button1-text-winter: oklch(0.91372 0.051 257.57);
+    --button2-bg-winter: oklch(0.425516 0.161098 282.339);
+    --button2-text-winter: oklch(0.885103 0.03222 282.339);
+    --button3-bg-winter: oklch(0.599398 0.191515 335.171);
+    --button3-text-winter: oklch(0.11988 0.038303 335.171);
+    --button4-bg-winter: oklch(0.196166 0.063518 257.652);
+    --button4-text-winter: oklch(0.839233 0.012704 257.652);
+    
+    /* nord theme */
+    --bg-100-nord: oklch(0.951276 0.007445 260.732);
+    --bg-200-nord: oklch(0.932996 0.010389 261.788);
+    --bg-300-nord: oklch(0.899258 0.016374 262.749);
+    --text-100-nord: oklch(0.324374 0.022945 264.182);
+    --button1-bg-nord: oklch(0.594359 0.077246 254.028);
+    --button1-text-nord: oklch(0.118872 0.015449 254.028);
+    --button2-bg-nord: oklch(0.696516 0.059108 248.687);
+    --button2-text-nord: oklch(0.139303 0.011822 248.687);
+    --button3-bg-nord: oklch(0.774643 0.062249 217.469);
+    --button3-text-nord: oklch(0.154929 0.01245 217.469);
+    --button4-bg-nord: oklch(0.45229 0.035214 264.131);
+    --button4-text-nord: oklch(0.899258 0.016374 262.749);
+    
+    /* sunset theme */
+    --bg-100-sunset: oklch(0.22 0.019 237.69);
+    --bg-200-sunset: oklch(0.2 0.019 237.69);
+    --bg-300-sunset: oklch(0.18 0.019 237.69);
+    --text-100-sunset: oklch(0.773835 0.043586 245.097);
+    --button1-bg-sunset: oklch(0.747039 0.158278 39.947);
+    --button1-text-sunset: oklch(0.149408 0.031656 39.947);
+    --button2-bg-sunset: oklch(0.725375 0.177654 2.72034);
+    --button2-text-sunset: oklch(0.145075 0.035531 2.72034);
+    --button3-bg-sunset: oklch(0.712947 0.166678 299.845);
+    --button3-text-sunset: oklch(0.142589 0.033336 299.845);
+    --button4-bg-sunset: oklch(0.26 0.019 237.69);
+    --button4-text-sunset: oklch(0.7 0.019 237.69);
+}
+
+/* lofi theme */
+:root[data-theme="lofi"] {
+    --bg-100: var(--bg-100-lofi);
+    --bg-200: var(--bg-200-lofi);
+    --bg-300: var(--bg-300-lofi);
+    --text-100: var(--text-100-lofi);
+    --button1-bg: var(--button1-bg-lofi);
+    --button1-text: var(--button1-text-lofi);
+    --button2-bg: var(--button2-bg-lofi);
+    --button2-text: var(--button2-text-lofi);
+    --button3-bg: var(--button3-bg-lofi);
+    --button3-text: var(--button3-text-lofi);
+    --button4-bg: var(--button4-bg-lofi);
+    --button4-text: var(--button4-text-lofi);
+    color-scheme: light;
+}
+
+/* wireframe theme */
+:root[data-theme="wireframe"] {
+    --bg-100: var(--bg-100-wireframe);
+    --bg-200: var(--bg-200-wireframe);
+    --bg-300: var(--bg-300-wireframe);
+    --text-100: var(--text-100-wireframe);
+    --button1-bg: var(--button1-bg-wireframe);
+    --button1-text: var(--button1-text-wireframe);
+    --button2-bg: var(--button2-bg-wireframe);
+    --button2-text: var(--button2-text-wireframe);
+    --button3-bg: var(--button3-bg-wireframe);
+    --button3-text: var(--button3-text-wireframe);
+    --button4-bg: var(--button4-bg-wireframe);
+    --button4-text: var(--button4-text-wireframe);
+    color-scheme: light;
+}
+
+/* black theme */
+:root[data-theme="black"] {
+    --bg-100: var(--bg-100-black);
+    --bg-200: var(--bg-200-black);
+    --bg-300: var(--bg-300-black);
+    --text-100: var(--text-100-black);
+    --button1-bg: var(--button1-bg-black);
+    --button1-text: var(--button1-text-black);
+    --button2-bg: var(--button2-bg-black);
+    --button2-text: var(--button2-text-black);
+    --button3-bg: var(--button3-bg-black);
+    --button3-text: var(--button3-text-black);
+    --button4-bg: var(--button4-bg-black);
+    --button4-text: var(--button4-text-black);
+    color-scheme: dark;
+}
+
+/* luxury theme */
+:root[data-theme="luxury"] {
+    --bg-100: var(--bg-100-luxury);
+    --bg-200: var(--bg-200-luxury);
+    --bg-300: var(--bg-300-luxury);
+    --text-100: var(--text-100-luxury);
+    --button1-bg: var(--button1-bg-luxury);
+    --button1-text: var(--button1-text-luxury);
+    --button2-bg: var(--button2-bg-luxury);
+    --button2-text: var(--button2-text-luxury);
+    --button3-bg: var(--button3-bg-luxury);
+    --button3-text: var(--button3-text-luxury);
+    --button4-bg: var(--button4-bg-luxury);
+    --button4-text: var(--button4-text-luxury);
+    color-scheme: dark;
+}
+
+/* pastel theme */
+:root[data-theme="pastel"] {
+    --bg-100: var(--bg-100-pastel);
+    --bg-200: var(--bg-200-pastel);
+    --bg-300: var(--bg-300-pastel);
+    --text-100: var(--text-100-pastel);
+    --button1-bg: var(--button1-bg-pastel);
+    --button1-text: var(--button1-text-pastel);
+    --button2-bg: var(--button2-bg-pastel);
+    --button2-text: var(--button2-text-pastel);
+    --button3-bg: var(--button3-bg-pastel);
+    --button3-text: var(--button3-text-pastel);
+    --button4-bg: var(--button4-bg-pastel);
+    --button4-text: var(--button4-text-pastel);
+    color-scheme: light;
+}
+
+/* fantasy theme */
+:root[data-theme="fantasy"] {
+    --bg-100: var(--bg-100-fantasy);
+    --bg-200: var(--bg-200-fantasy);
+    --bg-300: var(--bg-300-fantasy);
+    --text-100: var(--text-100-fantasy);
+    --button1-bg: var(--button1-bg-fantasy);
+    --button1-text: var(--button1-text-fantasy);
+    --button2-bg: var(--button2-bg-fantasy);
+    --button2-text: var(--button2-text-fantasy);
+    --button3-bg: var(--button3-bg-fantasy);
+    --button3-text: var(--button3-text-fantasy);
+    --button4-bg: var(--button4-bg-fantasy);
+    --button4-text: var(--button4-text-fantasy);
+    color-scheme: light;
+}
+
+/* valentine theme */
+:root[data-theme="valentine"] {
+    --bg-100: var(--bg-100-valentine);
+    --bg-200: var(--bg-200-valentine);
+    --bg-300: var(--bg-300-valentine);
+    --text-100: var(--text-100-valentine);
+    --button1-bg: var(--button1-bg-valentine);
+    --button1-text: var(--button1-text-valentine);
+    --button2-bg: var(--button2-bg-valentine);
+    --button2-text: var(--button2-text-valentine);
+    --button3-bg: var(--button3-bg-valentine);
+    --button3-text: var(--button3-text-valentine);
+    --button4-bg: var(--button4-bg-valentine);
+    --button4-text: var(--button4-text-valentine);
+    color-scheme: light;
+}
+
+/* hallow theme */
+:root[data-theme="hallow"] {
+    --bg-100: var(--bg-100-hallow);
+    --bg-200: var(--bg-200-hallow);
+    --bg-300: var(--bg-300-hallow);
+    --text-100: var(--text-100-hallow);
+    --button1-bg: var(--button1-bg-hallow);
+    --button1-text: var(--button1-text-hallow);
+    --button2-bg: var(--button2-bg-hallow);
+    --button2-text: var(--button2-text-hallow);
+    --button3-bg: var(--button3-bg-hallow);
+    --button3-text: var(--button3-text-hallow);
+    --button4-bg: var(--button4-bg-hallow);
+    --button4-text: var(--button4-text-hallow);
+    color-scheme: dark;
+}
+
+/* garden theme */
+:root[data-theme="garden"] {
+    --bg-100: var(--bg-100-garden);
+    --bg-200: var(--bg-200-garden);
+    --bg-300: var(--bg-300-garden);
+    --text-100: var(--text-100-garden);
+    --button1-bg: var(--button1-bg-garden);
+    --button1-text: var(--button1-text-garden);
+    --button2-bg: var(--button2-bg-garden);
+    --button2-text: var(--button2-text-garden);
+    --button3-bg: var(--button3-bg-garden);
+    --button3-text: var(--button3-text-garden);
+    --button4-bg: var(--button4-bg-garden);
+    --button4-text: var(--button4-text-garden);
+    color-scheme: light;
+}
+
+
+/* cupcake theme */
+:root[data-theme="cupcake"] {
+    --bg-100: var(--bg-100-cupcake);
+    --bg-200: var(--bg-200-cupcake);
+    --bg-300: var(--bg-300-cupcake);
+    --text-100: var(--text-100-cupcake);
+    --button1-bg: var(--button1-bg-cupcake);
+    --button1-text: var(--button1-text-cupcake);
+    --button2-bg: var(--button2-bg-cupcake);
+    --button2-text: var(--button2-text-cupcake);
+    --button3-bg: var(--button3-bg-cupcake);
+    --button3-text: var(--button3-text-cupcake);
+    --button4-bg: var(--button4-bg-cupcake);
+    --button4-text: var(--button4-text-cupcake);
+    color-scheme: light;
+}
+
+/* emerald theme */
+:root[data-theme="emerald"] {
+    --bg-100: var(--bg-100-emerald);
+    --bg-200: var(--bg-200-emerald);
+    --bg-300: var(--bg-300-emerald);
+    --text-100: var(--text-100-emerald);
+    --button1-bg: var(--button1-bg-emerald);
+    --button1-text: var(--button1-text-emerald);
+    --button2-bg: var(--button2-bg-emerald);
+    --button2-text: var(--button2-text-emerald);
+    --button3-bg: var(--button3-bg-emerald);
+    --button3-text: var(--button3-text-emerald);
+    --button4-bg: var(--button4-bg-emerald);
+    --button4-text: var(--button4-text-emerald);
+    color-scheme: light;
+}
+
+/* cooperate theme */
+:root[data-theme="cooperate"] {
+    --bg-100: var(--bg-100-cooperate);
+    --bg-200: var(--bg-200-cooperate);
+    --bg-300: var(--bg-300-cooperate);
+    --text-100: var(--text-100-cooperate);
+    --button1-bg: var(--button1-bg-cooperate);
+    --button1-text: var(--button1-text-cooperate);
+    --button2-bg: var(--button2-bg-cooperate);
+    --button2-text: var(--button2-text-cooperate);
+    --button3-bg: var(--button3-bg-cooperate);
+    --button3-text: var(--button3-text-cooperate);
+    --button4-bg: var(--button4-bg-cooperate);
+    --button4-text: var(--button4-text-cooperate);
+    color-scheme: light;
+}
+
+/* synthwave theme */
+:root[data-theme="synthwave"] {
+    --bg-100: var(--bg-100-synthwave);
+    --bg-200: var(--bg-200-synthwave);
+    --bg-300: var(--bg-300-synthwave);
+    --text-100: var(--text-100-synthwave);
+    --button1-bg: var(--button1-bg-synthwave);
+    --button1-text: var(--button1-text-synthwave);
+    --button2-bg: var(--button2-bg-synthwave);
+    --button2-text: var(--button2-text-synthwave);
+    --button3-bg: var(--button3-bg-synthwave);
+    --button3-text: var(--button3-text-synthwave);
+    --button4-bg: var(--button4-bg-synthwave);
+    --button4-text: var(--button4-text-synthwave);
+    color-scheme: dark;
+}
+
+/* metro theme */
+:root[data-theme="metro"] {
+    --bg-100: var(--bg-100-metro);
+    --bg-200: var(--bg-200-metro);
+    --bg-300: var(--bg-300-metro);
+    --text-100: var(--text-100-metro);
+    --button1-bg: var(--button1-bg-metro);
+    --button1-text: var(--button1-text-metro);
+    --button2-bg: var(--button2-bg-metro);
+    --button2-text: var(--button2-text-metro);
+    --button3-bg: var(--button3-bg-metro);
+    --button3-text: var(--button3-text-metro);
+    --button4-bg: var(--button4-bg-metro);
+    --button4-text: var(--button4-text-metro);
+    color-scheme: light;
+}
+
+/* cyberpunk theme */
+:root[data-theme="cyberpunk"] {
+    --bg-100: var(--bg-100-cyberpunk);
+    --bg-200: var(--bg-200-cyberpunk);
+    --bg-300: var(--bg-300-cyberpunk);
+    --text-100: var(--text-100-cyberpunk);
+    --button1-bg: var(--button1-bg-cyberpunk);
+    --button1-text: var(--button1-text-cyberpunk);
+    --button2-bg: var(--button2-bg-cyberpunk);
+    --button2-text: var(--button2-text-cyberpunk);
+    --button3-bg: var(--button3-bg-cyberpunk);
+    --button3-text: var(--button3-text-cyberpunk);
+    --button4-bg: var(--button4-bg-cyberpunk);
+    --button4-text: var(--button4-text-cyberpunk);
+    color-scheme: light;
+}
+
+
+/* forest theme */
+:root[data-theme="forest"] {
+    --bg-100: var(--bg-100-forest);
+    --bg-200: var(--bg-200-forest);
+    --bg-300: var(--bg-300-forest);
+    --text-100: var(--text-100-forest);
+    --button1-bg: var(--button1-bg-forest);
+    --button1-text: var(--button1-text-forest);
+    --button2-bg: var(--button2-bg-forest);
+    --button2-text: var(--button2-text-forest);
+    --button3-bg: var(--button3-bg-forest);
+    --button3-text: var(--button3-text-forest);
+    --button4-bg: var(--button4-bg-forest);
+    --button4-text: var(--button4-text-forest);
+    color-scheme: dark;
+}
+
+/* aqua theme */
+:root[data-theme="aqua"] {
+    --bg-100: var(--bg-100-aqua);
+    --bg-200: var(--bg-200-aqua);
+    --bg-300: var(--bg-300-aqua);
+    --text-100: var(--text-100-aqua);
+    --button1-bg: var(--button1-bg-aqua);
+    --button1-text: var(--button1-text-aqua);
+    --button2-bg: var(--button2-bg-aqua);
+    --button2-text: var(--button2-text-aqua);
+    --button3-bg: var(--button3-bg-aqua);
+    --button3-text: var(--button3-text-aqua);
+    --button4-bg: var(--button4-bg-aqua);
+    --button4-text: var(--button4-text-aqua);
+    color-scheme: dark;
+}
+
+
+/* cmyk theme */
+:root[data-theme="cmyk"] {
+    --bg-100: var(--bg-100-cmyk);
+    --bg-200: var(--bg-200-cmyk);
+    --bg-300: var(--bg-300-cmyk);
+    --text-100: var(--text-100-cmyk);
+    --button1-bg: var(--button1-bg-cmyk);
+    --button1-text: var(--button1-text-cmyk);
+    --button2-bg: var(--button2-bg-cmyk);
+    --button2-text: var(--button2-text-cmyk);
+    --button3-bg: var(--button3-bg-cmyk);
+    --button3-text: var(--button3-text-cmyk);
+    --button4-bg: var(--button4-bg-cmyk);
+    --button4-text: var(--button4-text-cmyk);
+    color-scheme: light;
+}
+
+/* acid theme */
+:root[data-theme="acid"] {
+    --bg-100: var(--bg-100-acid);
+    --bg-200: var(--bg-200-acid);
+    --bg-300: var(--bg-300-acid);
+    --text-100: var(--text-100-acid);
+    --button1-bg: var(--button1-bg-acid);
+    --button1-text: var(--button1-text-acid);
+    --button2-bg: var(--button2-bg-acid);
+    --button2-text: var(--button2-text-acid);
+    --button3-bg: var(--button3-bg-acid);
+    --button3-text: var(--button3-text-acid);
+    --button4-bg: var(--button4-bg-acid);
+    --button4-text: var(--button4-text-acid);
+    color-scheme: light;
+}
+
+/* lemonade theme */
+:root[data-theme="lemonade"] {
+    --bg-100: var(--bg-100-lemonade);
+    --bg-200: var(--bg-200-lemonade);
+    --bg-300: var(--bg-300-lemonade);
+    --text-100: var(--text-100-lemonade);
+    --button1-bg: var(--button1-bg-lemonade);
+    --button1-text: var(--button1-text-lemonade);
+    --button2-bg: var(--button2-bg-lemonade);
+    --button2-text: var(--button2-text-lemonade);
+    --button3-bg: var(--button3-bg-lemonade);
+    --button3-text: var(--button3-text-lemonade);
+    --button4-bg: var(--button4-bg-lemonade);
+    --button4-text: var(--button4-text-lemonade);
+    color-scheme: light;
+}
+
+/* coffee theme */
+:root[data-theme="coffee"] {
+    --bg-100: var(--bg-100-coffee);
+    --bg-200: var(--bg-200-coffee);
+    --bg-300: var(--bg-300-coffee);
+    --text-100: var(--text-100-coffee);
+    --button1-bg: var(--button1-bg-coffee);
+    --button1-text: var(--button1-text-coffee);
+    --button2-bg: var(--button2-bg-coffee);
+    --button2-text: var(--button2-text-coffee);
+    --button3-bg: var(--button3-bg-coffee);
+    --button3-text: var(--button3-text-coffee);
+    --button4-bg: var(--button4-bg-coffee);
+    --button4-text: var(--button4-text-coffee);
+    color-scheme: dark;
+}
+
+/* winter theme */
+:root[data-theme="winter"] {
+    --bg-100: var(--bg-100-winter);
+    --bg-200: var(--bg-200-winter);
+    --bg-300: var(--bg-300-winter);
+    --text-100: var(--text-100-winter);
+    --button1-bg: var(--button1-bg-winter);
+    --button1-text: var(--button1-text-winter);
+    --button2-bg: var(--button2-bg-winter);
+    --button2-text: var(--button2-text-winter);
+    --button3-bg: var(--button3-bg-winter);
+    --button3-text: var(--button3-text-winter);
+    --button4-bg: var(--button4-bg-winter);
+    --button4-text: var(--button4-text-winter);
+    color-scheme: light;
+}
+
+/* nord theme */
+:root[data-theme="nord"] {
+    --bg-100: var(--bg-100-nord);
+    --bg-200: var(--bg-200-nord);
+    --bg-300: var(--bg-300-nord);
+    --text-100: var(--text-100-nord);
+    --button1-bg: var(--button1-bg-nord);
+    --button1-text: var(--button1-text-nord);
+    --button2-bg: var(--button2-bg-nord);
+    --button2-text: var(--button2-text-nord);
+    --button3-bg: var(--button3-bg-nord);
+    --button3-text: var(--button3-text-nord);
+    --button4-bg: var(--button4-bg-nord);
+    --button4-text: var(--button4-text-nord);
+    color-scheme: light;
+}
+
+/* sunset theme */
+:root[data-theme="sunset"] {
+    --bg-100: var(--bg-100-sunset);
+    --bg-200: var(--bg-200-sunset);
+    --bg-300: var(--bg-300-sunset);
+    --text-100: var(--text-100-sunset);
+    --button1-bg: var(--button1-bg-sunset);
+    --button1-text: var(--button1-text-sunset);
+    --button2-bg: var(--button2-bg-sunset);
+    --button2-text: var(--button2-text-sunset);
+    --button3-bg: var(--button3-bg-sunset);
+    --button3-text: var(--button3-text-sunset);
+    --button4-bg: var(--button4-bg-sunset);
+    --button4-text: var(--button4-text-sunset);
+    color-scheme: dark;
+}
