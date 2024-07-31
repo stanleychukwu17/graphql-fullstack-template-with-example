@@ -1,0 +1,11 @@
+version: "3.8"
+services:
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile.dev
+    container_name: template_nextjs_client_container
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./client:/usr/src/app
