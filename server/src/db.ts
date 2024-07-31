@@ -1,27 +1,4 @@
-import {MongoClient} from 'mongodb'
 const Pool = require('pg').Pool
-
-// define the type of callback function
-type callbackFn = (info?:any) => void
-
-// declaration of variables to be used/updated
-let dbConnection: any
-let dbUrl:string = 'mongodb://localhost:27017/bookstore'
-
-
-    // for mongodb
-export const connectToDb = (cb: callbackFn) => {
-    MongoClient.connect(dbUrl)
-    .then(client => {
-        dbConnection = client.db()
-        return cb()
-    })
-    .catch(err => {
-        return cb(err)
-    })
-}
-
-export const getDb = () => dbConnection;
 
 // for postgres
 export const pool = new Pool({
