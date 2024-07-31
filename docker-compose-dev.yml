@@ -4,13 +4,27 @@ services:
     build:
       context: ./client
       dockerfile: Dockerfile.dev
-    container_name: template_nextjs_client_container
+    container_name: template_nextjs_client
     ports:
       - "3000:3000"
     volumes:
       - ./client:/usr/src/app
-      - node_modules:/usr/src/app/node_modules
+      - client_node_modules:/usr/src/app/node_modules
       - D:/pnpm-store:/usr/src/app/pnpm-store
 
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile.dev
+    container_name: template_nodejs_server
+    ports:
+      - "5000:5000"
+    environment:
+      - PORT=5000
+    volumes:
+      - ./server:/usr/src/app
+      - backend_node_modules:/usr/src/app/node_modules
+      - D:/pnpm-store:/usr/src/app/pnpm-store
 volumes:
-  node_modules:
+  client_node_modules:
+  backend_node_modules:
