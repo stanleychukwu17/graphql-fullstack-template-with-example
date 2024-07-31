@@ -28,13 +28,13 @@ export default function ThemesMenu({closeMenu}: themesMenuProps) {
 
     // Check if the pressed key is Escape (key code 27)
     const checkIfToCloseMenu = useCallback((event: KeyboardEvent) => {
-        console.log(event.key)
+        // console.log(event.key)
         if (event.key === "Escape" || event.key === "Esc") {
             closeMenu(false);
         }
     }, [closeMenu])
 
-    // adds a "keypress" event to window
+    // adds a "keypress" event to window, so we can use the "Esc" key to close the theme options menu
     useEffect(() => {
         window.addEventListener("keydown", checkIfToCloseMenu)
 
