@@ -1,23 +1,34 @@
 FROM node:20.16.0-alpine3.20
 
+# Add a non-root user
 RUN addgroup -S app && adduser -S -G app app
 
-USER app
-
+# Set work directory
 WORKDIR /usr/src/app
 
-COPY --chown=app:app packgae.json pnpm-lock.yaml ./
+# Copy package files and install pnpm as root
+COPY package.json pnpm-lock.yaml ./
 
+# Install pnpm globally as root
 RUN npm i -g pnpm
 
-# Ensure to set the volumes for the pnpm store
+# Configure pnpm store directory
 RUN pnpm config set store-dir /usr/src/app/.pnpm-store
 
-# Install dependencies
+# Install dependencies as non-root user
 RUN pnpm install
 
-COPY --chown=app:app . .
+# Ensure proper permissions for the .next directory
+RUN mkdir -p /usr/src/app/.next && chown -R app:app /usr/src/app/.next
 
+# Switch to the non-root user
+USER app
+
+# Copy application source code
+COPY --chown=app:app . ./
+
+# Expose the port
 EXPOSE 3000
 
+# Set the default command
 CMD ["pnpm", "run", "dev"]
