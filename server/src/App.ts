@@ -2,8 +2,7 @@
 import express, {Express} from 'express'
 import cors from 'cors'
 require('dotenv').config()
-const {ObjectId} = require('mongodb');
-const {connectToDb, getDb, pool} = require('./db')
+const {pool} = require('./db')
 
 import gql from "graphql-tag";
 import { ApolloServer } from '@apollo/server';
@@ -89,30 +88,20 @@ async function startApolloServer (app: Express) {
 startApolloServer(app)
 
 //* connect to the postgres database and then allow express to receive request
-pool.connect((err: any, client: any, release: () => void) => {
-    if (err) {
-        return console.log('Error connecting to the postgresSQL database, because: ', err.stack)
-    }
-
-    app.listen(port, () => {
-        console.log(`now listening to request from port ${port}`)
-        routes(app)
-    })
-
-    release()
-})
-
-//* opens connection to the mongodb database before listening for request
-// let db: any
-// connectToDb((err: any) => {
-//     if (!err) {
-//         app.listen(port, () => {
-//             console.log(`now listening to request from port ${port}`)
-//         })
-
-//         // updates our database variable
-//         db = getDb()
-//     } else {
-//         console.log(`we have an error, error: ${err}`)
+// pool.connect((err: any, client: any, release: () => void) => {
+//     if (err) {
+//         return console.log('Error connecting to the postgresSQL database, because: ', err.stack)
 //     }
+
+//     app.listen(port, () => {
+//         console.log(`now listening to request from port ${port}`)
+//         routes(app)
+//     })
+
+//     release()
 // })
+
+app.listen(port, () => {
+    console.log(`now listening to request from port ${port}`)
+    routes(app)
+})
