@@ -37,45 +37,58 @@ export function update_the_userDetails_information (cached_user_details: string|
     }
 }
 
-const cached_user_dts = window.localStorage.getItem('userDts') // the user details stored to the localStorage whenever a user logs in
-update_the_userDetails_information(cached_user_dts);
+try {
+    const cached_user_dts = window.localStorage.getItem('userDts') // the user details stored to the localStorage whenever a user logs in
+    update_the_userDetails_information(cached_user_dts);
+} catch (err: any) {
+    // console.log(err.message) = window is not defined
+}
+
 //--END--
 
-//--START-- validates the accessToken and Refresh token every 24_hour
+//--START--
+//validates the accessToken and Refresh token every 24_hour
 export function check_if_we_can_run_the_access_token_health_check (uDts: userDetailsType) {
-    const last_24hr_check = localStorage.getItem('last_24hr_check')
+    try {
+        const last_24hr_check = window.localStorage.getItem('last_24hr_check')
 
-    if (last_24hr_check) {
-        const storedDate = new Date(last_24hr_check).getTime() // .getTime() returns the number of milliseconds
-        const currentDate = new Date().getTime() // .getTime() returns the number of milliseconds
-        const hourDiff = (currentDate - storedDate) / (1000 * 60 * 60); // converts the difference to hours.. since i want to know if the last check has been older than an 24hours
-    
-        if (hourDiff >= 24 && uDts.loggedIn === 'yes') {
-            run_access_token_health_check(uDts)
+        if (last_24hr_check) {
+            const storedDate = new Date(last_24hr_check).getTime() // .getTime() returns the number of milliseconds
+            const currentDate = new Date().getTime() // .getTime() returns the number of milliseconds
+            const hourDiff = (currentDate - storedDate) / (1000 * 60 * 60); // converts the difference to hours.. since i want to know if the last check is now over 24hours
+        
+            if (hourDiff >= 24 && uDts.loggedIn === 'yes') {
+                run_access_token_health_check(uDts)
+            }
+        } else {
+            const current_time = new Date()
+            localStorage.setItem('last_24hr_check', `${current_time}`)
         }
-    } else {
-        const current_time = new Date()
-        localStorage.setItem('last_24hr_check', `${current_time}`)
+    } catch(err: any) {
+        console.log(err.message)
     }
 }
 
 export async function run_access_token_health_check (uDts: userDetailsType) {
     axios.post(`${backEndPort}/healthCheck/accessToken`, uDts, {headers: {'Content-Type': 'application/json'}})
     .then(re => {
-        // update the lastTime checked to be the current time
-        localStorage.setItem('last_24hr_check', `${new Date()}`)
+        // be sure that next.js is not compiling in server mode
+        if (window.localStorage) {
+            // update the lastTime checked to be the current time
+            window.localStorage.setItem('last_24hr_check', `${new Date()}`)
 
-        // if true, then it means the accessToken has expired and the refreshToken has also expired
-        if (re.data.msg === 'bad' && re.data.action === 'logout') {
-            localStorage.removeItem('userDts')
-            location.href = '/logout'
-            return true;
-        }
+            // if true, then it means the accessToken has expired and the refreshToken has also expired
+            if (re.data.msg === 'bad' && re.data.action === 'logout') {
+                localStorage.removeItem('userDts')
+                location.href = '/logout'
+                return true;
+            }
 
-        // the below means the accessToken has expired and so a new accessToken was generated
-        if (re.data.msg === 'okay' && re.data.new_token === 'yes') {
-            localStorage.setItem('userDts', JSON.stringify({...uDts, accessToken:re.data.dts.newAccessToken}));
-            location.reload()
+            // the below means the accessToken has expired and so a new accessToken was generated
+            if (re.data.msg === 'okay' && re.data.new_token === 'yes') {
+                localStorage.setItem('userDts', JSON.stringify({...uDts, accessToken:re.data.dts.newAccessToken}));
+                location.reload()
+            }
         }
     })
     .catch(err => { })
