@@ -9,8 +9,7 @@ services:
       - "3000:3000"
     volumes:
       - ./client:/usr/src/app
-      - client_node_modules:/usr/src/app/node_modules
-      - D:/pnpm-store:/usr/src/app/pnpm-store
+    command: npm run dev
 
   server:
     build:
@@ -23,8 +22,4 @@ services:
       - PORT=5000
     volumes:
       - ./server:/usr/src/app
-      - backend_node_modules:/usr/src/app/node_modules
-      - D:/pnpm-store:/usr/src/app/pnpm-store
-volumes:
-  client_node_modules:
-  backend_node_modules:
+    # command: npm run dev
