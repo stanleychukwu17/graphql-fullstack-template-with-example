@@ -1,0 +1,30 @@
+FROM node:20.16.0-alpine3.20
+
+# Add a non-root user
+RUN addgroup -S app && adduser -S -G app app
+
+# Set work directory
+WORKDIR /usr/src/app
+
+# Copy package files and install pnpm as root
+COPY package*.json ./
+
+# Install nodemon
+RUN npm i -g nodemon
+
+# Install dependencies using npm
+RUN npm install
+
+# Switch to the non-root user
+USER app
+
+# Copy application source code
+COPY --chown=app:app . ./
+
+# Expose the port
+EXPOSE 5000
+
+# set the desired pot for the backend connection
+ENV PORT=5000
+
+# CMD ["npm", "run", "dev"]
