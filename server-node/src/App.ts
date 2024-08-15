@@ -22,7 +22,6 @@ import { get_the_line_where_this_error_occurred } from './functions/utils'
 //--END--
 
 
-
 //* creates an express app
 const port = process.env.PORT || 4000
 const app = express();
@@ -75,13 +74,6 @@ async function startApolloServer (app: Express) {
     } catch (err) {
         console.error('Error reading or parsing the file:', err);
     }
-
-
-
-
-
-
-
 
     console.log('graphql server up and running')
 }
