@@ -7,16 +7,10 @@ RUN addgroup -S app && adduser -S -G app app
 WORKDIR /usr/src/app
 
 # Copy package files and install pnpm as root
-COPY package.json pnpm-lock.yaml ./
+COPY package*.json ./
 
-# Install pnpm globally as root
-RUN npm i -g pnpm
-
-# Configure pnpm store directory
-RUN pnpm config set store-dir /usr/src/app/.pnpm-store
-
-# Install dependencies as non-root user
-RUN pnpm install
+# Install dependencies using npm
+RUN npm install
 
 # Ensure proper permissions for the .next directory
 RUN mkdir -p /usr/src/app/.next && chown -R app:app /usr/src/app/.next
@@ -31,4 +25,4 @@ COPY --chown=app:app . ./
 EXPOSE 3000
 
 # Set the default command
-CMD ["pnpm", "run", "dev"]
+# CMD ["npm", "run", "dev"]
