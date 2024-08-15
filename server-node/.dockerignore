@@ -1,0 +1,42 @@
+# General base
+Dockerfile*
+Makefile
+.git
+.gitignore
+.dockerignore
+README.md
+
+
+# Node modules
+node_modules
+npm-debug.log
+yarn-error.log
+pnpm-debug.log
+
+# Build output and cache
+.next/
+out/
+build/
+*.log
+
+# Environment and configuration files
+.env
+.env.local
+.env.*.local
+
+# IDE and editor files
+.vscode/
+.idea/
+*.suo
+*.ntvs_analysis.dat
+*.DS_Store
+
+# Logs and temporary files
+*.log
+tmp/
+*.swp
+
+# Other potentially sensitive files
+*.pem
+*.key
+*.crt

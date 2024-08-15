@@ -1,0 +1,9 @@
+task
+commit all the changes
+make sure the frontEnd and BackEnd of the node.js app is working properly
+write the ci/cd for the front end
+write the ci/cd for the backend
+---
+when terraform and github actions completed {
+    deploy to staging and make sure working when merged with main branch
+}
