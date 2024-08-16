@@ -1,0 +1,31 @@
+# air.toml
+
+# Root directory of the project
+root = "."
+
+# Build command and binary location
+[build]
+cmd = "go build -o tmp/main ."  # Command to build your application and place the binary in the tmp folder
+bin = "tmp/main"                # Path to the binary file
+
+# Watch configuration
+[watch]
+include = [
+  "**/*.go",
+  "config/**",
+  "templates/**"
+]
+exclude = [
+  "vendor/**",
+  "*.tmp",
+  "*.log"
+]
+delay = 200   # 200ms delay before restarting the application
+
+# Log configuration
+[log]
+time = "2006-01-02 15:04:05"   # Custom time format for log timestamps
+
+# Display log output
+[logger]
+time = true
