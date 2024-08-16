@@ -1,0 +1,40 @@
+# Binaries
+*.exe
+*.dll
+*.so
+*.dylib
+*.out
+*.a
+
+# Go test binary
+*.test
+
+# Generated files
+dist/
+build/
+
+# Dependency directories (vendor/)
+vendor/
+
+# Logs
+*.log
+
+# Configuration files
+.env
+
+# IDE/editor specific files
+.vscode/
+.idea/
+*.swp
+*~
+*.sublime-workspace
+*.sublime-project
+
+# MacOS specific files
+.DS_Store
+
+# Linux specific files
+*~
+
+# Windows specific files
+Thumbs.db
