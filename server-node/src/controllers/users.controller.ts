@@ -84,7 +84,7 @@ export async function register_a_new_user(userInfo:userRegisterInfo) {
     // saves the new user to the database
     try {
         const newTodo = await pool.query(
-            "INSERT INTO users (name, username, email, password, gender, date_added) VALUES ($1, $2, $3, $4, $5, now()) RETURNING *",
+            "INSERT INTO users (name, username, email, password, gender, created_at) VALUES ($1, $2, $3, $4, $5, now()) RETURNING *",
             [name.toLowerCase(), username.toLowerCase(), email.toLowerCase(), hash, gender]
         )
         return show_good_message('Your registration was successfully completed, You can now login with your username/email and password')
