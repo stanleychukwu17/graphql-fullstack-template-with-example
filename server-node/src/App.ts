@@ -19,13 +19,18 @@ import deserializeUser from './middleware/deserializeUser'
 // for the error logger
 import {log, errorLogger} from './logger'
 import { get_the_line_where_this_error_occurred } from './functions/utils'
+import {createTables} from './controllers/dbMigrate.controllers'
 //--END--
 
 
-//* creates an express app
-const port = process.env.PORT || 4000
-const app = express();
+//* verify that a port for the backEnd is provided
+const port = process.env.PORT
+if (port === undefined || port === '') {
+    throw new Error('Server startup failed: No port specified. Please set the PORT environment variable and try again.');
+}
 
+//* creates an express app
+const app = express();
 
 //* Middlewares
 app.use(express.json());
@@ -49,7 +54,7 @@ const logError = () => {
 }
 // logError()
 
-//* starts the apollo server - http://localhost:4000/graphql
+//* starts the apollo server
 async function startApolloServer (app: Express) {
     // Get the absolute path to the schema file
     const schemaFilePath = path.join(__dirname, 'graphql', 'schema.graphql');
@@ -75,7 +80,7 @@ async function startApolloServer (app: Express) {
         console.error('Error reading or parsing the file:', err);
     }
 
-    console.log('graphql server up and running')
+    console.log(`graphql server up and running at: http://localhost:${port}/graphql`);
 }
 startApolloServer(app)
 
@@ -85,8 +90,15 @@ pool.connect((err: any, client: any, release: () => void) => {
         return console.log('Error connecting to the postgresSQL database, because: ', err.stack)
     }
 
-    app.listen(port, () => {
+    // listen to requests on 
+    app.listen(port, async () => {
         console.log(`now listening to request from port ${port}`)
+
+        // Call the function to create tables
+        createTables()
+            .then(() => console.log('Migration of database tables completed.'))
+            .catch(err => console.error('Migration of database tables failed:', err.message));
+
         routes(app)
     })
 
