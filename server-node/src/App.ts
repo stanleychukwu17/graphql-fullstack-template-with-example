@@ -80,20 +80,15 @@ async function startApolloServer (app: Express) {
 startApolloServer(app)
 
 //* connect to the postgres database and then allow express to receive request
-// pool.connect((err: any, client: any, release: () => void) => {
-//     if (err) {
-//         return console.log('Error connecting to the postgresSQL database, because: ', err.stack)
-//     }
+pool.connect((err: any, client: any, release: () => void) => {
+    if (err) {
+        return console.log('Error connecting to the postgresSQL database, because: ', err.stack)
+    }
 
-//     app.listen(port, () => {
-//         console.log(`now listening to request from port ${port}`)
-//         routes(app)
-//     })
+    app.listen(port, () => {
+        console.log(`now listening to request from port ${port}`)
+        routes(app)
+    })
 
-//     release()
-// })
-
-app.listen(port, () => {
-    console.log(`now listening to request from port ${port}`)
-    routes(app)
+    release()
 })
