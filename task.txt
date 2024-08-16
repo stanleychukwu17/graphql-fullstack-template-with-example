@@ -1,19 +1,19 @@
-DONE: build your images
-DONE: start the postgres container
-DONE: run the client and node containers separate
-DONE: Fix: error of user is not defined
+DONE: create a migration script and Run migration
+DONE: create a new user and verify that user has been created
+DONE: login with the user created, logout, login again
+
 ---
+NOTE: try both the front and backend on docker
+
 Node {
-    merge into the main branch
-    ensure that backend is connected to server
-    create a new user
-    login with the user created
-    logout
-    login again
-    make sure the frontEnd and BackEnd of the node.js app is working properly
     ---
+    watch video on graphQl and jwt authentication
     finish working on the graphQl side
     ---
+    sort images and videos downloaded - 1hr
+    ---
+    {revise jest *2}
+    {revise cypress *2}
     write the ci/cd for the front end
     make sure the test coverage is above 90%
     ---
@@ -21,9 +21,7 @@ Node {
     make sure the test coverage is above 90%
     ---
     later {
-        server-node: work on the backend, convert all utility functions to classes 
-        write the test for all the functions
-        work on the ci/cd and make sure test coverage is above 90%
+        ---
         deploy staging to aws and test to make sure all is working properly
         create your database @ railway for staging
     }
