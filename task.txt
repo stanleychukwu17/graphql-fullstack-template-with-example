@@ -2,14 +2,15 @@ DONE: build your images
 DONE: start the postgres container
 DONE: run the client and node containers separate
 DONE: Fix: error of user is not defined
+DONE: ensure that backend is connected to server
 ---
 Node {
-    merge into the main branch
-    ensure that backend is connected to server
+    create a migration script
     create a new user
     login with the user created
     logout
     login again
+    ---
     make sure the frontEnd and BackEnd of the node.js app is working properly
     ---
     finish working on the graphQl side
