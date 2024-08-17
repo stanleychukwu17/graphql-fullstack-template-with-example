@@ -42,11 +42,6 @@ func main() {
 	// Create new Fiber instance
 	app := fiber.New()
 
-	// Create GET route on path "/"
-	app.Get("/healthCheck", func(context *fiber.Ctx) error {
-		return context.SendString("Hello, World!")
-	})
-
 	// setUp routes
 	routes.SetUpRoutes(app, db)
 
