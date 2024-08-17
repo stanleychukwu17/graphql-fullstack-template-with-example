@@ -9,6 +9,7 @@ import (
 	"github.com/joho/godotenv"
 
 	"github.com/stanleychukwu17/graphql-fullstack-template-with-example/server-golang/database"
+	"github.com/stanleychukwu17/graphql-fullstack-template-with-example/server-golang/models"
 	"github.com/stanleychukwu17/graphql-fullstack-template-with-example/server-golang/routes"
 )
 
@@ -32,13 +33,14 @@ func main() {
 		fmt.Println("Connected to database", db)
 	}
 
+	// Automatically migrate your schema :: err = db.AutoMigrate(&models.User{}, &models.Book{})
+	err = db.AutoMigrate(&models.User{})
+	if err != nil {
+		log.Fatalf("failed to migrate database: %v", err)
+	}
+
 	// Create new Fiber instance
 	app := fiber.New()
-
-	// Create GET route on path "/"
-	app.Get("/healthCheck", func(context *fiber.Ctx) error {
-		return context.SendString("Hello, World!")
-	})
 
 	// setUp routes
 	routes.SetUpRoutes(app, db)
