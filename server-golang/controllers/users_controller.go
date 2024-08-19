@@ -31,6 +31,31 @@ func (u *UsersController) RegisterUser(ctx *fiber.Ctx) error {
 		)
 	}
 
+	// check to see if the email already or username exist
+	var found_id uint
+	err := u.DB.Raw("SELECT id FROM users WHERE username = ? OR email = ? LIMIT 1", user.Username, user.Email).Scan(&found_id).Error
+	if err != nil {
+		return err
+	}
+	if found_id > 0 {
+		return ctx.Status(fiber.StatusUnprocessableEntity).JSON(
+			utils.Show_bad_message("Email or username already exist"),
+		)
+	}
+
+	// hash the password using bcrypt
+	hashedPassword, err := utils.HashPassword(user.Password)
+	if err != nil {
+		return err
+	}
+	user.Password = hashedPassword
+
+	// save the new user to the database
+	err = u.DB.Create(&user).Error
+	if err != nil {
+		return err
+	}
+
 	return ctx.Status(fiber.StatusOK).JSON(
 		utils.Show_good_message("User created successfully from controller"),
 	)
