@@ -62,14 +62,15 @@ export async function register_a_new_user(userInfo:userRegisterInfo) {
         if (qEmail.rows.length > 0) {
             return show_bad_message('This email already exists')
         }
-    } catch (err) {
 
-    }
-
-    // checks to see if the username already exists
-    const qUsername = await pool.query("SELECT id from users where username = $1 limit 1", [username])
-    if (qUsername.rows.length > 0) {
-        return show_bad_message('This username already exists')
+        // checks to see if the username already exists
+        const qUsername = await pool.query("SELECT id from users where username = $1 limit 1", [username])
+        if (qUsername.rows.length > 0) {
+            return show_bad_message('This username already exists')
+        }
+    } catch (err: any) {
+        console.log(err.message)
+        return show_bad_message(err.message)
     }
 
     if (password.length <= 4) {
