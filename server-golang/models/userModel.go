@@ -11,5 +11,5 @@ type User struct {
 	Email      string    `gorm:"uniqueIndex;type:varchar(100);not null" json:"email,omitempty"`
 	Password   string    `gorm:"type:varchar(100);not null" json:"password,omitempty"`
 	Gender     string    `gorm:"type:varchar(100);not null" json:"gender,omitempty"`
-	Created_at time.Time `json:"created_at,omitempty"`
+	Created_at time.Time `gorm:"type:datetime(0);not null;autoCreateTime" json:"created_at,omitempty"`
 }
