@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strings"
 
 	"github.com/gofiber/fiber/v2"
 	"gorm.io/gorm"
@@ -121,7 +122,7 @@ func (u *UsersController) LoginThisUser(ctx *fiber.Ctx) error {
 	// create access and refresh tokens
 	payload := map[string]interface{}{
 		"session_fid": int(sessionDts.FakeId),
-		"created_at":  sessionDts.CreatedAt,
+		"created_at":  strings.Split(fmt.Sprintf("%v", sessionDts.CreatedAt), " ")[0],
 	}
 
 	// retrieve the accessToken and the refreshToken
@@ -131,14 +132,13 @@ func (u *UsersController) LoginThisUser(ctx *fiber.Ctx) error {
 		return ctx.Status(fiber.StatusBadRequest).JSON(utils.Show_bad_message(err.Error()))
 	}
 
+	// return the access and refresh tokens
 	response := map[string]string{
 		"Msg":          "okay",
 		"Name":         userDts.Name,
 		"AccessToken":  accessToken,
 		"RefreshToken": refreshToken,
 	}
-	fmt.Printf("access token: %+v\n refresh token: %+v", accessToken, refreshToken)
-
 	return ctx.Status(fiber.StatusOK).JSON(response)
 }
 
