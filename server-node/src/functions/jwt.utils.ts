@@ -49,7 +49,7 @@ export function signJWT(payload: object, expiresIn: string | number) {
 
 // verify jwt
 export function verifyJWT(token: string) {
-    // the jwt.verify was wrapped in a try {} catch block because, if jwt.verify is not able to verify a token, it throws an error and this can crash our application
+    // the jwt.verify was wrapped in a try {} catch block because, if jwt.verify is not able to verify a token, it throws an error and this can crash the application
     try {
         const decoded = jwt.verify(token, publicKey);
         return { payload: decoded, expired: false };
