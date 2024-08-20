@@ -24,6 +24,7 @@ func (u *UsersRoutes) SetUpRoutes(app *fiber.App) {
 
 	api.Get("/", u.GetAllUsers)                      // Handles GET requests to "/users" by invoking the GetAllUsers method.
 	api.Post("/registerUser", uControl.RegisterUser) // Handles POST requests to "/users/registerNewUser" by invoking the RegisterUser method.
+	api.Post("/loginUser", uControl.LoginThisUser)   // Handles POST requests to "/users/loginUser" by invoking the LoginThisUser method.
 }
 
 // GetAllUsers gets all the registered users
