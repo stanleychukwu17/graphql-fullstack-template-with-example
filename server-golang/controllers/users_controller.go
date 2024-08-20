@@ -8,18 +8,13 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"gorm.io/gorm"
 
+	"github.com/stanleychukwu17/graphql-fullstack-template-with-example/server-golang/configs"
 	"github.com/stanleychukwu17/graphql-fullstack-template-with-example/server-golang/models"
 	"github.com/stanleychukwu17/graphql-fullstack-template-with-example/server-golang/utils"
 )
 
 type UsersController struct {
 	DB *gorm.DB
-}
-type checkSession struct {
-	ID     uint16 `json:"id"`
-	FakeId uint32 `json:"fake_id"`
-	Active string `json:"active"`
-	Msg    string `json:"msg"`
 }
 
 // route to register a new user
@@ -82,6 +77,7 @@ func (u *UsersController) RegisterUser(ctx *fiber.Ctx) error {
 func (u *UsersController) LoginThisUser(ctx *fiber.Ctx) error {
 	user := models.User{}
 	userDts := models.User{}
+	envs := configs.Envs
 
 	// Parse the request body & bind it to the book struct
 	if err := ctx.BodyParser(&user); err != nil {
@@ -103,7 +99,7 @@ func (u *UsersController) LoginThisUser(ctx *fiber.Ctx) error {
 	}
 
 	// checks to see if the user exists in our database
-	err := u.DB.Raw("SELECT id, username, password FROM users WHERE username = ? or email = ? LIMIT 1", user.Username, user.Username).Scan(&userDts).Error
+	err := u.DB.Raw("SELECT id, name, username, password FROM users WHERE username = ? or email = ? LIMIT 1", user.Username, user.Username).Scan(&userDts).Error
 	if err != nil {
 		return ctx.Status(fiber.StatusBadRequest).JSON(utils.Show_bad_message(err.Error()))
 	}
@@ -123,24 +119,40 @@ func (u *UsersController) LoginThisUser(ctx *fiber.Ctx) error {
 	sessionDts := u.createSession(userDts.ID)
 
 	// create access and refresh tokens
-	payload := map[string]interface{}{"session_fid": int(sessionDts.FakeId)}
-	accessToken, err := utils.SignJWT(payload, 7)
+	payload := map[string]interface{}{
+		"session_fid": int(sessionDts.FakeId),
+		"created_at":  sessionDts.CreatedAt,
+	}
+
+	// retrieve the accessToken and the refreshToken
+	accessToken, err := utils.SignJWT(payload, envs.JWT_TIME_1)
+	refreshToken, _ := utils.SignJWT(payload, envs.JWT_TIME_2)
 	if err != nil {
 		return ctx.Status(fiber.StatusBadRequest).JSON(utils.Show_bad_message(err.Error()))
 	}
 
-	fmt.Printf("access token: %+v\n", accessToken)
+	response := map[string]string{
+		"Msg":          "okay",
+		"Name":         userDts.Name,
+		"AccessToken":  accessToken,
+		"RefreshToken": refreshToken,
+	}
+	fmt.Printf("access token: %+v\n refresh token: %+v", accessToken, refreshToken)
 
-	return ctx.Status(fiber.StatusOK).JSON(
-		utils.Show_good_message("User logged in successfully from controller"),
-	)
+	return ctx.Status(fiber.StatusOK).JSON(response)
+}
+
+// createSession creates a new session for the user_id received
+type checkSession struct {
+	Msg string `json:"msg"`
+	models.UsersSession
 }
 
 func (u *UsersController) createSession(userId uint16) checkSession {
 	uSession := checkSession{}
 
 	// checks to see if there are any active sessions for this user
-	u.DB.Raw("SELECT id, fake_id, user_id, active FROM users_session WHERE user_id = ? and active = 'yes' LIMIT 1", userId).Scan(&uSession)
+	u.DB.Raw("SELECT * FROM users_session WHERE user_id = ? and active = 'yes' LIMIT 1", userId).Scan(&uSession)
 	if uSession.ID > 0 && uSession.Active == "yes" {
 		uSession.Msg = "okay"
 		return uSession
@@ -153,7 +165,7 @@ func (u *UsersController) createSession(userId uint16) checkSession {
 	}
 
 	// fetch the current active session
-	u.DB.Raw("SELECT id, fake_id, user_id, active FROM users_session WHERE user_id = ? and active = 'yes' LIMIT 1", userId).Scan(&uSession)
+	u.DB.Raw("SELECT * FROM users_session WHERE user_id = ? and active = 'yes' LIMIT 1", userId).Scan(&uSession)
 	uSession.Msg = "okay"
 	sessionId := uSession.ID
 	new_fake_id := utils.Generate_fake_id(int(sessionId)) // Generate a new fake_id
@@ -164,5 +176,6 @@ func (u *UsersController) createSession(userId uint16) checkSession {
 		log.Fatalln(err.Error())
 	}
 
+	uSession.FakeId = uint32(new_fake_id)
 	return uSession
 }
