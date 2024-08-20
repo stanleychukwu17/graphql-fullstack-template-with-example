@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken";
 
 // i had some issues with the previous private key that i used. it was not upto 2048bit and did not meet the standard requirements for jwt RS256...
 // if found a site for the generation of this public and private key - https://travistidwell.com/jsencrypt/demo/
+// use https://8gwifi.org/jwsgen.jsp - to generate a public and private key for HS256
 // after jwt.sign, an access token is generated, this token can be verified @ the jwt.io website, just paste the access token into the encoded and then you'll see the decoded payload
 const privateKey = `
 -----BEGIN RSA PRIVATE KEY-----
@@ -49,7 +50,7 @@ export function signJWT(payload: object, expiresIn: string | number) {
 
 // verify jwt
 export function verifyJWT(token: string) {
-    // the jwt.verify was wrapped in a try {} catch block because, if jwt.verify is not able to verify a token, it throws an error and this can crash our application
+    // the jwt.verify was wrapped in a try {} catch block because, if jwt.verify is not able to verify a token, it throws an error and this can crash the application
     try {
         const decoded = jwt.verify(token, publicKey);
         return { payload: decoded, expired: false };
