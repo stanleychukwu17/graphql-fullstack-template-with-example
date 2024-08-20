@@ -20,7 +20,7 @@ type UsersSession struct {
 	FakeId    uint32    `gorm:"uniqueIndex;type:int unsigned" json:"fake_id,omitempty"`
 	UserId    uint16    `gorm:"type:smallint;index" json:"user_id,omitempty"`
 	Active    string    `gorm:"type:varchar(100);not null;default:'yes'" json:"active,omitempty"`
-	CreatedAt time.Time `gorm:"type:datetime(0);not null;autoCreateTime" json:"created_at,omitempty"`
+	CreatedAt time.Time `gorm:"type:date;not null;" json:"created_at,omitempty"`
 }
 
 // TableName overrides the default table name for the UsersSession struct
