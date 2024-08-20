@@ -1,10 +1,4 @@
-DONE: create a migration script and Run migration
-DONE: create a new user and verify that user has been created
-DONE: login with the user created, logout, login again
-DONE: bring in air.toml
-DONE: start up the server and verify it is working
-DONE: work on the users struct
-DONE: work on the users repo
+
 
 ---
 NOTE: try both the front and backend on docker
@@ -49,17 +43,19 @@ Node {
     }
 }
 Golang {
-    DONE: migrate the table
-    DONE: start the process of restring a new user
-    finish the registration of users
-    orange the code to use controller
-    round up registration
-    ---
-    test it from the Frontend
-    --
+    DONE: Finish registration
+    DONE: add timezone to table
     ---
     use Golang to learn jwt
     integrate jwt into app
     now work on the login aspect
     work on the logout
+    ---
+    make the timezone dynamic, use an utils function to fetch the timezone
+    ---
+    2:30pm
+    testing
+    5:00pm
+    ci/cd
+    7:00pm
 }
