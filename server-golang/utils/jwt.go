@@ -5,12 +5,13 @@ import (
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
+	"github.com/stanleychukwu17/graphql-fullstack-template-with-example/server-golang/configs"
 )
 
 // Your function to sign JWT
 func SignJWT(payload map[string]interface{}, days int) (string, error) {
 	// pemData := os.Getenv("PRIVATE_KEY")
-	privateKey := []byte(`dJG4adoN4lkYivFtW/EjI07AgaGy8124S/dmWTDzedE=`)
+	privateKey := []byte(configs.Envs.JWT_SECRET)
 
 	// Convert the duration string "7d" to time.Duration
 	expiresIn := time.Duration(days*24) * time.Hour

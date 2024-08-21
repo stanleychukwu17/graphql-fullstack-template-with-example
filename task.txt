@@ -17,45 +17,63 @@ NEEDED: key goals {
     Frontend: Finish the cypress test and coverage
     Frontend: Finish the Frontend test CI/CD
 }
+NEEDED: when all keyGoals is completed, please start my us vs and OdiUp
 
-Node {
+
+deploy {
+    deploy to staging and make sure working when merged with main branch
     ---
+    deploy staging to aws and test to make sure all is working properly
+    create your database @ railway for staging
+}
+FrontEnd {
+    {revise jest *2}
+    {revise cypress *2}
+    finish test coverage both 90%
+    ---
+    ci/cd both with serious testing
+    ---
+    dockerize
+    ---
+    move to node-backend
+}
+Node {
     watch video on graphQl and jwt authentication
     finish working on the graphQl side
     ---
-    sort images and videos downloaded - 1hr
+    finish test coverage 90%
     ---
-    {revise jest *2}
-    {revise cypress *2}
-    write the ci/cd for the front end
-    make sure the test coverage is above 90%
+    write the ci/cd for the backend, make sure the test coverage is above 90%
     ---
-    write the ci/cd for the backend
-    make sure the test coverage is above 90%
-    ---
-    later {
-        ---
-        deploy staging to aws and test to make sure all is working properly
-        create your database @ railway for staging
-    }
-    when terraform and github actions completed {
-        deploy to staging and make sure working when merged with main branch
-    }
 }
 Golang {
-    DONE: Finish registration
-    DONE: add timezone to table
+    Goals:
+    commit all chang
+    finish all unit testing
+    finish all integration testing
+    finish the ci/cd pipeline
+    Finish jest revision*2
+    *Finish cypress revision*2
+    *No move to FrontEnd
+
+    commit the code
+    write integrate
     ---
-    use Golang to learn jwt
-    integrate jwt into app
-    now work on the login aspect
-    work on the logout
+    ci/cd with testing check
     ---
-    make the timezone dynamic, use an utils function to fetch the timezone
+    dockerize the app to test whats-up
     ---
-    2:30pm
-    testing
-    5:00pm
-    ci/cd
-    7:00pm
+    5:00 to 6pm
+
+    later {
+        verify a user login - function, the middleware parole
+        work on the logout
+        add cors to the application if the mode is production
+    }
+
+    testing {
+        test all repo: go test -coverprofile=coverage.out ./...
+        test report: go tool cover -html=coverage.out -o coverage.html
+        see more info: go test -v ./...
+    }
 }

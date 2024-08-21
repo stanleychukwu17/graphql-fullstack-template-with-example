@@ -8,6 +8,7 @@
 
 # Go test binary
 *.test
+coverage.html
 
 # Generated files
 dist/

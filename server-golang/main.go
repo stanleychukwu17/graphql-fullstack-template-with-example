@@ -3,52 +3,45 @@ package main
 import (
 	"fmt"
 	"log"
-	"os"
 
 	"github.com/gofiber/fiber/v2"
-	"github.com/joho/godotenv"
+	"gorm.io/gorm"
 
+	"github.com/stanleychukwu17/graphql-fullstack-template-with-example/server-golang/configs"
 	"github.com/stanleychukwu17/graphql-fullstack-template-with-example/server-golang/database"
 	"github.com/stanleychukwu17/graphql-fullstack-template-with-example/server-golang/models"
 	"github.com/stanleychukwu17/graphql-fullstack-template-with-example/server-golang/routes"
 )
 
-func main() {
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatalf("Error loading .env file: %v", err)
-	}
-
-	// port should come from .env
-	port, exists := os.LookupEnv("PORT")
-	if !exists {
-		log.Fatalf("PORT environment variable is required but not set")
-	}
-
-	// Connect to database
+// set up new fiber application
+func setup() (*fiber.App, *gorm.DB, error) {
+	// establish database connection
 	db, err := database.NewConnection()
 	if err != nil {
-		log.Fatalf("Error connecting to database: %v", err)
-	} else {
-		fmt.Println("Connected to database", db)
+		return nil, nil, fmt.Errorf("error connecting to database: %v", err)
 	}
 
-	// Automatically migrate your schema :: err = db.AutoMigrate(&models.User{}, &models.Book{})
+	// migrate the database, create tables if they don't exist
 	err = db.AutoMigrate(&models.User{}, &models.UsersSession{})
 	if err != nil {
-		log.Fatalf("failed to migrate database: %v", err)
+		return nil, nil, fmt.Errorf("failed to migrate database: %v", err)
 	}
 
-	// Create new Fiber instance
+	// set up fiber application
 	app := fiber.New()
-
-	// setUp routes
 	routes.SetUpRoutes(app, db)
 
-	// Print message to console
-	fmt.Printf(`🚀 Server running on %s, see http://localhost:%s & for healthCheck see http://localhost:%s/healthCheck`, port, port, port)
+	return app, db, nil
+}
+
+func main() {
+	app, _, err := setup()
+	if err != nil {
+		log.Fatalf("Failed to set up: %v", err)
+	}
 
 	// Start server
+	port := configs.Envs.PORT
+	fmt.Printf(`🚀 Server running on %s, see http://localhost:%s & for healthCheck see http://localhost:%s/healthCheck`, port, port, port)
 	app.Listen(fmt.Sprintf(":%s", port))
-
 }
