@@ -22,13 +22,6 @@ func (u *UsersRoutes) SetUpRoutes(app *fiber.App) {
 	// initialize the users controller
 	uControl := &controllers.UsersController{DB: u.DB}
 
-	api.Get("/", u.GetAllUsers)                      // Handles GET requests to "/users" by invoking the GetAllUsers method.
 	api.Post("/registerUser", uControl.RegisterUser) // Handles POST requests to "/users/registerNewUser" by invoking the RegisterUser method.
 	api.Post("/loginUser", uControl.LoginThisUser)   // Handles POST requests to "/users/loginUser" by invoking the LoginThisUser method.
-}
-
-// GetAllUsers gets all the registered users
-func (u *UsersRoutes) GetAllUsers(ctx *fiber.Ctx) error {
-	ctx.Status(fiber.StatusOK).JSON(fiber.Map{"msg": "okay", "cause": "Users route says:Hello, World!"})
-	return nil
 }

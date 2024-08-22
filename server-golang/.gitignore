@@ -6,6 +6,8 @@
 *.out
 *.a
 
+.workflows
+
 # Go test binary
 *.test
 coverage.html

@@ -10,7 +10,6 @@ import (
 
 // Your function to sign JWT
 func SignJWT(payload map[string]interface{}, days int) (string, error) {
-	// pemData := os.Getenv("PRIVATE_KEY")
 	privateKey := []byte(configs.Envs.JWT_SECRET)
 
 	// Convert the duration string "7d" to time.Duration
