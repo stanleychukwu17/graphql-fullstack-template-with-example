@@ -16,7 +16,7 @@ import (
 // set up new fiber application
 func setup() (*fiber.App, *gorm.DB, error) {
 	// establish database connection
-	db, err := database.NewConnection()
+	db, err := database.NewConnection("postgres")
 	if err != nil {
 		return nil, nil, fmt.Errorf("error connecting to database: %v", err)
 	}
