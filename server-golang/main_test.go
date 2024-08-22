@@ -6,15 +6,20 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func TestSetup(t *testing.T) {
-	// Set environment variable for testing
-	// os.Setenv("PORT", "4000")
+type fiberMock struct{}
 
-	// call setup function
-	app, db, err := setup()
+func (f fiberMock) Listen(addr string) error {
+	return nil
+}
 
-	// check if setup was successful
+func TestGetServerInitials(t *testing.T) {
+	app, db, err := GetServerInitials()
+
 	require.NoError(t, err)
 	require.NotNil(t, app)
 	require.NotNil(t, db)
+}
+
+func TestStartServer(t *testing.T) {
+	StartServer(fiberMock{})
 }
