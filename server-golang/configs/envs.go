@@ -30,25 +30,25 @@ type Config struct {
 	JWT_TIME_2 int
 }
 
-var Envs, _ = initConfig(realEnvLoader{})
+var Envs, _ = InitConfig(realEnvLoader{})
 
-func initConfig(loader EnvLoader) (Config, error) {
+func InitConfig(loader EnvLoader) (Config, error) {
 	err := loader.Load()
 	if err != nil {
 		return Config{}, err
 	}
 
 	return Config{
-		ENV:        getEnv("ENV", "should-be-fixed"),
-		PORT:       getEnv("PORT", "4000"),
-		JWT_SECRET: getEnv("JWT_SECRET", "not-a-secret-any-more-is-it?"),
-		JWT_TIME_1: getEnvAsInt("JWT_TIME_1", 7),
-		JWT_TIME_2: getEnvAsInt("JWT_TIME_2", 365),
+		ENV:        GetEnv("ENV", "should-be-fixed"),
+		PORT:       GetEnv("PORT", "4000"),
+		JWT_SECRET: GetEnv("JWT_SECRET", "not-a-secret-any-more-is-it?"),
+		JWT_TIME_1: GetEnvAsInt("JWT_TIME_1", 7),
+		JWT_TIME_2: GetEnvAsInt("JWT_TIME_2", 365),
 	}, nil
 }
 
 // Gets the env by key or fallbacks
-func getEnv(key, fallback string) string {
+func GetEnv(key, fallback string) string {
 	if value, ok := os.LookupEnv(key); ok {
 		return value
 	}
@@ -56,7 +56,7 @@ func getEnv(key, fallback string) string {
 	return fallback
 }
 
-func getEnvAsInt(key string, fallback int) int {
+func GetEnvAsInt(key string, fallback int) int {
 	valueStr, exists := os.LookupEnv(key)
 	if !exists {
 		return fallback
