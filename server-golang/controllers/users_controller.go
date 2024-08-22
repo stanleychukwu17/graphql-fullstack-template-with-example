@@ -176,6 +176,6 @@ func (u *UsersController) createSession(userId uint16) checkSession {
 		log.Fatalln(err.Error())
 	}
 
-	uSession.FakeId = uint32(new_fake_id)
+	uSession.FakeId = int(new_fake_id)
 	return uSession
 }
