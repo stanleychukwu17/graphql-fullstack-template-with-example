@@ -48,22 +48,25 @@ Node {
 }
 Golang {
     Goals:
-    commit all chang
-    finish all unit testing
-    finish all integration testing
     finish the ci/cd pipeline
     Finish jest revision*2
     *Finish cypress revision*2
-    *No move to FrontEnd
-
-    commit the code
-    write integrate
+    *move to FrontEnd
     ---
-    ci/cd with testing check
     ---
+    commit all the changes
+    finish jest revision
+    finish cypress revision
+    do go backEnd ci/cd integration
+    ---
+    ---
+    sort out videos so you can pick-up the ones with the hosting
     dockerize the app to test whats-up
+    turn up frontEnd {
+        test with containers
+        test with out containers
+    }
     ---
-    5:00 to 6pm
 
     later {
         verify a user login - function, the middleware parole
@@ -72,8 +75,16 @@ Golang {
     }
 
     testing {
-        test all repo: go test -coverprofile=coverage.out ./...
-        test report: go tool cover -html=coverage.out -o coverage.html
-        see more info: go test -v ./...
+        go test -coverprofile=coverage.out ./...
+        go tool cover -html=coverage.out -o coverage.html
+        go tool cover -func=coverage.out
+        go test -v ./...
+        go test -v
+    }
+    explanation {
+        print out the coverage of your test
+        convert the printout into html so you can see it on the web
+        see the total average of your test cover for all the test
+        verbose testing
     }
 }
