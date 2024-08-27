@@ -8,6 +8,14 @@ import (
 	"github.com/joho/godotenv"
 )
 
+type Config struct {
+	ENV        string
+	PORT       string
+	JWT_SECRET string
+	JWT_TIME_1 int
+	JWT_TIME_2 int
+}
+
 type EnvLoader interface {
 	Load() error
 }
@@ -15,19 +23,7 @@ type EnvLoader interface {
 type realEnvLoader struct{}
 
 func (realEnvLoader) Load() error {
-	if os.Getenv("ENV") == "test" {
-		return godotenv.Load("../.env.test")
-	} else {
-		return godotenv.Load()
-	}
-}
-
-type Config struct {
-	ENV        string
-	PORT       string
-	JWT_SECRET string
-	JWT_TIME_1 int
-	JWT_TIME_2 int
+	return godotenv.Load()
 }
 
 var Envs, _ = InitConfig(realEnvLoader{})

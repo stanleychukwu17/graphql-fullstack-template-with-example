@@ -12,94 +12,98 @@ import (
 	"gorm.io/gorm"
 
 	"github.com/docker/go-connections/nat"
-	testContainers "github.com/testcontainers/testcontainers-go"
-	mysqlContainer "github.com/testcontainers/testcontainers-go/modules/mysql"
-	postgresContainer "github.com/testcontainers/testcontainers-go/modules/postgres"
+	"github.com/testcontainers/testcontainers-go"
 	"github.com/testcontainers/testcontainers-go/wait"
 )
 
-func SetupTestDB(which_db string) (string, testContainers.Container, error) {
-	var db_container testContainers.Container
-	var err error
-
+func SetupTestDB(which_db string) (string, testcontainers.Container, error) {
 	ctx := context.Background()
 
-	fmt.Printf("about to start %v testing container... for %v environment  \n", which_db, os.Getenv("ENV"))
+	fmt.Printf("about to start %v continuous integration container... for %v environment  \n", which_db, os.Getenv("ENV"))
 
 	if which_db == "postgres" {
 		db_user := "postgres"
 		db_password := "password"
-		db_port := os.Getenv("POSTGRES_DB_PORT")
 		db_name := os.Getenv("DB_NAME")
+		db_port := os.Getenv("POSTGRES_DB_PORT")
 		db_timezone := os.Getenv("POSTGRES_DB_TIMEZONE")
 
-		db_container, err = postgresContainer.Run(ctx,
-			"postgres:16.3-alpine3.20",
-			postgresContainer.WithDatabase(db_name),
-			postgresContainer.WithUsername(db_user),
-			postgresContainer.WithPassword(db_password),
-			testContainers.WithWaitStrategy(
-				wait.ForLog("database system is ready to accept connections").
-					WithOccurrence(2).
-					WithStartupTimeout(5*time.Second)),
-		)
+		// Create container request
+		req := testcontainers.ContainerRequest{
+			Image:        "postgres:16.3-alpine3.20",
+			ExposedPorts: []string{fmt.Sprintf("%v/tcp", db_port)},
+			Env: map[string]string{
+				"POSTGRES_USER":     db_user,
+				"POSTGRES_PASSWORD": db_password,
+				"POSTGRES_DB":       db_name,
+			},
+			WaitingFor: wait.ForLog("database system is ready to accept connections").
+				WithOccurrence(2).
+				WithStartupTimeout(300 * time.Second),
+		}
+
+		// Create and start the container
+		container, err := testcontainers.GenericContainer(ctx, testcontainers.GenericContainerRequest{
+			ContainerRequest: req,
+			Started:          true,
+		})
 		if err != nil {
 			log.Fatalf("failed to start container: %s", err)
 		}
 
-		fmt.Printf("%v Container started \n", which_db)
-		// formats the connection string
-		dsn := fmt.Sprintf("host=localhost user=%v password=%v dbname=%v port=%v sslmode=disable TimeZone=%v", db_user, db_password, db_name, db_port, db_timezone)
+		host, _ := container.Host(ctx)                          // Get container host (IP)
+		port, _ := container.MappedPort(ctx, nat.Port(db_port)) // Get mapped port
+		dsn := fmt.Sprintf(
+			"host=%s user=%v password=%v dbname=%v port=%v sslmode=disable TimeZone=%v",
+			host, db_user, db_password, db_name, port.Port(), db_timezone,
+		)
+		// fmt.Printf("Connecting to DB with DSN: %s\n", dsn)
 
-		// Clean up the container
-		defer func() {
-			if err := db_container.Terminate(ctx); err != nil {
-				log.Fatalf("failed to terminate container: %s", err)
-			} else {
-				fmt.Print("Container terminated\n")
-			}
-		}()
-
-		return dsn, db_container, nil
+		return dsn, container, nil
 	} else if which_db == "mysql" {
 		db_user := "root"
 		db_password := "root"
-		db_port := os.Getenv("POSTGRES_DB_PORT")
 		db_name := os.Getenv("DB_NAME")
-		db_timezone := os.Getenv("POSTGRES_DB_TIMEZONE")
+		db_timezone := os.Getenv("MYSQL_DB_TIMEZONE")
+		db_port := os.Getenv("MYSQL_DB_PORT")
 
-		db_container, err := mysqlContainer.Run(ctx,
-			"mysql:8.0-bullseye",
-			mysqlContainer.WithDatabase(db_name),
-			mysqlContainer.WithUsername(db_user),
-			mysqlContainer.WithPassword(db_password),
-			testContainers.WithWaitStrategy(
-				wait.ForListeningPort(nat.Port(db_port)).
-					WithStartupTimeout(30*time.Second)),
-		)
+		// Create container request
+		req := testcontainers.ContainerRequest{
+			Image:        "mysql:8.0-bullseye",
+			ExposedPorts: []string{fmt.Sprintf("%v/tcp", db_port)},
+			Env: map[string]string{
+				"MYSQL_ROOT_PASSWORD": db_password,
+				"MYSQL_DATABASE":      db_name,
+			},
+			WaitingFor: wait.ForLog(fmt.Sprintf("port: %v  MySQL Community Server - GPL", db_port)).
+				WithStartupTimeout(300 * time.Second),
+		}
+
+		// Create and start the container
+		container, err := testcontainers.GenericContainer(ctx, testcontainers.GenericContainerRequest{
+			ContainerRequest: req,
+			Started:          true,
+		})
 		if err != nil {
 			log.Fatalf("failed to start container: %s", err)
 		}
 
-		fmt.Printf("%v Container started \n", which_db)
-		dsn := fmt.Sprintf("%s:%s@tcp(localhost:%s)/%s?charset=utf8mb4&parseTime=True&loc=%s", db_user, db_password, db_port, db_name, db_timezone)
+		host, _ := container.Host(ctx)                          // Get container host (IP)
+		port, _ := container.MappedPort(ctx, nat.Port(db_port)) // Get mapped port
 
-		// Clean up the container
-		defer func() {
-			if err := db_container.Terminate(ctx); err != nil {
-				log.Fatalf("failed to terminate container: %s", err)
-			} else {
-				fmt.Print("Container terminated\n")
-			}
-		}()
+		dsn := fmt.Sprintf(
+			"%s:%s@tcp(%s:%s)/%s?charset=utf8&parseTime=True&loc=Local&loc=%s",
+			db_user, db_password, host, port.Port(), db_name, db_timezone,
+		)
 
-		return dsn, db_container, nil
+		fmt.Printf("Connecting to DB with DSN: %s\n", dsn)
+		return dsn, container, nil
 	} else {
 		panic("Invalid database type")
 	}
 }
 
-func connect_to_development_database(which_db string) (db *gorm.DB, err error) {
+func Connect_to_development_database(which_db string) (db *gorm.DB, err error) {
 	var dsn string
 
 	if which_db == "postgres" {
@@ -125,7 +129,7 @@ func connect_to_development_database(which_db string) (db *gorm.DB, err error) {
 	return
 }
 
-func connect_to_continuous_integration_database(which_db string) (db *gorm.DB, err error) {
+func Connect_to_continuous_integration_database(which_db string) (db *gorm.DB, err error) {
 	dsn, _, _ := SetupTestDB(which_db)
 
 	if which_db == "postgres" {
@@ -142,10 +146,10 @@ func NewConnection(which_db string) (db *gorm.DB, err error) {
 	fmt.Printf("Connecting to %v database \n", which_db)
 
 	if env == "test" || env == "development" {
-		db, err := connect_to_development_database(which_db)
+		db, err := Connect_to_development_database(which_db)
 		return db, err
 	} else if env == "continuous_integration" {
-		db, err := connect_to_continuous_integration_database(which_db)
+		db, err := Connect_to_continuous_integration_database(which_db)
 		return db, err
 	} else {
 		return nil, nil

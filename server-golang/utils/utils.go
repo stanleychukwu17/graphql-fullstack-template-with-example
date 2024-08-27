@@ -66,28 +66,6 @@ func VerifyPassword(hashedPassword, password string) bool {
 	return err == nil
 }
 
-/*
-func main() {
-    password := "mySecurePassword"
-
-    // Hash the password
-    hashedPassword, err := HashPassword(password)
-    if err != nil {
-        log.Fatal(err)
-    }
-
-    fmt.Println("Hashed Password:", hashedPassword)
-
-    // Verify the password
-    isMatch := VerifyPassword(hashedPassword, password)
-    if isMatch {
-        fmt.Println("Password is correct")
-    } else {
-        fmt.Println("Password is incorrect")
-    }
-}
-*/
-
 func Check_if_required_fields_are_present(list []FieldRequirement) (bool, string) {
 	found_error, error_msg := false, ""
 
