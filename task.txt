@@ -26,46 +26,34 @@ deploy {
     deploy staging to aws and test to make sure all is working properly
     create your database @ railway for staging
 }
-FrontEnd {
-    {revise jest *2}
-    {revise cypress *2}
-    finish test coverage both 90%
-    ---
-    ci/cd both with serious testing
-    ---
-    dockerize
-    ---
-    move to node-backend
-}
-Node {
-    watch video on graphQl and jwt authentication
-    finish working on the graphQl side
-    ---
-    finish test coverage 90%
-    ---
-    write the ci/cd for the backend, make sure the test coverage is above 90%
-    ---
-}
 Golang {
     Goals:
-    finish the ci/cd pipeline
-    Finish jest revision*2
-    *Finish cypress revision*2
-    *move to FrontEnd
     ---
     ---
-    commit all the changes
-    finish jest revision
-    finish cypress revision
-    do go backEnd ci/cd integration
-    ---
-    ---
-    sort out videos so you can pick-up the ones with the hosting
-    dockerize the app to test whats-up
-    turn up frontEnd {
-        test with containers
-        test with out containers
+    Golang
+    backEnd: work on the users_controller to see how testing can be made to be easy
+    backEnd: Test the the the env been continuous_integration
+    backEnd: go backEnd ci integration
+    backEnd: clean up the backEnd to be able to test the users_controller properly {
+        ask chatGPT, how can i do unit testing on the code
     }
+    FrontEnd: Next i8n
+    FrontEnd: Test with Golang to make sure login and logout is working as expected
+    FrontEnd: jest and cypress test should be above 75% 
+    FrontEnd: Ci/CD the Frontend
+    ---
+    Node:
+    backend: convert the backEnd to class for easier testing
+    backend: change everything to drizzle ORM
+    backend: watch video on graphQl and jwt authentication
+    backend: finish working on the graphQl side
+    backend: finish test coverage 75%
+    backend: write the ci/cd for the backend, make sure the test coverage is above 90%
+    ---
+    dockerize both app and test in a docker environment
+    test both apps on docker and be sure that they are working as expected
+    test both app in production environment on docker and be sure that they are working as expected
+    sort out videos so you can pick-up the ones with the hosting
     ---
 
     later {
