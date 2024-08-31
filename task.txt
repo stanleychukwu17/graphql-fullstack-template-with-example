@@ -26,52 +26,56 @@ deploy {
     deploy staging to aws and test to make sure all is working properly
     create your database @ railway for staging
 }
-FrontEnd {
-    {revise jest *2}
-    {revise cypress *2}
-    finish test coverage both 90%
-    ---
-    ci/cd both with serious testing
-    ---
-    dockerize
-    ---
-    move to node-backend
-}
-Node {
-    watch video on graphQl and jwt authentication
-    finish working on the graphQl side
-    ---
-    finish test coverage 90%
-    ---
-    write the ci/cd for the backend, make sure the test coverage is above 90%
-    ---
-}
-Golang {
-    Goals:
-    finish the ci/cd pipeline
-    Finish jest revision*2
-    *Finish cypress revision*2
-    *move to FrontEnd
+Todo {
     ---
     ---
-    commit all the changes
-    finish jest revision
-    finish cypress revision
-    do go backEnd ci/cd integration
-    ---
-    ---
-    sort out videos so you can pick-up the ones with the hosting
-    dockerize the app to test whats-up
-    turn up frontEnd {
-        test with containers
-        test with out containers
+    Golang
+    backEnd: clean up the backEnd to be able to test the users_controller properly {
+        ask chatGPT, how can i do unit testing on the code
     }
+    backEnd: Test the the the env been continuous_integration
+    backEnd: ci/cd integration
+    backEnd: start the FrontEnd and test it with go backEnd
+    backEnd: function, the middleware parole
+    backEnd: work on the logging out
+    backend: add cors to the application if the mode is production
+    ---
+    Frontend:
+    FrontEnd: Next i8n
+    FrontEnd: Test with Golang to make sure login and logout is working as expected
+    FrontEnd: jest and cypress test should be above 75% 
+    FrontEnd: add google login and sign up
+    FrontEnd: Ci/CD the Frontend
+    ---
+    Node:
+    backend: convert the backEnd to class for easier testing
+    backend: change everything to drizzle ORM
+    backend: watch video on graphQl and jwt authentication
+    backend: finish working on the graphQl side
+    backend: finish test coverage 75%
+    backend: write the ci/cd for the backend, make sure the test coverage is above 90%
+    ---
+    infra
+    dockerize both app and test in a docker environment
+    test both apps on docker and be sure that they are working as expected
+    test both app in production environment on docker and be sure that they are working as expected
+    sort out videos so you can pick-up the ones with the hosting
+    ---
+    ---
+    ---
+    MyVs
+    MyTracker
+
+    ---
+    ---
     ---
 
+
+    ---
+    ---
+    ---
     later {
-        verify a user login - function, the middleware parole
-        work on the logout
-        add cors to the application if the mode is production
+
     }
 
     testing {
@@ -82,9 +86,9 @@ Golang {
         go test -v
     }
     explanation {
-        print out the coverage of your test
-        convert the printout into html so you can see it on the web
-        see the total average of your test cover for all the test
-        verbose testing
+        go test -coverprofile=coverage.out ./...  ===  print out the coverage of your test
+        go tool cover -html=coverage.out -o coverage.html  ====   convert the printout into html so you can see it on the web
+        go tool cover -func=coverage.out  ===  see the total average of your test cover for all the test
+        go test -v && go test -v ./... ===  verbose testing
     }
 }

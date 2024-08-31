@@ -1,0 +1,34 @@
+name: Testing golang backend
+
+on:
+    workflow_dispatch:
+    push:
+        branches:
+            - main
+        paths:
+        - 'server-golang/**'
+    pull_request:
+        branches:
+            - main
+        paths:
+        - 'server-golang/**'
+jobs:
+    test:
+        name: Testing golang backend
+        runs-on: ubuntu-latest
+        steps:
+            - name: Check out code
+              uses: actions/checkout@v4
+
+            - name: Set up Go
+              uses: actions/setup-go@v4
+              with:
+                  go-version: 1.22.2
+
+            - name: Install dependencies
+              run: go mod download
+              working-directory: server-golang
+
+            - name: Run tests
+              run: go test -v ./...
+              working-directory: server-golang
