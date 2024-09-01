@@ -35,17 +35,25 @@ Todo {
     }
     backEnd: Test the the the env been continuous_integration
     backEnd: ci/cd integration
+    ---
+    ---
+    NOTE: Start Mon
     backEnd: start the FrontEnd and test it with go backEnd
     backEnd: function, the middleware parole
     backEnd: work on the logging out
-    backend: add cors to the application if the mode is production
+    backend: add cors to the application
+    ---
     ---
     Frontend:
     FrontEnd: Next i8n
     FrontEnd: Test with Golang to make sure login and logout is working as expected
+    NOTE: End Mon
+    ----
+    ----
     FrontEnd: jest and cypress test should be above 75% 
     FrontEnd: add google login and sign up
     FrontEnd: Ci/CD the Frontend
+    ---
     ---
     Node:
     backend: convert the backEnd to class for easier testing
@@ -54,6 +62,18 @@ Todo {
     backend: finish working on the graphQl side
     backend: finish test coverage 75%
     backend: write the ci/cd for the backend, make sure the test coverage is above 90%
+    sort {
+        graphql and jwt {1st_half and 2nd_half} - course, then integrate it
+        backend & frontend: testing of Apollo - BackEnd
+        Generating apollo types, if there is any need for this
+        testing of Apollo - frontend {
+            apollo - set up Development & testing
+            apollo - set up performance
+            apollo - set up integration
+            apollo - set up Networking
+        }
+    }
+    ---
     ---
     infra
     dockerize both app and test in a docker environment
@@ -62,10 +82,8 @@ Todo {
     sort out videos so you can pick-up the ones with the hosting
     ---
     ---
-    ---
-    MyVs
-    MyTracker
-
+    MyVs - Nodejs
+    MyTracker - Golang
     ---
     ---
     ---
@@ -91,4 +109,20 @@ Todo {
         go tool cover -func=coverage.out  ===  see the total average of your test cover for all the test
         go test -v && go test -v ./... ===  verbose testing
     }
+}
+
+updating a go project from one to the other {
+    1.
+    mkdir myProject
+    cd myProject
+    go mod init example.com/myProject
+
+    2.
+    go mod edit -module=github.com/username/projectName {
+        Update Module Path When Ready: Once you’re ready to finalize the module path, update the go.mod file to reflect the correct path. You can do this by editing the module directive in go.mod:
+        module github.com/username/projectName
+    }
+
+    3.
+    goimports -w .
 }
