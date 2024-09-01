@@ -2,18 +2,20 @@ package utils
 
 import (
 	"fmt"
+	"os"
+	"strconv"
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
-	"github.com/stanleychukwu17/graphql-fullstack-template-with-example/server-golang/configs"
 )
 
 // Your function to sign JWT
-func SignJWT(payload map[string]interface{}, days int) (string, error) {
-	privateKey := []byte(configs.Envs.JWT_SECRET)
+func SignJWT(payload map[string]interface{}, days string) (string, error) {
+	privateKey := []byte(os.Getenv("JWT_SECRET"))
 
 	// Convert the duration string "7d" to time.Duration
-	expiresIn := time.Duration(days*24) * time.Hour
+	total_days, _ := strconv.Atoi(days)
+	expiresIn := time.Duration(total_days*24) * time.Hour
 
 	// Create a new token object, specifying signing method and claims
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{

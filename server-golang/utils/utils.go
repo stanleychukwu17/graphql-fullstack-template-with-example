@@ -5,8 +5,6 @@ import (
 	"math/rand"
 	"strconv"
 	"time"
-
-	"golang.org/x/crypto/bcrypt"
 )
 
 type FieldRequirement struct {
@@ -39,31 +37,6 @@ func Show_good_message(cause string) map[string]string {
 		"msg":   "okay",
 		"cause": cause,
 	}
-}
-
-// HashPassword hashes the password with a specified cost factor.
-func HashPassword(password string) (string, error) {
-	// Convert password to a byte slice
-	bytePassword := []byte(password)
-
-	// Generate a hashed password with default cost factor
-	hashedPassword, err := bcrypt.GenerateFromPassword(bytePassword, bcrypt.DefaultCost)
-	if err != nil {
-		return "", err
-	}
-
-	// Convert hashed password to a string and return
-	return string(hashedPassword), nil
-}
-
-// VerifyPassword checks if the provided password matches the hashed password.
-func VerifyPassword(hashedPassword, password string) bool {
-	// Convert password to a byte slice
-	bytePassword := []byte(password)
-
-	// Compare the hashed password with the provided password
-	err := bcrypt.CompareHashAndPassword([]byte(hashedPassword), bytePassword)
-	return err == nil
 }
 
 func Check_if_required_fields_are_present(list []FieldRequirement) (bool, string) {

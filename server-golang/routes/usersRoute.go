@@ -3,6 +3,7 @@ package routes
 import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/stanleychukwu17/graphql-fullstack-template-with-example/server-golang/controllers"
+	"github.com/stanleychukwu17/graphql-fullstack-template-with-example/server-golang/services"
 	"gorm.io/gorm"
 )
 
@@ -20,7 +21,8 @@ func (u *UsersRoutes) SetUpRoutes(app *fiber.App) {
 	api := app.Group("/users")
 
 	// initialize the users controller
-	uControl := &controllers.UsersController{DB: u.DB}
+	userServices := &services.UserServiceStruct{DB: u.DB}
+	uControl := &controllers.UsersController{DB: u.DB, UserServices: userServices}
 
 	api.Post("/registerUser", uControl.RegisterUser) // Handles POST requests to "/users/registerNewUser" by invoking the RegisterUser method.
 	api.Post("/loginUser", uControl.LoginThisUser)   // Handles POST requests to "/users/loginUser" by invoking the LoginThisUser method.
