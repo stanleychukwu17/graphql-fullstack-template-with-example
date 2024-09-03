@@ -29,28 +29,37 @@ deploy {
 Todo {
     ---
     ---
+    NOTE: Start Mon
+
+    DONE: work on testing to be over 80%
     Golang
-    backEnd: clean up the backEnd to be able to test the users_controller properly {
-        ask chatGPT, how can i do unit testing on the code
+    commit all the changes so far
+    work on the remaining testing and take them to minimum 75% except main.go
+
+    convert the beforeEach to be a central function {
+        don't set the env from the test, set the env from the run time
+        use a make function to set the env variable and the run the test 
     }
     backEnd: Test the the the env been continuous_integration
     backEnd: ci/cd integration
-    ---
-    ---
-    NOTE: Start Mon
+    3:30-6:00
+    NOTE: End Mon
+    NOTE: Start Tue
     backEnd: start the FrontEnd and test it with go backEnd
-    backEnd: function, the middleware parole
-    backEnd: work on the logging out
+    backEnd: work on the logging out {
+        use middleware to verify if the user can visit this link
+    }
+    write test for logging out
     backend: add cors to the application
+
+    dockerize and test it in a docker container - development
+    dockerize and test it in a docker container - production
+    NOTE: End Tue
     ---
     ---
     Frontend:
     FrontEnd: Next i8n
-    FrontEnd: Test with Golang to make sure login and logout is working as expected
-    NOTE: End Mon
-    ----
-    ----
-    FrontEnd: jest and cypress test should be above 75% 
+    FrontEnd: jest and cypress test should be above 75%
     FrontEnd: add google login and sign up
     FrontEnd: Ci/CD the Frontend
     ---
@@ -80,6 +89,7 @@ Todo {
     test both apps on docker and be sure that they are working as expected
     test both app in production environment on docker and be sure that they are working as expected
     sort out videos so you can pick-up the ones with the hosting
+    deploy client and server as docker containers on both railway and aws
     ---
     ---
     MyVs - Nodejs
@@ -108,6 +118,17 @@ Todo {
         go tool cover -html=coverage.out -o coverage.html  ====   convert the printout into html so you can see it on the web
         go tool cover -func=coverage.out  ===  see the total average of your test cover for all the test
         go test -v && go test -v ./... ===  verbose testing
+    }
+    read_response_for_test {
+		// Read the response body
+		responseBody, err := io.ReadAll(resp.Body)
+		require.NoError(t, err)
+
+		// Convert response body to a string
+		responseBodyStr := string(responseBody)
+
+		// Print the response body for debugging
+		fmt.Printf("Response body: %s", responseBodyStr)
     }
 }
 
