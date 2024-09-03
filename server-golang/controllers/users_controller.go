@@ -22,7 +22,7 @@ type UsersController struct {
 func (u *UsersController) RegisterUser(ctx *fiber.Ctx) error {
 	user := models.User{}
 
-	// Parse the request body & bind it to the book struct, the context.BodyParser(&user), is parsing the request body from json to go struct.. Fiber does this internally, be default, Golang does not understand json
+	// Parse the request body
 	if err := ctx.BodyParser(&user); err != nil {
 		return ctx.Status(fiber.StatusUnprocessableEntity).JSON(
 			utils.Show_bad_message("Invalid request body"),
@@ -115,8 +115,6 @@ func (u *UsersController) LoginThisUser(ctx *fiber.Ctx) error {
 		"created_at":  strings.Split(fmt.Sprintf("%v", sessionDts.CreatedAt), " ")[0],
 	}
 
-	fmt.Printf("payload: %v\n", payload)
-	fmt.Printf("sessionDts: %v\n", sessionDts)
 	// retrieve the accessToken and the refreshToken
 	accessToken, err := utils.SignJWT(payload, os.Getenv("JWT_TIME_1"))
 	refreshToken, _ := utils.SignJWT(payload, os.Getenv("JWT_TIME_2"))
