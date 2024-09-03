@@ -10,6 +10,7 @@ import (
 	"gorm.io/driver/mysql"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 
 	"github.com/docker/go-connections/nat"
 	"github.com/testcontainers/testcontainers-go"
@@ -133,9 +134,13 @@ func Connect_to_continuous_integration_database(which_db string) (db *gorm.DB, e
 	dsn, _, _ := SetupTestDB(which_db)
 
 	if which_db == "postgres" {
-		db, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
+		db, err = gorm.Open(postgres.Open(dsn), &gorm.Config{
+			Logger: logger.Default.LogMode(logger.Silent), // Only log errors
+		})
 	} else if which_db == "mysql" {
-		db, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
+		db, err = gorm.Open(mysql.Open(dsn), &gorm.Config{
+			Logger: logger.Default.LogMode(logger.Silent), // Only log errors
+		})
 	}
 	return
 }
@@ -151,8 +156,8 @@ func NewConnection(which_db string) (db *gorm.DB, err error) {
 	} else if env == "continuous_integration" {
 		db, err := Connect_to_continuous_integration_database(which_db)
 		return db, err
-	} else {
-		return nil, nil
 	}
+
+	return nil, nil
 	// else if env == "cd" {} else if env == "production" {}
 }
