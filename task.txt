@@ -31,27 +31,36 @@ Todo {
     ---
     NOTE: Start Mon
 
-    DONE: work on testing to be over 80%
     Golang
-    commit all the changes so far
-    work on the remaining testing and take them to minimum 75% except main.go
+    DONE: commit all the changes so far
+    DONE: install make on windows
+    DONE: take crash course on make from chatGPT
+    --continue to work on the UsersController test
+
+    remove all the repetitive code
+
+    from the delete user function {
+        get the id of the user, use it to delete the user account and the user session
+    }
 
     convert the beforeEach to be a central function {
         don't set the env from the test, set the env from the run time
         use a make function to set the env variable and the run the test 
     }
+
+    work on the remaining testing and take them to minimum 75% except main.go
     backEnd: Test the the the env been continuous_integration
     backEnd: ci/cd integration
+    backEnd: start the FrontEnd and test it with go backEnd
     3:30-6:00
     NOTE: End Mon
+    ---
     NOTE: Start Tue
-    backEnd: start the FrontEnd and test it with go backEnd
     backEnd: work on the logging out {
         use middleware to verify if the user can visit this link
     }
     write test for logging out
     backend: add cors to the application
-
     dockerize and test it in a docker container - development
     dockerize and test it in a docker container - production
     NOTE: End Tue
