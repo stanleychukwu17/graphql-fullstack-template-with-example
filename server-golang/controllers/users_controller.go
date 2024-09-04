@@ -82,7 +82,7 @@ func (u *UsersController) LoginThisUser(ctx *fiber.Ctx) error {
 		)
 	}
 
-	// checks to make sure all fields are not less than zero in length
+	// checks to make sure all fields are not shorter than what is required
 	rq_fields := []utils.FieldRequirement{
 		{Key: user.Username, Length: 3, Msg: "Username must be longer than 3 characters"},
 		{Key: user.Password, Length: 5, Msg: "Password must be longer than 5 characters"},
@@ -116,11 +116,8 @@ func (u *UsersController) LoginThisUser(ctx *fiber.Ctx) error {
 	}
 
 	// retrieve the accessToken and the refreshToken
-	accessToken, err := utils.SignJWT(payload, os.Getenv("JWT_TIME_1"))
+	accessToken, _ := utils.SignJWT(payload, os.Getenv("JWT_TIME_1"))
 	refreshToken, _ := utils.SignJWT(payload, os.Getenv("JWT_TIME_2"))
-	if err != nil {
-		return ctx.Status(fiber.StatusBadRequest).JSON(utils.Show_bad_message(err.Error()))
-	}
 
 	// return the access and refresh tokens
 	response := map[string]string{
@@ -129,5 +126,6 @@ func (u *UsersController) LoginThisUser(ctx *fiber.Ctx) error {
 		"AccessToken":  accessToken,
 		"RefreshToken": refreshToken,
 	}
+
 	return ctx.Status(fiber.StatusOK).JSON(response)
 }
