@@ -3,30 +3,22 @@ package controllers_test
 import (
 	"encoding/json"
 	"errors"
-	"fmt"
-	"net/http/httptest"
 	"os"
-	"strings"
 	"testing"
 
 	"github.com/gofiber/fiber/v2"
-	"github.com/joho/godotenv"
 	"github.com/stanleychukwu17/graphql-fullstack-template-with-example/server-golang/controllers"
 	"github.com/stanleychukwu17/graphql-fullstack-template-with-example/server-golang/database"
 	"github.com/stanleychukwu17/graphql-fullstack-template-with-example/server-golang/models"
+	"github.com/stanleychukwu17/graphql-fullstack-template-with-example/server-golang/test"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
 
-func beforeEach() {
-	os.Setenv("ENV", "test")
-	godotenv.Load("../../.env.test")
-}
-
 // ###--STARTS-- integration tests
 func TestRegisterUser_Integration(t *testing.T) {
-	beforeEach()
-	t.Skip()
+	test.BeforeEach(t)
+	// t.Skip()
 
 	// set up new fiber application
 	app, db, err := database.Setup()
@@ -64,10 +56,10 @@ func TestRegisterUser_Integration(t *testing.T) {
 }
 
 func TestLoginThisUser(t *testing.T) {
-	beforeEach()
-	t.Skip()
+	test.BeforeEach(t)
+	// t.Skip()
 
-	// set up new fiber application
+	// set up new fiber application and the database
 	app, db, err := database.Setup()
 	if err != nil {
 		t.Fatalf("Could not set up the database and a new Fiber App: %v", err)
@@ -83,15 +75,14 @@ func TestLoginThisUser(t *testing.T) {
 	user.Mock_DeleteThisUser(db, t)
 
 	// Register the user
-	_, err = user.Mock_RegisterUser(app)
-	if err != nil {
-		t.Fatalf("Failed to send request: %v", err)
+	if _, err := user.Mock_RegisterUser(app); err != nil {
+		t.Fatalf("Failed to send request for registration of user: %v", err)
 	}
 
 	// now login the user
 	resp, err := user.Mock_LoginUser(app)
 	if err != nil {
-		t.Fatalf("Failed to send request: %v", err)
+		t.Fatalf("Failed to send request for Logging into user account: %v", err)
 	}
 
 	// check response status
@@ -116,28 +107,25 @@ func TestLoginThisUser(t *testing.T) {
 
 // ###--STARTS-- unit tests
 func TestRegisterUser_Unit(t *testing.T) {
-	beforeEach()
-	t.Skip()
+	test.BeforeEach(t)
+	// t.Skip()
 
+	// set up new fiber application and the mock service, also using the mock service in the controller
 	app := fiber.New()
 	mockService := new(MockUserService)
 	controller := &controllers.UsersController{
 		UserServices: mockService,
 	}
 
+	// register the controller to the app(fiber) with the url and the controller to handle every request to the url
 	const reqUrl = "/users/registerUser"
 	app.Post(reqUrl, controller.RegisterUser)
 
 	// expects an error when bad json object is sent to the server
 	t.Run("it should return fiber.StatusUnprocessableEntity for bad json request object sent to the server", func(t *testing.T) {
-		const name = "stanley chukwu"
-
 		// format the body to json readable string
-		body := fmt.Sprintf(`{"name": "%s",}`, name)
-
-		req := httptest.NewRequest("POST", reqUrl, strings.NewReader(body))
-		req.Header.Set("Content-Type", "application/json")
-		resp, err := app.Test(req)
+		body := `{"name": "stanley chukwu",}`
+		resp, err := SendRequestToUrl("POST", reqUrl, body, app)
 
 		require.NoError(t, err)
 		require.Equal(t, fiber.StatusUnprocessableEntity, resp.StatusCode, "expected status code %d, got %d", fiber.StatusUnprocessableEntity, resp.StatusCode)
@@ -145,18 +133,12 @@ func TestRegisterUser_Unit(t *testing.T) {
 
 	// expects an error when name or username is too short
 	t.Run("it should return some fields length are too short (Name, Username)", func(t *testing.T) {
-		const name, username, email, password, gender = "", "", "st@me.com", "password123", "male"
 		user := models.User{
-			Name:     name,
-			Username: username,
-			Email:    email,
-			Password: password,
-			Gender:   gender,
+			Name: "", Username: "", Email: "st@me.com", Password: "password123", Gender: "male",
 		}
 
-		req := httptest.NewRequest("POST", reqUrl, strings.NewReader(user.ToJson()))
-		req.Header.Set("Content-Type", "application/json")
-		resp, err := app.Test(req)
+		// sends the request
+		resp, err := SendRequestToUrl("POST", reqUrl, user.ToJson(), app)
 
 		require.NoError(t, err)
 		require.Equal(t, fiber.StatusBadRequest, resp.StatusCode, "Expects an error code if any of the fields are too short")
@@ -164,21 +146,15 @@ func TestRegisterUser_Unit(t *testing.T) {
 
 	// expects an error when email or username already exist
 	t.Run("it should return email or username already exist", func(t *testing.T) {
-		const name, username, email, password, gender = "stanley chukwu", "stanley", "stanley@me.com", "password123", "male"
 		user := models.User{
-			Name:     name,
-			Username: username,
-			Email:    email,
-			Password: password,
-			Gender:   gender,
+			Name: "stanley boy", Username: "stanley", Email: "st@me.com", Password: "password123", Gender: "male",
 		}
 
 		// return nil when the mocked function is called
 		mockService.On("FindUserByUsernameOrEmail", user.Username, user.Email).Return(&user)
 
-		req := httptest.NewRequest("POST", reqUrl, strings.NewReader(user.ToJson()))
-		req.Header.Set("Content-Type", "application/json")
-		resp, err := app.Test(req)
+		// sends the request
+		resp, err := SendRequestToUrl("POST", reqUrl, user.ToJson(), app)
 
 		require.NoError(t, err)
 		require.Equal(t, fiber.StatusUnprocessableEntity, resp.StatusCode, "Expects an error code if email or username already exist")
@@ -186,37 +162,24 @@ func TestRegisterUser_Unit(t *testing.T) {
 
 	// expects an error when trying to create a new user
 	t.Run("it should fail to create a new user", func(t *testing.T) {
-		const name, username, email, password, gender = "john", "john", "john@me.com", "password123", "male"
 		user := models.User{
-			Name:     name,
-			Username: username,
-			Email:    email,
-			Password: password,
-			Gender:   gender,
-			TimeZone: os.Getenv("TIMEZONE"),
+			Name: "john", Username: "john", Email: "john@me.com", Password: "password", Gender: "male", TimeZone: os.Getenv("TIMEZONE"),
 		}
 
 		mockService.On("FindUserByUsernameOrEmail", user.Username, user.Email).Return(&models.User{Username: "", Email: ""})
 		mockService.On("CreateUser", &user).Return(errors.New("failed to create user"))
 
-		// format the body to json readable string
-		body := fmt.Sprintf(`{
-			"name": "%s", "username": "%s", "email": "%s", "password": "%s", "gender": "%s", "timezone": "%s"
-		}`, name, username, email, password, gender, os.Getenv("TIMEZONE"))
-
 		// Send the request
-		req := httptest.NewRequest("POST", reqUrl, strings.NewReader(body))
-		req.Header.Set("Content-Type", "application/json")
-		resp, err := app.Test(req)
+		resp, err := SendRequestToUrl("POST", reqUrl, user.ToJson(), app)
 
 		require.NoError(t, err, "Error while sending http request")
 		require.Equal(t, fiber.StatusBadRequest, resp.StatusCode, "Expects fiber.StatusBadRequest when trying to create a new user")
 	})
-
 }
 
 func TestLoginThisUser_Unit(t *testing.T) {
-	beforeEach()
+	test.BeforeEach(t)
+	// t.Skip()
 
 	app := fiber.New()
 	mockService := new(MockUserService)
@@ -231,9 +194,7 @@ func TestLoginThisUser_Unit(t *testing.T) {
 	t.Run("it should return fiber.StatusUnprocessableEntity for bad json request object sent to the server", func(t *testing.T) {
 		body := `{"username": "stanley",}`
 
-		req := httptest.NewRequest("POST", reqUrl, strings.NewReader(body))
-		req.Header.Set("Content-Type", "application/json")
-		resp, err := app.Test(req)
+		resp, err := SendRequestToUrl("POST", reqUrl, body, app)
 
 		require.NoError(t, err)
 		require.Equal(t, fiber.StatusUnprocessableEntity, resp.StatusCode, "expected status code %d, got %d", fiber.StatusUnprocessableEntity, resp.StatusCode)
@@ -244,9 +205,7 @@ func TestLoginThisUser_Unit(t *testing.T) {
 		user := models.User{Username: "stanley", Password: ""}
 
 		// sends the request
-		req := httptest.NewRequest("POST", reqUrl, strings.NewReader(user.ToJson()))
-		req.Header.Set("Content-Type", "application/json")
-		resp, err := app.Test(req)
+		resp, err := SendRequestToUrl("POST", reqUrl, user.ToJson(), app)
 
 		require.NoError(t, err)
 		require.Equal(t, fiber.StatusBadRequest, resp.StatusCode, "Expects an error code if any of the fields are too short")
@@ -260,9 +219,7 @@ func TestLoginThisUser_Unit(t *testing.T) {
 		mockService.On("FindUserByUsernameOrEmail", user.Username, user.Username).Return(&models.User{Username: "", Email: ""})
 
 		// sends the request
-		req := httptest.NewRequest("POST", reqUrl, strings.NewReader(user.ToJson()))
-		req.Header.Set("Content-Type", "application/json")
-		resp, err := app.Test(req)
+		resp, err := SendRequestToUrl("POST", reqUrl, user.ToJson(), app)
 
 		require.NoError(t, err)
 		require.Equal(t, fiber.StatusNotFound, resp.StatusCode, "Expects a %v status if the username or email address does not exits in our database", fiber.StatusNotFound)
@@ -276,9 +233,7 @@ func TestLoginThisUser_Unit(t *testing.T) {
 		mockService.On("VerifyPassword", user.Password, user.Password).Return(false)
 
 		// sends the request
-		req := httptest.NewRequest("POST", reqUrl, strings.NewReader(user.ToJson()))
-		req.Header.Set("Content-Type", "application/json")
-		resp, err := app.Test(req)
+		resp, err := SendRequestToUrl("POST", reqUrl, user.ToJson(), app)
 
 		require.NoError(t, err)
 		require.Equal(t, fiber.StatusUnauthorized, resp.StatusCode, "Expects a %v status if password is a wrong password", fiber.StatusUnauthorized)
