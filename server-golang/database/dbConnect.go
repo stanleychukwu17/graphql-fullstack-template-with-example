@@ -154,7 +154,7 @@ func NewConnection(which_db string) (db *gorm.DB, err error) {
 	fmt.Println("Environment: ", env)
 	fmt.Printf("Connecting to %v database \n", which_db)
 
-	if env == "test" || env == "development" {
+	if env == "testing" || env == "development" {
 		db, err := Connect_to_development_database(which_db)
 		return db, err
 	} else if env == "continuous_integration" {
