@@ -34,14 +34,11 @@ jobs:
           JWT_TIME_2: 365
 
         steps:
-          - name: Set up envirnment vairables
+          - name: see environemnt variables
             run: |
-              env
-              echo "------"
               echo $ENV
               echo $PORT
               echo $JWT_SECRET
-              exit 1
 
           - name: Check out code
             uses: actions/checkout@v4
