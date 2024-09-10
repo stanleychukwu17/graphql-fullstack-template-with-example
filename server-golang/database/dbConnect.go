@@ -17,7 +17,7 @@ import (
 	"github.com/testcontainers/testcontainers-go/wait"
 )
 
-func SetupTestDB(which_db string) (string, testcontainers.Container, error) {
+func Setup_continuous_integration_db(which_db string) (string, testcontainers.Container, error) {
 	ctx := context.Background()
 
 	fmt.Printf("about to start %v continuous integration container... for %v environment  \n", which_db, os.Getenv("ENV"))
@@ -58,8 +58,8 @@ func SetupTestDB(which_db string) (string, testcontainers.Container, error) {
 			"host=%s user=%v password=%v dbname=%v port=%v sslmode=disable TimeZone=%v",
 			host, db_user, db_password, db_name, port.Port(), db_timezone,
 		)
-		// fmt.Printf("Connecting to DB with DSN: %s\n", dsn)
 
+		fmt.Printf("Connecting to postgres DB with DSN: %s\n", dsn)
 		return dsn, container, nil
 	} else if which_db == "mysql" {
 		db_user := "root"
@@ -97,11 +97,26 @@ func SetupTestDB(which_db string) (string, testcontainers.Container, error) {
 			db_user, db_password, host, port.Port(), db_name, db_timezone,
 		)
 
-		fmt.Printf("Connecting to DB with DSN: %s\n", dsn)
+		fmt.Printf("Connecting to mysql DB with DSN: %s\n", dsn)
 		return dsn, container, nil
 	} else {
 		panic("Invalid database type")
 	}
+}
+
+func Connect_to_continuous_integration_database(which_db string) (db *gorm.DB, err error) {
+	dsn, _, _ := Setup_continuous_integration_db(which_db)
+
+	if which_db == "postgres" {
+		db, err = gorm.Open(postgres.Open(dsn), &gorm.Config{
+			Logger: logger.Default.LogMode(logger.Silent), // Only log errors
+		})
+	} else if which_db == "mysql" {
+		db, err = gorm.Open(mysql.Open(dsn), &gorm.Config{
+			Logger: logger.Default.LogMode(logger.Silent), // Only log errors
+		})
+	}
+	return
 }
 
 func Connect_to_development_database(which_db string) (db *gorm.DB, err error) {
@@ -115,7 +130,9 @@ func Connect_to_development_database(which_db string) (db *gorm.DB, err error) {
 		DB_TIMEZONE := os.Getenv("POSTGRES_DB_TIMEZONE")
 
 		dsn = fmt.Sprintf("host=localhost user=%v password=%v dbname=%v port=%v sslmode=disable TimeZone=%v", DB_USER, DB_PASSWORD, DB_NAME, DB_PORT, DB_TIMEZONE)
-		db, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
+		db, err = gorm.Open(postgres.Open(dsn), &gorm.Config{
+			Logger: logger.Default.LogMode(logger.Silent), // Only log errors
+		})
 	} else if which_db == "mysql" {
 		DB_USER := os.Getenv("MYSQL_DB_USER")
 		DB_PASSWORD := os.Getenv("MYSQL_DB_PASSWORD")
@@ -124,24 +141,11 @@ func Connect_to_development_database(which_db string) (db *gorm.DB, err error) {
 		DB_TIMEZONE := os.Getenv("MYSQL_DB_TIMEZONE")
 
 		dsn = fmt.Sprintf("%s:%s@tcp(localhost:%s)/%s?charset=utf8mb4&parseTime=True&loc=%s", DB_USER, DB_PASSWORD, DB_PORT, DB_NAME, DB_TIMEZONE)
-		db, err = gorm.Open(mysql.Open(dsn), &gorm.Config{})
-	}
-
-	return
-}
-
-func Connect_to_continuous_integration_database(which_db string) (db *gorm.DB, err error) {
-	dsn, _, _ := SetupTestDB(which_db)
-
-	if which_db == "postgres" {
-		db, err = gorm.Open(postgres.Open(dsn), &gorm.Config{
-			Logger: logger.Default.LogMode(logger.Silent), // Only log errors
-		})
-	} else if which_db == "mysql" {
 		db, err = gorm.Open(mysql.Open(dsn), &gorm.Config{
 			Logger: logger.Default.LogMode(logger.Silent), // Only log errors
 		})
 	}
+
 	return
 }
 
