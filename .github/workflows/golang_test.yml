@@ -36,6 +36,9 @@ jobs:
               echo "JWT_TIME_1=7" >> $GITHUB_ENV
               echo "JWT_TIME_2=365" >> $GITHUB_ENV
               env
+              echo "------"
+              echo $ENV
+              echo $PORT
               exit 1
 
           - name: Check out code
