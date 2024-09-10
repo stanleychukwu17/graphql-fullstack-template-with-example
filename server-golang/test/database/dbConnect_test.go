@@ -21,6 +21,9 @@ func TestConnect_to_continuous_integration_database(t *testing.T) {
 	require.IsType(t, &gorm.DB{}, mysql_db, "Expected db to be of type *gorm.DB")
 }
 
+// i commented the test below out because, the default db for this template app is always mysql
+// when i start up my docker engine, only the mysql container is started automatically, so this test will always return an error
+// except you also start the postgres container and re-run the test
 // func TestNewConnection(t *testing.T) {
 // 	test.BeforeEach(t)
 

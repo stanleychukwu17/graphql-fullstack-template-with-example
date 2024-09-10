@@ -29,37 +29,42 @@ deploy {
 Todo {
     ---
     ---
-    NOTE: Start sat
+    NOTE: Start tue
 
     Golang
+    DONE: commit all the changes
+    DONE: test the code again using postman
     -
-    commit all the changes
-    test the code again using post man
     backEnd: ci/cd integration, make sure test coverage is above 80% before allowing it to merge into the main branch
+    --
     backEnd: start the FrontEnd and test it with go backEnd
     backEnd: work on the logging out { use middleware to verify if the user can visit this link }
     write test for logging out
+    ---
     BackEnd: dockerize and test it in a docker container - development
     BackEnd: dockerize and test it in a docker container - production
+    ---
     Test the frontEnd with the dockerizeD app for development and production
     ---
-    NOTE: End sat
+    NOTE: End tue
     ---
-    NOTE: Start sun
+    NOTE: Start wed
     ---
     Frontend:
     FrontEnd: Jest revision complete *2
     FrontEnd: cypress revision complete *2
     FrontEnd: Next revision *2, react revision *2, js revision *2
+    NOTE: End wed
+    NOTE: Start thur
     NEEDED: Next.js course
     NEEDED: React course
+    NOTE: End thur
     FrontEnd: Next i8n
     FrontEnd: jest and cypress test should be above 75%
     FrontEnd: add google login and sign up
     FrontEnd: Ci/CD the Frontend
     BackEnd: dockerize and test it in a docker container - development
     BackEnd: dockerize and test it in a docker container - production
-    NOTE: End sun
     ---
     ---
     Node:
