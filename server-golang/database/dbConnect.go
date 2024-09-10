@@ -99,7 +99,7 @@ func Setup_continuous_integration_db(which_db string) (string, testcontainers.Co
 		// )
 
 		dsn := fmt.Sprintf(
-			"%s:%s@tcp(%s:%s)/%s?charset=utf8", db_user, db_password, host, port.Port(), db_name, db_timezone,
+			"%s:%s@tcp(%s:%s)/%s?charset=utf8", db_user, db_password, host, port.Port(), db_name,
 		)
 
 		fmt.Printf("Connecting to mysql DB with DSN: %s\n", dsn)
