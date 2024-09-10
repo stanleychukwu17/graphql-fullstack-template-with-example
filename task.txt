@@ -40,11 +40,15 @@ Todo {
     backEnd: start the FrontEnd and test it with go backEnd
     backEnd: work on the logging out { use middleware to verify if the user can visit this link }
     write test for logging out
+    5:30:am
     ---
     BackEnd: dockerize and test it in a docker container - development
     BackEnd: dockerize and test it in a docker container - production
-    ---
     Test the frontEnd with the dockerizeD app for development and production
+    7:00am
+    FrontEnd: Jest revision complete *2
+    9:00am
+    ---
     ---
     NOTE: End tue
     ---
