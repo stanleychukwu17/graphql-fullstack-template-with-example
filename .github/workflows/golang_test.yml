@@ -16,29 +16,31 @@ jobs:
     test:
         name: Testing golang backend
         runs-on: ubuntu-latest
+        env:
+          ENV: continuous_integration
+          PORT: 4000
+          TIMEZONE: Africa/Lagos
+          DB_NAME: template_test_db
+          POSTGRES_DB_USER: ${{ secrets.POSTGRES_DB_USER }}
+          POSTGRES_DB_PASSWORD: ${{ secrets.POSTGRES_DB_PASSWORD }}
+          POSTGRES_DB_PORT: 5432
+          POSTGRES_DB_TIMEZONE: Africa/Lagos
+          MYSQL_DB_USER: ${{ secrets.MYSQL_DB_USER }}
+          MYSQL_DB_PASSWORD: ${{ secrets.MYSQL_DB_PASSWORD }}
+          MYSQL_DB_PORT: 3306
+          MYSQL_DB_TIMEZONE: Africa/Lagos
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          JWT_TIME_1: 7
+          JWT_TIME_2: 365
 
         steps:
           - name: Set up envirnment vairables
             run: |
-              ENV=continuous_integration
-              PORT=4000
-              TIMEZONE=Africa/Lagos
-              DB_NAME=template_test_db
-              POSTGRES_DB_USER=${{ secrets.POSTGRES_DB_USER }}
-              POSTGRES_DB_PASSWORD=${{ secrets.POSTGRES_DB_PASSWORD }}
-              POSTGRES_DB_PORT=5432
-              POSTGRES_DB_TIMEZONE=Africa/Lagos
-              MYSQL_DB_USER=${{ secrets.MYSQL_DB_USER }}
-              MYSQL_DB_PASSWORD=${{ secrets.MYSQL_DB_PASSWORD }}
-              MYSQL_DB_PORT=3306
-              MYSQL_DB_TIMEZONE=Africa/Lagos
-              JWT_SECRET=${{ secrets.JWT_SECRET }}
-              JWT_TIME_1=7
-              JWT_TIME_2=365
               env
               echo "------"
               echo $ENV
               echo $PORT
+              echo $JWT_SECRET
               exit 1
 
           - name: Check out code
