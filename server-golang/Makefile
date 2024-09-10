@@ -12,13 +12,20 @@ hello:
 print:
 	@echo "This is a custom message."
 
-# Target to print the current date
-date:
-	@date
+go-test:
+	export ENV=test
+	go test ./...
 
-ver:
-	@go version
-	@go version
+go-test-ci:
+	@export ENV=continuous_integration && \
+	go run github.com/joho/godotenv/cmd/godotenv -f .env.ci -- go test ./...
+
+go-test-report:
+	@export ENV=test && \
+	echo $$ENV && \
+	go test -coverprofile=coverage.out ./... && \
+	go tool cover -html=coverage.out -o coverage.html && \
+	go tool cover -func=coverage.out
 
 # Declare phony targets
 .PHONY: hello print date list
