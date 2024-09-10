@@ -21,12 +21,12 @@ jobs:
           PORT: 4000
           TIMEZONE: Africa/Lagos
           DB_NAME: template_test_db
-          POSTGRES_DB_USER: ${{ secrets.POSTGRES_DB_USER }}
-          POSTGRES_DB_PASSWORD: ${{ secrets.POSTGRES_DB_PASSWORD }}
+          POSTGRES_DB_USER: postgres
+          POSTGRES_DB_PASSWORD: password
           POSTGRES_DB_PORT: 5432
           POSTGRES_DB_TIMEZONE: Africa/Lagos
-          MYSQL_DB_USER: ${{ secrets.MYSQL_DB_USER }}
-          MYSQL_DB_PASSWORD: ${{ secrets.MYSQL_DB_PASSWORD }}
+          MYSQL_DB_USER: root
+          MYSQL_DB_PASSWORD: root
           MYSQL_DB_PORT: 3306
           MYSQL_DB_TIMEZONE: Africa/Lagos
           JWT_SECRET: ${{ secrets.JWT_SECRET }}
