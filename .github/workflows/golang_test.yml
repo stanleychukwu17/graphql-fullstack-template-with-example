@@ -16,9 +16,28 @@ jobs:
     test:
         name: Testing golang backend
         runs-on: ubuntu-latest
-        env:
-          ENV: continuous_integration
+
         steps:
+          - name: Set up envirnment vairables
+            run: |
+              echo "ENV=continuous_integration" >> $GITHUB_ENV
+              echo "PORT=4000" >> $GITHUB_ENV
+              echo "TIMEZONE=Africa/Lagos" >> $GITHUB_ENV
+              echo "DB_NAME=template_test_db" >> $GITHUB_ENV
+              echo "POSTGRES_DB_USER=${{ secrets.POSTGRES_DB_USER }}" >> $GITHUB_ENV
+              echo "POSTGRES_DB_PASSWORD=${{ secrets.POSTGRES_DB_PASSWORD }}" >> $GITHUB_ENV
+              echo "POSTGRES_DB_PORT=5432" >> $GITHUB_ENV
+              echo "POSTGRES_DB_TIMEZONE=Africa/Lagos" >> $GITHUB_ENV
+              echo "MYSQL_DB_USER=${{ secrets.MYSQL_DB_USER }}" >> $GITHUB_ENV
+              echo "MYSQL_DB_PASSWORD=${{ secrets.MYSQL_DB_PASSWORD }}" >> $GITHUB_ENV
+              echo "MYSQL_DB_PORT=3306" >> $GITHUB_ENV
+              echo "MYSQL_DB_TIMEZONE=Africa/Lagos" >> $GITHUB_ENV
+              echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> $GITHUB_ENV
+              echo "JWT_TIME_1=7" >> $GITHUB_ENV
+              echo "JWT_TIME_2=365" >> $GITHUB_ENV
+              env
+              exit 1
+
           - name: Check out code
             uses: actions/checkout@v4
 
@@ -26,13 +45,6 @@ jobs:
             uses: actions/setup-go@v4
             with:
                 go-version: 1.22.2
-
-          - name: Log environment variables and exit
-            run: |
-              echo "Logging environment variables..."
-              env
-              echo "$ENV"
-              exit 0  # Exit successfully (change to `exit 1` if you want to fail the job)
 
           - name: Install Docker
             run: |
