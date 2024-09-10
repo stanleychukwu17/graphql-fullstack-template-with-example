@@ -1,10 +1,9 @@
 package controllers_test
 
 import (
-	"bytes"
-	"fmt"
 	"net/http"
 	"net/http/httptest"
+	"strings"
 	"testing"
 
 	"github.com/gofiber/fiber/v2"
@@ -17,8 +16,9 @@ import (
 const registerUrl = "/users/registerUser"
 const loginUrl = "/users/loginUser"
 
-func sendRequestToUrl(method string, url string, body string, app *fiber.App) (*http.Response, error) {
-	req := httptest.NewRequest(method, url, bytes.NewBufferString(body))
+// SendRequestToUrl sends a request to a url on the fiber app.
+func SendRequestToUrl(method string, url string, body string, app *fiber.App) (*http.Response, error) {
+	req := httptest.NewRequest(method, url, strings.NewReader(body))
 	req.Header.Set("Content-Type", "application/json")
 	resp, err := app.Test(req)
 	return resp, err
@@ -28,26 +28,32 @@ type rgUserType struct {
 	models.User
 }
 
+// Mock_RegisterUser sends a POST request to the "/users/registerUser" endpoint of the Fiber app with the user object converted to JSON.
 func (u *rgUserType) Mock_RegisterUser(app *fiber.App) (*http.Response, error) {
-	// Create a test user
-	userData := fmt.Sprintf(
-		`{"name":"%s","username":"%s","email":"%s","password":"%s","gender":"%s"}`, u.Name, u.Username, u.Email, u.Password, u.Gender,
-	)
-
-	return sendRequestToUrl("POST", registerUrl, userData, app)
+	return SendRequestToUrl("POST", registerUrl, u.ToJson(), app)
 }
 
+// Mock_LoginUser sends a POST request to the "/users/loginUser" endpoint of the Fiber app with the user object converted to JSON.
 func (u *rgUserType) Mock_LoginUser(app *fiber.App) (*http.Response, error) {
-	// Create a test user
-	userData := fmt.Sprintf(`{"username":"%s","password":"%s"}`, u.Username, u.Password)
-
-	return sendRequestToUrl("POST", loginUrl, userData, app)
+	return SendRequestToUrl("POST", loginUrl, u.ToJson(), app)
 }
 
+// Mock_DeleteThisUser deletes the user with the given username from the database.
 func (u *rgUserType) Mock_DeleteThisUser(db *gorm.DB, t *testing.T) {
-	db.Exec("DELETE FROM users WHERE username = ? limit 1", u.Username)
+	user := models.User{}
+	err := db.Where("username = ?", u.Username).First(&user).Error
+	if err != nil {
+		if err.Error() != "record not found" {
+			t.Fatalf("Error occurred when searching for the user to delete, check your sql syntax, Error msg: %v", err)
+		}
+	}
+
+	db.Exec("DELETE FROM users WHERE id = ? limit 1", user.ID)
+	db.Exec("DELETE FROM users_session WHERE user_id = ? limit 1", user.ID)
 }
 
+// ###
+// ###--STARTS-- MockUserService tests
 type MockUserService struct {
 	mock.Mock
 }
@@ -67,9 +73,12 @@ func (m *MockUserService) HashPassword(password string) (string, error) {
 }
 
 func (m *MockUserService) VerifyPassword(hashedPassword, password string) bool {
-	return false
+	args := m.Called(hashedPassword, password)
+	return args.Get(0).(bool)
 }
 
 func (m *MockUserService) CreateSession(userId int) services.CheckSession {
 	return services.CheckSession{}
 }
+
+//###--ENDS--
