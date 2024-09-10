@@ -65,7 +65,7 @@ func Setup_continuous_integration_db(which_db string) (string, testcontainers.Co
 		db_user := "root"
 		db_password := "root"
 		db_name := os.Getenv("DB_NAME")
-		db_timezone := os.Getenv("MYSQL_DB_TIMEZONE")
+		// db_timezone := os.Getenv("MYSQL_DB_TIMEZONE")
 		db_port := os.Getenv("MYSQL_DB_PORT")
 
 		// Create container request

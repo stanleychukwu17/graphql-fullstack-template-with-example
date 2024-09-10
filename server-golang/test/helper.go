@@ -14,6 +14,7 @@ import (
 // "continuous_integration" or "production". If the ENV variable is not set, it
 // will fail the test.
 func BeforeEach(t *testing.T) error {
+	godotenv.Load()
 	env, exists := os.LookupEnv("ENV")
 	fmt.Printf("this is the value of env: %v \n", env)
 
