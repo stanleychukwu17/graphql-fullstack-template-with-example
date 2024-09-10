@@ -20,21 +20,21 @@ jobs:
         steps:
           - name: Set up envirnment vairables
             run: |
-              echo "ENV=continuous_integration" >> $GITHUB_ENV
-              echo "PORT=4000" >> $GITHUB_ENV
-              echo "TIMEZONE=Africa/Lagos" >> $GITHUB_ENV
-              echo "DB_NAME=template_test_db" >> $GITHUB_ENV
-              echo "POSTGRES_DB_USER=${{ secrets.POSTGRES_DB_USER }}" >> $GITHUB_ENV
-              echo "POSTGRES_DB_PASSWORD=${{ secrets.POSTGRES_DB_PASSWORD }}" >> $GITHUB_ENV
-              echo "POSTGRES_DB_PORT=5432" >> $GITHUB_ENV
-              echo "POSTGRES_DB_TIMEZONE=Africa/Lagos" >> $GITHUB_ENV
-              echo "MYSQL_DB_USER=${{ secrets.MYSQL_DB_USER }}" >> $GITHUB_ENV
-              echo "MYSQL_DB_PASSWORD=${{ secrets.MYSQL_DB_PASSWORD }}" >> $GITHUB_ENV
-              echo "MYSQL_DB_PORT=3306" >> $GITHUB_ENV
-              echo "MYSQL_DB_TIMEZONE=Africa/Lagos" >> $GITHUB_ENV
-              echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> $GITHUB_ENV
-              echo "JWT_TIME_1=7" >> $GITHUB_ENV
-              echo "JWT_TIME_2=365" >> $GITHUB_ENV
+              ENV=continuous_integration
+              PORT=4000
+              TIMEZONE=Africa/Lagos
+              DB_NAME=template_test_db
+              POSTGRES_DB_USER=${{ secrets.POSTGRES_DB_USER }}
+              POSTGRES_DB_PASSWORD=${{ secrets.POSTGRES_DB_PASSWORD }}
+              POSTGRES_DB_PORT=5432
+              POSTGRES_DB_TIMEZONE=Africa/Lagos
+              MYSQL_DB_USER=${{ secrets.MYSQL_DB_USER }}
+              MYSQL_DB_PASSWORD=${{ secrets.MYSQL_DB_PASSWORD }}
+              MYSQL_DB_PORT=3306
+              MYSQL_DB_TIMEZONE=Africa/Lagos
+              JWT_SECRET=${{ secrets.JWT_SECRET }}
+              JWT_TIME_1=7
+              JWT_TIME_2=365
               env
               echo "------"
               echo $ENV
