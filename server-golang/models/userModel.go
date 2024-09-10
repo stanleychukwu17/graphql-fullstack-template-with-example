@@ -26,8 +26,9 @@ func (u User) ToJson() string {
 		"username": "%s",
 		"email": "%s",
 		"password": "%s",
-		"gender": "%s"	
-	}`, u.Name, u.Username, u.Email, u.Password, u.Gender)
+		"gender": "%s",
+		"timezone": "%s"
+	}`, u.Name, u.Username, u.Email, u.Password, u.Gender, u.TimeZone)
 
 	return body
 }
