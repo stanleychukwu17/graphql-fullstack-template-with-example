@@ -36,6 +36,8 @@ jobs:
             run: |
               echo $ENV
               echo $PORT
+              echo $MYSQL_DB_USER
+              echo $POSTGRES_DB_USER
               echo $JWT_SECRET
 
           - name: Check out code
