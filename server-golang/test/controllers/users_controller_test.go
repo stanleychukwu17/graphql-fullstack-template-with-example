@@ -11,6 +11,7 @@ import (
 	"github.com/stanleychukwu17/graphql-fullstack-template-with-example/server-golang/database"
 	"github.com/stanleychukwu17/graphql-fullstack-template-with-example/server-golang/models"
 	"github.com/stanleychukwu17/graphql-fullstack-template-with-example/server-golang/test"
+	"github.com/stanleychukwu17/graphql-fullstack-template-with-example/server-golang/utils"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -49,7 +50,7 @@ func TestRegisterUser_Integration(t *testing.T) {
 	}
 
 	// assert response body["msg"] is okay
-	assert.Equal(t, "okay", responseBody["msg"])
+	require.Equal(t, "okay", responseBody["msg"])
 
 	// delete the user
 	user.Mock_DeleteThisUser(db, t)
@@ -162,12 +163,16 @@ func TestRegisterUser_Unit(t *testing.T) {
 
 	// expects an error when trying to create a new user
 	t.Run("it should fail to create a new user", func(t *testing.T) {
-		user := models.User{
-			Name: "john", Username: "john", Email: "john@me.com", Password: "password", Gender: "male", TimeZone: os.Getenv("TIMEZONE"),
+		timezone := os.Getenv("TIMEZONE")
+		curDate, _ := utils.Return_the_current_time_of_this_timezone(timezone)
+
+		user := &models.User{
+			Name: "john", Username: "john", Email: "john@me.com", Password: "password", Gender: "male",
+			TimeZone: timezone, CreatedAt: curDate.ParsedDate,
 		}
 
 		mockService.On("FindUserByUsernameOrEmail", user.Username, user.Email).Return(&models.User{Username: "", Email: ""})
-		mockService.On("CreateUser", &user).Return(errors.New("failed to create user"))
+		mockService.On("CreateUser", user).Return(errors.New("failed to create user"))
 
 		// Send the request
 		resp, err := SendRequestToUrl("POST", reqUrl, user.ToJson(), app)
