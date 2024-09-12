@@ -36,17 +36,16 @@ Todo {
     DONE: commit all changes
     DONE: run continuous_integration test here on my terminal
     DONE: make sure github test is all passing
+    DONE: see if you can debug the issue with test
+    DONE: remove the -v in testing
+    DONE: test in the dev environment to make sure the user is been deleted
     Golang:
-    see if you can debug the issue with test
-    remove the -v in testing
-    ---
     ci/cd integration, make sure test coverage is above 80% before allowing it to merge into the main branch
     start the FrontEnd and test it with go backEnd
-    9:30am
-    -
     work on the logging out { use middleware to verify if the user can visit this link }
     write test for logging out
-    11:00am
+    -
+    11:30am
     -
     BackEnd: dockerize and test it in a docker container - development
     BackEnd: dockerize and test it in a docker container - production
