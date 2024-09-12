@@ -16,17 +16,20 @@ import (
 func BeforeEach(t *testing.T) error {
 	godotenv.Load()
 	env, exists := os.LookupEnv("ENV")
-	fmt.Printf("this is the value of env: %v \n", env)
+	bgUser, _ := os.LookupEnv("BG_USER")
+	fmt.Printf("this is the value of env: %v : %v \n", env, exists)
 
 	if exists {
-		if env == "test" || env == "development" {
+		if env == "development" {
 			err := godotenv.Load("D:/Sz - projects/0-templates/0-graphql-project-client-and-server/server-golang/.env.test")
 			if err != nil {
 				t.Fatal("Error loading .env file")
 			}
 
 		} else if env == "continuous_integration" || env == "production" {
-			godotenv.Load("D:/Sz - projects/0-templates/0-graphql-project-client-and-server/server-golang/.env.ci")
+			if bgUser == "development" {
+				godotenv.Load("D:/Sz - projects/0-templates/0-graphql-project-client-and-server/server-golang/.env.test")
+			}
 
 			_, port_exists := os.LookupEnv("PORT")
 			_, db_exists := os.LookupEnv("DB_NAME")
