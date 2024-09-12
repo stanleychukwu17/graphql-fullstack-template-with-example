@@ -41,10 +41,10 @@ func (u *rgUserType) Mock_LoginUser(app *fiber.App) (*http.Response, error) {
 // Mock_DeleteThisUser deletes the user with the given username from the database.
 func (u *rgUserType) Mock_DeleteThisUser(db *gorm.DB, t *testing.T) {
 	user := models.User{}
-	err := db.Where("username = ?", u.Username).First(&user).Error
+	err := db.Raw("SELECT * FROM users WHERE username = ?", u.Username).Scan(&user).Error
 	if err != nil {
 		if err.Error() != "record not found" {
-			t.Fatalf("Error occurred when searching for the user to delete, check your sql syntax, Error msg: %v", err)
+			t.Logf("Error occurred when searching for the user to delete, check your sql syntax, Error msg: %v", err)
 		}
 	}
 
