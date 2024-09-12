@@ -33,10 +33,11 @@ Todo {
     Terraform:
     continue note and lecture if time available
 
+    DONE: commit all changes
     Golang:
     run continuous_integration test here on my terminal
     make sure github test is all passing
-    commit all changes
+    -
     ci/cd integration, make sure test coverage is above 80% before allowing it to merge into the main branch
     start the FrontEnd and test it with go backEnd
     work on the logging out { use middleware to verify if the user can visit this link }
