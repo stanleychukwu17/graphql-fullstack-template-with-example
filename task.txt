@@ -39,8 +39,8 @@ Todo {
     DONE: see if you can debug the issue with test
     DONE: remove the -v in testing
     DONE: test in the dev environment to make sure the user is been deleted
+    DONE: ci/cd integration, make sure test coverage is above 80% before allowing it to merge into the main branch
     Golang:
-    ci/cd integration, make sure test coverage is above 80% before allowing it to merge into the main branch
     start the FrontEnd and test it with go backEnd
     work on the logging out { use middleware to verify if the user can visit this link }
     write test for logging out
