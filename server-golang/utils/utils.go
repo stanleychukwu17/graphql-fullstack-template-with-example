@@ -52,3 +52,38 @@ func Check_if_required_fields_are_present(list []FieldRequirement) (bool, string
 
 	return found_error, error_msg
 }
+
+type currentTimeStruct struct {
+	Date       string    `json:"date"`
+	ParsedDate time.Time `json:"parsedDate"`
+	DateTime   string    `json:"dateTime"`
+}
+
+func Return_the_current_time_of_this_timezone(timezone string) (currentTimeStruct, error) {
+	// Load a specific time zone location
+	// You can find time zone names in the IANA Time Zone Database.
+	loc, err := time.LoadLocation(timezone)
+	if err != nil {
+		return currentTimeStruct{}, fmt.Errorf("error loading timezone time: %v", err)
+	}
+
+	// Get the current time in UTC
+	currentTime := time.Now().UTC()
+
+	// Convert the current time to the desired time zone
+	timezoneTime := currentTime.In(loc)
+	date_time_layout := "2006-01-02 15:04:05"
+	date_layout := "2006-01-02"
+
+	// Format the time to the timezone
+	fmtDate := timezoneTime.Format(date_layout)
+	parsedDate, _ := time.Parse(date_layout, fmtDate)
+	fmtTime := timezoneTime.Format(date_time_layout)
+
+	timeRet := currentTimeStruct{
+		Date:       fmtDate,
+		ParsedDate: parsedDate,
+		DateTime:   fmtTime,
+	}
+	return timeRet, nil
+}
