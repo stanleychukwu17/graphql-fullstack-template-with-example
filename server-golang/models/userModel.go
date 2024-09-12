@@ -1,6 +1,8 @@
 package models
 
 import (
+	"fmt"
+	"os"
 	"time"
 )
 
@@ -16,6 +18,28 @@ type User struct {
 	// CreatedAt time.Time `gorm:"type:datetime(0);not null;autoCreateTime" json:"created_at,omitempty"`
 	CreatedAt time.Time `gorm:"not null;type:date;autoCreateTime" json:"created_at,omitempty"`
 	TimeZone  string    `gorm:"type:varchar(100);not null;default:'Africa/Lagos'" json:"timezone,omitempty"`
+}
+
+func (u *User) ToJson() string {
+	// checks if there is a default timezone, otherwise use Africa/Lagos
+	if len(u.TimeZone) == 0 {
+		timezone, exists := os.LookupEnv("TIMEZONE")
+		if exists {
+			u.TimeZone = timezone
+		}
+	}
+
+	// format the body to json readable string
+	body := fmt.Sprintf(`{
+		"name": "%s",
+		"username": "%s",
+		"email": "%s",
+		"password": "%s",
+		"gender": "%s",
+		"timezone": "%s"
+	}`, u.Name, u.Username, u.Email, u.Password, u.Gender, u.TimeZone)
+
+	return body
 }
 
 type UsersSession struct {

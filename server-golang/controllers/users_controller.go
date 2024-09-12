@@ -22,7 +22,7 @@ type UsersController struct {
 func (u *UsersController) RegisterUser(ctx *fiber.Ctx) error {
 	user := models.User{}
 
-	// Parse the request body & bind it to the book struct, the context.BodyParser(&user), is parsing the request body from json to go struct.. Fiber does this internally, be default, Golang does not understand json
+	// Parse the request body
 	if err := ctx.BodyParser(&user); err != nil {
 		return ctx.Status(fiber.StatusUnprocessableEntity).JSON(
 			utils.Show_bad_message("Invalid request body"),
@@ -58,8 +58,12 @@ func (u *UsersController) RegisterUser(ctx *fiber.Ctx) error {
 		user.Password = hashedPassword
 	}
 
-	// save the new user to the database
+	// get the current time for the user timezone
 	user.TimeZone = os.Getenv("TIMEZONE")
+	currentTime, _ := utils.Return_the_current_time_of_this_timezone(user.TimeZone)
+	user.CreatedAt = currentTime.ParsedDate
+
+	// save the new user to the database
 	err := u.UserServices.CreateUser(&user)
 	if err != nil {
 		return ctx.Status(fiber.StatusBadRequest).JSON(utils.Show_bad_message(err.Error()))
@@ -82,7 +86,7 @@ func (u *UsersController) LoginThisUser(ctx *fiber.Ctx) error {
 		)
 	}
 
-	// checks to make sure all fields are not less than zero in length
+	// checks to make sure all fields are not shorter than what is required
 	rq_fields := []utils.FieldRequirement{
 		{Key: user.Username, Length: 3, Msg: "Username must be longer than 3 characters"},
 		{Key: user.Password, Length: 5, Msg: "Password must be longer than 5 characters"},
@@ -115,14 +119,9 @@ func (u *UsersController) LoginThisUser(ctx *fiber.Ctx) error {
 		"created_at":  strings.Split(fmt.Sprintf("%v", sessionDts.CreatedAt), " ")[0],
 	}
 
-	fmt.Printf("payload: %v\n", payload)
-	fmt.Printf("sessionDts: %v\n", sessionDts)
 	// retrieve the accessToken and the refreshToken
-	accessToken, err := utils.SignJWT(payload, os.Getenv("JWT_TIME_1"))
+	accessToken, _ := utils.SignJWT(payload, os.Getenv("JWT_TIME_1"))
 	refreshToken, _ := utils.SignJWT(payload, os.Getenv("JWT_TIME_2"))
-	if err != nil {
-		return ctx.Status(fiber.StatusBadRequest).JSON(utils.Show_bad_message(err.Error()))
-	}
 
 	// return the access and refresh tokens
 	response := map[string]string{
@@ -131,5 +130,6 @@ func (u *UsersController) LoginThisUser(ctx *fiber.Ctx) error {
 		"AccessToken":  accessToken,
 		"RefreshToken": refreshToken,
 	}
+
 	return ctx.Status(fiber.StatusOK).JSON(response)
 }

@@ -29,33 +29,58 @@ deploy {
 Todo {
     ---
     ---
-    Golang
-    backEnd: clean up the backEnd to be able to test the users_controller properly {
-        ask chatGPT, how can i do unit testing on the code
-    }
-    backEnd: Test the the the env been continuous_integration
-    backEnd: ci/cd integration
+    NOTE: Start wed
+    Terraform:
+    
+
+    DONE: commit all changes
+    DONE: run continuous_integration test here on my terminal
+    DONE: make sure github test is all passing
+    Golang:
+    see if you can debug the issue with test
+    remove the -v in testing
     ---
+    ci/cd integration, make sure test coverage is above 80% before allowing it to merge into the main branch
+    start the FrontEnd and test it with go backEnd
+    9:30am
+    -
+    work on the logging out { use middleware to verify if the user can visit this link }
+    write test for logging out
+    11:00am
+    -
+    BackEnd: dockerize and test it in a docker container - development
+    BackEnd: dockerize and test it in a docker container - production
+    Test the frontEnd with the dockerizeD app for development and production
+    2pm
     ---
-    NOTE: Start Mon
-    backEnd: start the FrontEnd and test it with go backEnd
-    backEnd: function, the middleware parole
-    backEnd: work on the logging out
-    backend: add cors to the application
+    NOTE: End wed
     ---
-    ---
+    NOTE: Start thur
     Frontend:
+    FrontEnd: Jest revision complete *2
+    FrontEnd: cypress revision complete *2
+    FrontEnd: Next revision *2, react revision *2, js revision *2
+    NEEDED: Next.js course
+    NEEDED: React course
+    NEEDED: React-Hook-Form & Zod;
+    NEEDED: revisions {tailwindCss; Redux & Redux toolkit; Graphql & Apollo Client;}
+    NOTE: End thur
+    NOTE: Start
     FrontEnd: Next i8n
-    FrontEnd: Test with Golang to make sure login and logout is working as expected
-    NOTE: End Mon
-    ----
-    ----
-    FrontEnd: jest and cypress test should be above 75% 
+    FrontEnd: jest and cypress test should be above 75%
     FrontEnd: add google login and sign up
     FrontEnd: Ci/CD the Frontend
+    FrontEnd: dockerize and test it in a docker container - development
+    FrontEnd: dockerize and test it in a docker container - production
+
+    start frontEnd in docker development and test with backend in development
+    start frontEnd in docker production and test with backend in production
+    NOTE: End
     ---
+    start MyTracker app and rotate with nodejs backEnd setUp, so i can continue to practice Golang
     ---
     Node:
+    backEnd: Node revision *2
     backend: convert the backEnd to class for easier testing
     backend: change everything to drizzle ORM
     backend: watch video on graphQl and jwt authentication
@@ -80,22 +105,40 @@ Todo {
     test both apps on docker and be sure that they are working as expected
     test both app in production environment on docker and be sure that they are working as expected
     sort out videos so you can pick-up the ones with the hosting
+    deploy client and server as docker containers on both railway and aws
     ---
     ---
     MyVs - Nodejs
-    MyTracker - Golang
-    ---
-    ---
-    ---
-
-
-    ---
-    ---
-    ---
-    later {
-
+    MyTracker - Golang {
+        visualization course
     }
+    ---
+    ---
+    ---
 
+
+    ---
+    ---
+    ---
+
+    envs for testing {
+        export ENV="development"
+        export BG_USER="development"
+        ---
+        export ENV="continuous_integration"
+        export PORT=4000
+        export TIMEZONE=Africa/Lagos
+        export DB_NAME=template_test_db
+        export POSTGRES_DB_USER=postgres
+        export POSTGRES_DB_PASSWORD=password
+        export POSTGRES_DB_PORT=5432
+        export MYSQL_DB_USER=root
+        export MYSQL_DB_PASSWORD=root
+        export MYSQL_DB_PORT=3306
+        export JWT_SECRET=SGARcuH2uNZ4NNvqXo31H7erq94H2yA17Y6tqLlqpt0=
+        export JWT_TIME_1=7
+        export JWT_TIME_2=365
+    }
     testing {
         go test -coverprofile=coverage.out ./...
         go tool cover -html=coverage.out -o coverage.html
@@ -108,6 +151,12 @@ Todo {
         go tool cover -html=coverage.out -o coverage.html  ====   convert the printout into html so you can see it on the web
         go tool cover -func=coverage.out  ===  see the total average of your test cover for all the test
         go test -v && go test -v ./... ===  verbose testing
+    }
+    read_response_for_test {
+		// Read the response body
+		responseBody, _ := io.ReadAll(resp.Body)
+		responseBodyStr := string(responseBody)
+		fmt.Printf("Response body: %s", responseBodyStr)
     }
 }
 
