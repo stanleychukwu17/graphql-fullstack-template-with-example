@@ -13,7 +13,8 @@ print:
 	@echo "This is a custom message."
 
 go-test:
-	export ENV=test
+	export ENV=development && \
+	export BG_USER="development" && \
 	go test ./...
 
 go-test-ci:
@@ -21,7 +22,7 @@ go-test-ci:
 	go run github.com/joho/godotenv/cmd/godotenv -f .env.ci -- go test ./...
 
 go-test-report:
-	@export ENV=test && \
+	@export ENV=development && \
 	echo $$ENV && \
 	go test -coverprofile=coverage.out ./... && \
 	go tool cover -html=coverage.out -o coverage.html && \
