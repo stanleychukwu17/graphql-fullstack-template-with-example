@@ -58,8 +58,12 @@ func (u *UsersController) RegisterUser(ctx *fiber.Ctx) error {
 		user.Password = hashedPassword
 	}
 
-	// save the new user to the database
+	// get the current time for the user timezone
 	user.TimeZone = os.Getenv("TIMEZONE")
+	currentTime, _ := utils.Return_the_current_time_of_this_timezone(user.TimeZone)
+	user.CreatedAt = currentTime.ParsedDate
+
+	// save the new user to the database
 	err := u.UserServices.CreateUser(&user)
 	if err != nil {
 		return ctx.Status(fiber.StatusBadRequest).JSON(utils.Show_bad_message(err.Error()))
