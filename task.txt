@@ -27,55 +27,46 @@ deploy {
     create your database @ railway for staging
 }
 Todo {
-    ---
-    ---
-    NOTE: Start wed
-    Terraform:
-    
-
-    DONE: commit all changes
-    DONE: run continuous_integration test here on my terminal
-    DONE: make sure github test is all passing
-    DONE: see if you can debug the issue with test
-    DONE: remove the -v in testing
-    DONE: test in the dev environment to make sure the user is been deleted
-    DONE: ci/cd integration, make sure test coverage is above 80% before allowing it to merge into the main branch
+    NOTE: Start fri
     Golang:
+    commit changes
     start the FrontEnd and test it with go backEnd
     work on the logging out { use middleware to verify if the user can visit this link }
     write test for logging out
-    -
-    11:30am
-    -
     BackEnd: dockerize and test it in a docker container - development
     BackEnd: dockerize and test it in a docker container - production
     Test the frontEnd with the dockerizeD app for development and production
-    2pm
     ---
-    NOTE: End wed
+    {Github Actions, GitHub, Terraform lecture} - 2hr
     ---
-    NOTE: Start thur
+    NOTE: End fri
+    ---
+    NOTE: Start sat
     Frontend:
     FrontEnd: Jest revision complete *2
     FrontEnd: cypress revision complete *2
     FrontEnd: Next revision *2, react revision *2, js revision *2
     NEEDED: Next.js course
+    NEEDED: Next.js course & shadCN
     NEEDED: React course
     NEEDED: React-Hook-Form & Zod;
     NEEDED: revisions {tailwindCss; Redux & Redux toolkit; Graphql & Apollo Client;}
-    NOTE: End thur
+    NEEDED: visualization course
+    NOTE: End sat
     NOTE: Start
+    {work on golang in the mornings - revision and short other projects}
     FrontEnd: Next i8n
     FrontEnd: jest and cypress test should be above 75%
     FrontEnd: add google login and sign up
     FrontEnd: Ci/CD the Frontend
     FrontEnd: dockerize and test it in a docker container - development
     FrontEnd: dockerize and test it in a docker container - production
-
+    -
     start frontEnd in docker development and test with backend in development
     start frontEnd in docker production and test with backend in production
     NOTE: End
     ---
+    integrate graphql into golang
     start MyTracker app and rotate with nodejs backEnd setUp, so i can continue to practice Golang
     ---
     Node:
@@ -100,7 +91,6 @@ Todo {
     ---
     ---
     infra
-    dockerize both app and test in a docker environment
     test both apps on docker and be sure that they are working as expected
     test both app in production environment on docker and be sure that they are working as expected
     sort out videos so you can pick-up the ones with the hosting
