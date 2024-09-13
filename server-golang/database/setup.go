@@ -2,8 +2,10 @@ package database
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/stanleychukwu17/graphql-fullstack-template-with-example/server-golang/models"
 	"github.com/stanleychukwu17/graphql-fullstack-template-with-example/server-golang/routes"
 	"gorm.io/gorm"
@@ -25,6 +27,20 @@ func Setup() (*fiber.App, *gorm.DB, error) {
 
 	// set up fiber application
 	app := fiber.New()
+
+	// Create a CORS middleware instance
+	allowedUrl := os.Getenv("ALLOWED_URL")
+	corsConfig := cors.Config{
+		AllowHeaders:     "Origin, Content-Type, Accept, Content-Length, Accept-Language, Accept-Encoding, Connection, Access-Control-Allow-Origin",
+		AllowOrigins:     fmt.Sprintf("%s, http://main-site.com", allowedUrl),
+		AllowCredentials: true,
+		AllowMethods:     "GET,POST,HEAD,PUT,DELETE,PATCH,OPTIONS",
+	}
+
+	// Use the CORS middleware
+	app.Use(cors.New(corsConfig))
+
+	// setup the routes
 	routes.SetUpRoutes(app, db)
 
 	return app, db, nil
