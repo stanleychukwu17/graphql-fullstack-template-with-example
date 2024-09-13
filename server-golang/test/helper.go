@@ -8,11 +8,7 @@ import (
 	"github.com/joho/godotenv"
 )
 
-// BeforeEach is a helper function to load the right environment variables for a
-// given test. It loads the .env.test file if the ENV variable is set to "test" or
-// "development", and the .env.ci file if the ENV variable is set to
-// "continuous_integration" or "production". If the ENV variable is not set, it
-// will fail the test.
+// BeforeEach is a helper function to load the right environment variables
 func BeforeEach(t *testing.T) error {
 	godotenv.Load()
 	env, exists := os.LookupEnv("ENV")
@@ -21,14 +17,13 @@ func BeforeEach(t *testing.T) error {
 
 	if exists {
 		if env == "development" {
-			err := godotenv.Load("D:/Sz - projects/0-templates/0-graphql-project-client-and-server/server-golang/.env.test")
+			err := godotenv.Load("D:/Sz - projects/0-templates/0-graphql-project-client-and-server/server-golang/.env")
 			if err != nil {
 				t.Fatal("Error loading .env file")
 			}
-
 		} else if env == "continuous_integration" || env == "production" {
 			if bgUser == "development" {
-				godotenv.Load("D:/Sz - projects/0-templates/0-graphql-project-client-and-server/server-golang/.env.test")
+				godotenv.Load("D:/Sz - projects/0-templates/0-graphql-project-client-and-server/server-golang/.env")
 			}
 
 			_, port_exists := os.LookupEnv("PORT")
