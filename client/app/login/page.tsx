@@ -40,9 +40,8 @@ export default function LoginPage() {
     const submitLogin: SubmitHandler<LoginForRHF> = async (data) => {
         setIsLoading1(true)
 
-        await axios.post(`${backEndPort}/users/login`, data, {headers: {'Content-Type': 'application/json'}})
+        await axios.post(`${backEndPort}/users/loginUser/`, data, {headers: {'Content-Type': 'application/json'}})
         .then((res) => {
-
             if(res.data.msg === 'okay') {
                 localStorage.setItem('userDts', JSON.stringify(res.data));
                 dispatch(updateUser({loggedIn: 'yes', ...res.data}))
@@ -64,8 +63,9 @@ export default function LoginPage() {
             setIsLoading1(false)
         })
         .catch((err) => {
+            const msg_dts = `Status: ${err.response.status}, ${err.response.data.cause}` 
             setShowAlert(true)
-            setAlertMsg({'msg_type':'bad', 'msg_dts':err.message+', please contact the customer support and report this issue'})
+            setAlertMsg({'msg_type':'bad', 'msg_dts':msg_dts})
             setIsLoading1(false)
         });
     }
@@ -73,7 +73,7 @@ export default function LoginPage() {
     const submitRegistration: SubmitHandler<RegisterRHF> = (data) => {
         setIsLoading2(true)
 
-        axios.post(`${backEndPort}/users/new_user`, data, {headers: {'Content-Type': 'application/json'}})
+        axios.post(`${backEndPort}/users/registerUser`, data, {headers: {'Content-Type': 'application/json'}})
         .then((res) => {
             setShowAlert(true)
             setAlertMsg({'msg_type':res.data.msg, 'msg_dts':res.data.cause})
@@ -85,8 +85,9 @@ export default function LoginPage() {
             })
         })
         .catch((err) => {
+            const msg_dts = `Status: ${err.response.status}, ${err.response.data.cause}` 
             setShowAlert(true)
-            setAlertMsg({'msg_type':'bad', 'msg_dts':err.message+', please contact the customer support and report this issue'})
+            setAlertMsg({'msg_type':'bad', 'msg_dts':msg_dts})
             setIsLoading2(false)
         });
     }
