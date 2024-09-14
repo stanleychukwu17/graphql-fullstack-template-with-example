@@ -19,9 +19,10 @@ async function deserializeUser(req: Request, res: Response, next: NextFunction) 
 
     const { payload, expired } = verifyJWT(accessToken as string);
 
-    // the session_fid received from the request should be the same as the one from the payload
-    if (expired === false) { // this means the accessToken is still valid
+    // this means the accessToken is no longer valid
+    if (expired === false) {
         //@ts-ignore
+        // the session_fid received from the request should be the same as the one from the payload
         if (payload.session_fid != session_fid) {
             return next()
         }
@@ -33,13 +34,13 @@ async function deserializeUser(req: Request, res: Response, next: NextFunction) 
         // For a valid access token
         if (payload && user_id > 0) {
             // @ts-ignore
-            req.loggedInDts = {session_fid, user_id}
+            req.loggedInDts = {session_fid, user_id, loggedIn: true}
             req.body.loggedInDts = {session_fid, user_id};
             return next()
         }
     }
 
-    // expired accessToken, but user has a valid refreshToken
+    // expired accessToken, we will check if the refresh token is valid
     const { payload: refresh } = expired && refreshToken ? verifyJWT(refreshToken as string) : { payload: null };
     if (!refresh) {
         return next();
@@ -56,8 +57,7 @@ async function deserializeUser(req: Request, res: Response, next: NextFunction) 
     const newAccessToken = signJWT({session_fid}, process.env.JWT_TIME_1 as string);
 
     // gets the user information from the new access token created
-    const user = verifyJWT(newAccessToken).payload;
-    const loggedInDts = {session_fid, user_id, new_token:'yes', newAccessToken}
+    const loggedInDts = {session_fid, user_id, new_token:'yes', newAccessToken, loggedIn: true}
 
     // attaches the user logged in details to the req, so that is can be available to all
     // @ts-ignore
