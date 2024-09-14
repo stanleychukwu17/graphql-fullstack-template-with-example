@@ -3,7 +3,6 @@ package controllers
 import (
 	"fmt"
 	"os"
-	"strings"
 
 	"github.com/gofiber/fiber/v2"
 	"gorm.io/gorm"
@@ -113,10 +112,10 @@ func (u *UsersController) LoginThisUser(ctx *fiber.Ctx) error {
 	// creates a new session for the user
 	sessionDts := u.UserServices.CreateSession(userDts.ID)
 
-	// create access and refresh tokens
+	// payload used to create accessToken and refreshTokens
 	payload := map[string]interface{}{
-		"session_fid": int(sessionDts.FakeId),
-		"created_at":  strings.Split(fmt.Sprintf("%v", sessionDts.CreatedAt), " ")[0],
+		"session_fid": sessionDts.FakeId,
+		"created_at":  fmt.Sprintf("%v", sessionDts.CreatedAt),
 	}
 
 	// retrieve the accessToken and the refreshToken
@@ -129,6 +128,7 @@ func (u *UsersController) LoginThisUser(ctx *fiber.Ctx) error {
 		"name":         userDts.Name,
 		"accessToken":  accessToken,
 		"refreshToken": refreshToken,
+		"session_fid":  fmt.Sprintf("%d", sessionDts.FakeId),
 	}
 
 	return ctx.Status(fiber.StatusOK).JSON(response)
