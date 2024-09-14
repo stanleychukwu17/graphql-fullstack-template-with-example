@@ -6,6 +6,7 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
+	"github.com/stanleychukwu17/graphql-fullstack-template-with-example/server-golang/middleware"
 	"github.com/stanleychukwu17/graphql-fullstack-template-with-example/server-golang/models"
 	"github.com/stanleychukwu17/graphql-fullstack-template-with-example/server-golang/routes"
 	"gorm.io/gorm"
@@ -37,8 +38,12 @@ func Setup() (*fiber.App, *gorm.DB, error) {
 		AllowMethods:     "GET,POST,HEAD,PUT,DELETE,PATCH,OPTIONS",
 	}
 
-	// Use the CORS middleware
-	app.Use(cors.New(corsConfig))
+	//CORS middlewares
+	app.Use(cors.New(corsConfig)) // enable CORS
+
+	// deserializer middleware
+	item := middleware.DeserializeStruct{DB: db}
+	app.Use(item.DeserializeUser)
 
 	// setup the routes
 	routes.SetUpRoutes(app, db)
