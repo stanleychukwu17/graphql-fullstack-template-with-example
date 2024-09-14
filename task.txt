@@ -29,10 +29,15 @@ deploy {
 Todo {
     NOTE: Start fri
     Golang:
-    commit changes
-    start the FrontEnd and test it with go backEnd
+    DONE: commit changes
+    stop jwt time from been 30s to expire
+    start the FrontEnd and test it with go backEnd {
+        work on the route for healthCheck for accessToken
+    }
     work on the logging out { use middleware to verify if the user can visit this link }
     write test for logging out
+    user should not be able to see login page when logged in
+    -
     BackEnd: dockerize and test it in a docker container - development
     BackEnd: dockerize and test it in a docker container - production
     Test the frontEnd with the dockerizeD app for development and production
@@ -43,9 +48,14 @@ Todo {
     ---
     NOTE: Start sat
     Frontend:
-    FrontEnd: Jest revision complete *2
-    FrontEnd: cypress revision complete *2
+    {work on golang in the mornings - revision and short other projects} (2hr)
+    FrontEnd: Jest revision complete
+    FrontEnd: cypress revision complete
     FrontEnd: Next revision *2, react revision *2, js revision *2
+    -
+    tailwindCss: https://youtube.com/playlist?list=PL8HkCX2C5h0VM7zNTaGgRDEb0Mp18ttqp
+    Typescript *2; - Do that Typescript project of codeEditor
+    -
     NEEDED: Next.js course
     NEEDED: Next.js course & shadCN
     NEEDED: React course
@@ -54,7 +64,11 @@ Todo {
     NEEDED: visualization course
     NOTE: End sat
     NOTE: Start
-    {work on golang in the mornings - revision and short other projects}
+    {work on golang in the mornings - revision and short other projects} (3hr)
+    -FrontEnd: use a skeleton for the header, in the login session, show loading skeleton that will animate until
+        we verify if the user is logged in or not
+    FrontEnd: work on preloader - when link is clicked on .. especially from homePage and Login page
+    FrontEnd: redesign the theme selection
     FrontEnd: Next i8n
     FrontEnd: jest and cypress test should be above 75%
     FrontEnd: add google login and sign up

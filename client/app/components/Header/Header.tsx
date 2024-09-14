@@ -65,6 +65,7 @@ export function check_if_we_can_run_the_access_token_health_check (uDts: userDet
             localStorage.setItem('last_24hr_check', `${current_time}`)
         }
     } catch(err: any) {
+        alert(err.message)
         console.log(err.message)
     }
 }
@@ -72,17 +73,10 @@ export function check_if_we_can_run_the_access_token_health_check (uDts: userDet
 export async function run_access_token_health_check (uDts: userDetailsType) {
     axios.post(`${backEndPort}/healthCheck/accessToken`, uDts, {headers: {'Content-Type': 'application/json'}})
     .then(re => {
-        // be sure that next.js is not compiling in server mode
+        // if !window.localStorage, then it means that next.js is not compiling in server mode
         if (window.localStorage) {
             // update the lastTime checked to be the current time
             window.localStorage.setItem('last_24hr_check', `${new Date()}`)
-
-            // if true, then it means the accessToken has expired and the refreshToken has also expired
-            if (re.data.msg === 'bad' && re.data.action === 'logout') {
-                localStorage.removeItem('userDts')
-                location.href = '/logout'
-                return true;
-            }
 
             // the below means the accessToken has expired and so a new accessToken was generated
             if (re.data.msg === 'okay' && re.data.new_token === 'yes') {
@@ -90,8 +84,14 @@ export async function run_access_token_health_check (uDts: userDetailsType) {
                 location.reload()
             }
         }
+    }).catch(err => {
+        // console.log(err.code, err.message, err.response.data.cause)
+        alert(err.response.data.cause)
+        if (err.response.data.cause === 'Invalid accessToken') {
+            localStorage.removeItem('userDts')
+            location.href = '/logout'
+        }
     })
-    .catch(err => { })
 }
 
 check_if_we_can_run_the_access_token_health_check(userDts)
