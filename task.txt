@@ -29,12 +29,6 @@ deploy {
 Todo {
     NOTE: Start fri
     Golang:
-    DONE: commit changes
-    stop jwt time from been 30s to expire
-    start the FrontEnd and test it with go backEnd {
-        work on the route for healthCheck for accessToken
-    }
-    work on the logging out { use middleware to verify if the user can visit this link }
     write test for logging out
     user should not be able to see login page when logged in
     -
@@ -42,27 +36,29 @@ Todo {
     BackEnd: dockerize and test it in a docker container - production
     Test the frontEnd with the dockerizeD app for development and production
     ---
+    today planning
     {Github Actions, GitHub, Terraform lecture} - 2hr
     ---
     NOTE: End fri
     ---
     NOTE: Start sat
     Frontend:
-    {work on golang in the mornings - revision and short other projects} (2hr)
     FrontEnd: Jest revision complete
     FrontEnd: cypress revision complete
     FrontEnd: Next revision *2, react revision *2, js revision *2
     -
     tailwindCss: https://youtube.com/playlist?list=PL8HkCX2C5h0VM7zNTaGgRDEb0Mp18ttqp
     Typescript *2; - Do that Typescript project of codeEditor
+    React-Hook-Form & Zod;
     -
-    NEEDED: Next.js course
-    NEEDED: Next.js course & shadCN
-    NEEDED: React course
-    NEEDED: React-Hook-Form & Zod;
-    NEEDED: revisions {tailwindCss; Redux & Redux toolkit; Graphql & Apollo Client;}
-    NEEDED: visualization course
+    Next.js course
+    Next.js course & shadCN
+    React course
+    -
+    revisions {tailwindCss; Redux & Redux toolkit; Graphql & Apollo Client;}
+    visualization course
     NOTE: End sat
+    -
     NOTE: Start
     {work on golang in the mornings - revision and short other projects} (3hr)
     -FrontEnd: use a skeleton for the header, in the login session, show loading skeleton that will animate until
@@ -75,13 +71,11 @@ Todo {
     FrontEnd: Ci/CD the Frontend
     FrontEnd: dockerize and test it in a docker container - development
     FrontEnd: dockerize and test it in a docker container - production
-    -
-    start frontEnd in docker development and test with backend in development
-    start frontEnd in docker production and test with backend in production
+    FrontEnd: start frontEnd in docker development and test with backend in development
+    FrontEnd: start frontEnd in docker production and test with backend in production
     NOTE: End
     ---
-    integrate graphql into golang
-    start MyTracker app and rotate with nodejs backEnd setUp, so i can continue to practice Golang
+    *integrate graphql into golang
     ---
     Node:
     backEnd: Node revision *2
@@ -105,16 +99,12 @@ Todo {
     ---
     ---
     infra
-    test both apps on docker and be sure that they are working as expected
-    test both app in production environment on docker and be sure that they are working as expected
-    sort out videos so you can pick-up the ones with the hosting
     deploy client and server as docker containers on both railway and aws
     ---
     ---
     MyVs - Nodejs
-    MyTracker - Golang {
-        visualization course
-    }
+    MyTracker - Golang
+    start MyTracker app and rotate with nodejs backEnd setUp, so i can continue to practice Golang
     ---
     ---
     ---
