@@ -133,3 +133,32 @@ func (u *UsersController) LoginThisUser(ctx *fiber.Ctx) error {
 
 	return ctx.Status(fiber.StatusOK).JSON(response)
 }
+
+func (u *UsersController) LogOutThisUser(ctx *fiber.Ctx) error {
+	logoutDts := struct {
+		SessionFid string `json:"session_fid"`
+	}{}
+
+	// Get the logged in userDts, the info below is provided by the deserializer middleware
+	loggedInDts := ctx.Locals("loggedInDts")
+	if loggedInDts == nil {
+		return ctx.Status(fiber.StatusUnauthorized).JSON(utils.Show_bad_message("You are not logged in"))
+	}
+
+	// retrieve the logged in sessionFid
+	loggedInSessionFid := loggedInDts.(map[string]interface{})["sessionFid"]
+
+	// Parse the request body
+	if err := ctx.BodyParser(&logoutDts); err != nil {
+		return ctx.Status(fiber.StatusBadRequest).JSON(utils.Show_bad_message("Invalid request body received"))
+	}
+
+	// checks to make sure that the received sessionFid matches the logged in sessionFid
+	if loggedInSessionFid != logoutDts.SessionFid {
+		return ctx.Status(fiber.StatusUnauthorized).JSON(utils.Show_bad_message("invalid sessionFid received"))
+	}
+
+	// update the session to be inactive
+	u.DB.Exec("UPDATE users_session SET active = 'no' WHERE fake_id = ? and active = 'yes' limit 1", logoutDts.SessionFid)
+	return ctx.Status(fiber.StatusOK).JSON(utils.Show_good_message("You have been logged out successfully"))
+}
