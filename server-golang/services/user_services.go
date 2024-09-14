@@ -66,10 +66,11 @@ func (u *UserServiceStruct) VerifyPassword(hashedPassword, password string) bool
 	return err == nil
 }
 
-// CheckSession is a struct that contains the session information
+// CheckSession struct
 type CheckSession struct {
 	Msg string `json:"msg"`
 	models.UsersSession
+	CreatedAt string `json:"created_at"`
 }
 
 // createSession creates a new session for the user_id received
