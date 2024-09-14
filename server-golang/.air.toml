@@ -10,16 +10,19 @@ bin = "tmp/main"                # Path to the binary file
 
 # Watch configuration
 [watch]
+exclude = [
+  "vendor/**",
+  "test/**",
+  "*test",
+  "*.tmp",
+  "*.log"
+]
 include = [
   "**/*.go",
   "config/**",
   "templates/**"
 ]
-exclude = [
-  "vendor/**",
-  "*.tmp",
-  "*.log"
-]
+
 delay = 200   # 200ms delay before restarting the application
 
 # Log configuration
