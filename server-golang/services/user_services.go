@@ -66,6 +66,7 @@ func (u *UserServiceStruct) VerifyPassword(hashedPassword, password string) bool
 	return err == nil
 }
 
+// --START-- sessions
 // CheckSession struct
 type CheckSession struct {
 	Msg string `json:"msg"`
@@ -106,3 +107,5 @@ func (u *UserServiceStruct) CreateSession(userId int) CheckSession {
 	uSession.FakeId = int(new_fake_id)
 	return uSession
 }
+
+// --END-- sessions
