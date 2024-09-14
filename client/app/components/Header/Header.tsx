@@ -44,7 +44,7 @@ try {
     // console.log(err.message) = window is not defined
 }
 
-//--END--
+        //--END--
 
 //--START--
 //validates the accessToken and Refresh token every 24_hour
@@ -65,8 +65,10 @@ export function check_if_we_can_run_the_access_token_health_check (uDts: userDet
             localStorage.setItem('last_24hr_check', `${current_time}`)
         }
     } catch(err: any) {
-        alert(err.message)
-        console.log(err.message)
+        if (typeof alert != 'undefined') {
+            alert(err.message)
+            console.log(err.message)
+        }
     }
 }
 
