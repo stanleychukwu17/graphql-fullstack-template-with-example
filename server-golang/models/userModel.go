@@ -46,8 +46,8 @@ type UsersSession struct {
 	ID        int       `gorm:"primaryKey;type:int" json:"id,omitempty"`
 	FakeId    int       `gorm:"uniqueIndex;type:int" json:"fake_id,omitempty"`
 	UserId    int16     `gorm:"type:smallint;index" json:"user_id,omitempty"`
-	Active    string    `gorm:"type:varchar(100);not null;default:'yes'" json:"active,omitempty"`
-	CreatedAt time.Time `gorm:"type:date;not null;" json:"created_at,omitempty"`
+	Active    string    `gorm:"type:varchar(100);not null;default:'yes';index" json:"active,omitempty"`
+	CreatedAt time.Time `gorm:"type:date;not null;index" json:"created_at,omitempty"`
 }
 
 // TableName overrides the default table name for the UsersSession struct
