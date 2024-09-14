@@ -63,7 +63,8 @@ export default function LoginPage() {
             setIsLoading1(false)
         })
         .catch((err) => {
-            const msg_dts = `Status: ${err.response.status}, ${err.response.data.cause}` 
+            const msg_dts = `Status: ${err.response?.status}, ${err.response?.data.cause}` 
+            console.log(err.message)
             setShowAlert(true)
             setAlertMsg({'msg_type':'bad', 'msg_dts':msg_dts})
             setIsLoading1(false)
