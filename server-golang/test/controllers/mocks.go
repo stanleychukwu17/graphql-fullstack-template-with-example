@@ -1,6 +1,7 @@
 package controllers_test
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
 	"net/http/httptest"
@@ -11,16 +12,17 @@ import (
 	"github.com/stanleychukwu17/graphql-fullstack-template-with-example/server-golang/models"
 	"github.com/stanleychukwu17/graphql-fullstack-template-with-example/server-golang/services"
 	"github.com/stretchr/testify/mock"
+	"github.com/stretchr/testify/require"
 	"gorm.io/gorm"
 )
 
 const (
-	registerUrl = "/users/registerUser"
-	loginUrl    = "/users/loginUser"
-	loginOutUrl = "/users/logout"
+	RegisterUrl = "/users/registerUser"
+	LoginUrl    = "/users/loginUser"
+	LogOutUrl   = "/users/logout"
 )
 
-// SendRequestToUrl sends a request to a url on the fiber app.
+// SendRequestToUrl [helperFunction] sends a request to a url on the fiber app.
 func SendRequestToUrl(method string, url string, body string, app *fiber.App) (*http.Response, error) {
 	req := httptest.NewRequest(method, url, strings.NewReader(body))
 	req.Header.Set("Content-Type", "application/json")
@@ -28,18 +30,53 @@ func SendRequestToUrl(method string, url string, body string, app *fiber.App) (*
 	return resp, err
 }
 
+func MockTestRegisterAndLoginUser(t *testing.T, user *rgUserType, db *gorm.DB, app *fiber.App) map[string]interface{} {
+	// Register the user
+	_, err := user.Mock_RegisterUser(app)
+	if err != nil {
+		t.Fatalf("Failed to send request for registration of user: %v", err)
+	}
+
+	// now login the user
+	resp, err := user.Mock_LoginUser(app)
+	if err != nil {
+		t.Fatalf("Failed to send request for Logging into user account: %v", err)
+	}
+
+	// check login response status
+	require.Equal(t, fiber.StatusOK, resp.StatusCode)
+
+	// decode login response body, so we can collect the session_fid
+	var loginRespBody map[string]interface{}
+	err = json.NewDecoder(resp.Body).Decode(&loginRespBody)
+	if err != nil {
+		t.Fatalf("Failed to decode response body: %v", err)
+	}
+
+	// assert response body["msg"] is okay
+	require.Equal(t, "okay", loginRespBody["msg"])
+	require.NotNil(t, loginRespBody["accessToken"])
+	require.NotNil(t, loginRespBody["refreshToken"])
+
+	return loginRespBody
+}
+
+//
+//
+//
+
 type rgUserType struct {
 	models.User
 }
 
 // Mock_RegisterUser sends a POST request to the "/users/registerUser" endpoint of the Fiber app with the user object converted to JSON.
 func (u *rgUserType) Mock_RegisterUser(app *fiber.App) (*http.Response, error) {
-	return SendRequestToUrl("POST", registerUrl, u.ToJson(), app)
+	return SendRequestToUrl("POST", RegisterUrl, u.ToJson(), app)
 }
 
 // Mock_LoginUser sends a POST request to the "/users/loginUser" endpoint of the Fiber app with the user object converted to JSON.
 func (u *rgUserType) Mock_LoginUser(app *fiber.App) (*http.Response, error) {
-	return SendRequestToUrl("POST", loginUrl, u.ToJson(), app)
+	return SendRequestToUrl("POST", LoginUrl, u.ToJson(), app)
 }
 
 func (u *rgUserType) Mock_LogoutUser(app *fiber.App, dts map[string]interface{}) (*http.Response, error) {
@@ -51,7 +88,7 @@ func (u *rgUserType) Mock_LogoutUser(app *fiber.App, dts map[string]interface{})
 		{"accessToken": "%s", "refreshToken": "%s", "session_fid": "%s"}`,
 		accessToken, refreshToken, session_fid,
 	)
-	return SendRequestToUrl("POST", loginOutUrl, toSend, app)
+	return SendRequestToUrl("POST", LogOutUrl, toSend, app)
 }
 
 // Mock_DeleteThisUser deletes the user with the given username from the database.
