@@ -139,7 +139,7 @@ func (u *UsersController) LogOutThisUser(ctx *fiber.Ctx) error {
 		SessionFid string `json:"session_fid"`
 	}{}
 
-	// Get the logged in userDts, the info below is provided by the deserializer middleware
+	// Get the loggedIn userDts, the info below is provided by the deserializer middleware
 	loggedInDts := ctx.Locals("loggedInDts")
 	if loggedInDts == nil {
 		return ctx.Status(fiber.StatusUnauthorized).JSON(utils.Show_bad_message("You are not logged in"))
