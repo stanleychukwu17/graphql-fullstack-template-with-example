@@ -139,6 +139,11 @@ func (u *UsersController) LogOutThisUser(ctx *fiber.Ctx) error {
 		SessionFid string `json:"session_fid"`
 	}{}
 
+	// Parse the request body
+	if err := ctx.BodyParser(&logoutDts); err != nil {
+		return ctx.Status(fiber.StatusBadRequest).JSON(utils.Show_bad_message("Invalid request body received"))
+	}
+
 	// Get the loggedIn userDts, the info below is provided by the deserializer middleware
 	loggedInDts := ctx.Locals("loggedInDts")
 	if loggedInDts == nil {
@@ -147,11 +152,6 @@ func (u *UsersController) LogOutThisUser(ctx *fiber.Ctx) error {
 
 	// retrieve the logged in sessionFid
 	loggedInSessionFid := loggedInDts.(map[string]interface{})["sessionFid"]
-
-	// Parse the request body
-	if err := ctx.BodyParser(&logoutDts); err != nil {
-		return ctx.Status(fiber.StatusBadRequest).JSON(utils.Show_bad_message("Invalid request body received"))
-	}
 
 	// checks to make sure that the received sessionFid matches the logged in sessionFid
 	if loggedInSessionFid != logoutDts.SessionFid {
