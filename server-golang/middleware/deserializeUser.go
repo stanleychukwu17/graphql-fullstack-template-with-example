@@ -5,7 +5,6 @@ import (
 	"os"
 
 	"github.com/gofiber/fiber/v2"
-	"github.com/gofiber/fiber/v2/log"
 	"github.com/stanleychukwu17/graphql-fullstack-template-with-example/server-golang/models"
 	"github.com/stanleychukwu17/graphql-fullstack-template-with-example/server-golang/utils"
 	"gorm.io/gorm"
@@ -48,15 +47,11 @@ func (d *DeserializeStruct) DeserializeUser(ctx *fiber.Ctx) error {
 		}
 
 		// fetch the session details and check for any query errors
-		result := d.DB.Raw(
+		d.DB.Raw(
 			"SELECT user_id FROM users_session WHERE fake_id = ? and active = 'yes' and created_at = ? limit 1",
 			payloadSessionFid,
 			payload.Data.CreatedAt,
 		).Scan(&sessionDts)
-		if result.Error != nil {
-			log.Errorf("query error: %v\n", result.Error)
-			return ctx.Next()
-		}
 
 		// if we found a user, it means the session is still active and all is well
 		if sessionDts.UserId > 0 {
@@ -82,15 +77,11 @@ func (d *DeserializeStruct) DeserializeUser(ctx *fiber.Ctx) error {
 		}
 
 		// fetch the session details and check for any query errors
-		result := d.DB.Raw(
+		d.DB.Raw(
 			"SELECT user_id FROM users_session WHERE fake_id = ? and active = 'yes' and created_at = ? limit 1",
 			payloadSessionFid,
 			payload.Data.CreatedAt,
 		).Scan(&sessionDts)
-		if result.Error != nil {
-			log.Errorf("query error: %v\n", result.Error)
-			return ctx.Next()
-		}
 
 		// if we found a user, it means the session is still active
 		// so we have to generate a new accessToken
