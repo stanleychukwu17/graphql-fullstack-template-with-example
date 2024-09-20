@@ -3,6 +3,7 @@ package controllers_test
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"os"
 	"testing"
 
@@ -89,22 +90,85 @@ func TestLoginThisUser(t *testing.T) {
 	// check response status
 	assert.Equal(t, fiber.StatusOK, resp.StatusCode)
 
-	// check response body
+	// decode login response body
 	var responseBody map[string]interface{}
 	if err = json.NewDecoder(resp.Body).Decode(&responseBody); err != nil {
 		t.Fatalf("Failed to decode response body: %v", err)
 	}
 
 	// assert response body["msg"] is okay
-	assert.Equal(t, "okay", responseBody["Msg"])
-	assert.NotNil(t, responseBody["Name"])
-	assert.NotNil(t, responseBody["RefreshToken"])
+	assert.Equal(t, "okay", responseBody["msg"])
+	assert.NotNil(t, responseBody["name"])
+	assert.NotNil(t, responseBody["refreshToken"])
 
 	// delete the user
 	user.Mock_DeleteThisUser(db, t)
 }
 
-//###--ENDS--
+func TestLogOutThisUser(t *testing.T) {
+	test.BeforeEach(t)
+	// t.Skip()
+
+	// app, _, err := database.Setup()
+	app, db, err := database.Setup()
+	if err != nil {
+		t.Fatalf("Could not set up the database and a new Fiber App: %v", err)
+	}
+
+	// Create a test user
+	user := &rgUserType{
+		User: models.User{
+			Name: "John Doe", Username: "johndoe", Email: "john@example.com", Password: "password", Gender: "male",
+		},
+	}
+	// delete user incase it already exist
+	user.Mock_DeleteThisUser(db, t)
+	// after the test is completed
+	defer user.Mock_DeleteThisUser(db, t)
+
+	// Register the user
+	if _, err := user.Mock_RegisterUser(app); err != nil {
+		t.Fatalf("Failed to send request for registration of user: %v", err)
+	}
+
+	// now login the user
+	resp, err := user.Mock_LoginUser(app)
+	if err != nil {
+		t.Fatalf("Failed to send request for Logging into user account: %v", err)
+	}
+
+	// check login response status
+	require.Equal(t, fiber.StatusOK, resp.StatusCode)
+
+	// decode login response body, so we can collect the session_fid
+	var loginRespBody map[string]interface{}
+	if err = json.NewDecoder(resp.Body).Decode(&loginRespBody); err != nil {
+		t.Fatalf("Failed to decode response body: %v", err)
+	}
+	// assert response body["msg"] is okay
+	require.Equal(t, "okay", loginRespBody["msg"])
+	require.NotNil(t, loginRespBody["accessToken"])
+	require.NotNil(t, loginRespBody["refreshToken"])
+
+	// logout the user
+	logoutResp, err := user.Mock_LogoutUser(app, loginRespBody)
+	if err != nil {
+		t.Fatalf("Failed to send request for Logging out of user account: %v", err)
+	}
+
+	// check response status
+	assert.Equal(t, fiber.StatusOK, logoutResp.StatusCode)
+
+	logOutBody := map[string]interface{}{}
+	if err = json.NewDecoder(logoutResp.Body).Decode(&logOutBody); err != nil {
+		t.Fatalf("Failed to decode response body: %v", err)
+	}
+
+	fmt.Printf("LogOutBody: %+v\n", logOutBody)
+	// fmt.Printf("loginRespBody: %+v\n", loginRespBody)
+}
+
+//###--END--
 
 // ###--STARTS-- unit tests
 func TestRegisterUser_Unit(t *testing.T) {
@@ -227,7 +291,7 @@ func TestLoginThisUser_Unit(t *testing.T) {
 		resp, err := SendRequestToUrl("POST", reqUrl, user.ToJson(), app)
 
 		require.NoError(t, err)
-		require.Equal(t, fiber.StatusNotFound, resp.StatusCode, "Expects a %v status if the username or email address does not exits in our database", fiber.StatusNotFound)
+		require.Equal(t, fiber.StatusForbidden, resp.StatusCode, "Expects a %v status if the username or email address does not exits in our database", fiber.StatusNotFound)
 	})
 
 	// expects an error if password is a wrong password
