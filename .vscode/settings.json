@@ -1,9 +1,13 @@
 {
     "cSpell.words": [
+        "coverprofile",
         "godotenv",
         "gofiber",
+        "goimports",
+        "johndoe",
         "joho",
         "stanleychukwu",
+        "stretchr",
         "testcontainers"
     ]
 }

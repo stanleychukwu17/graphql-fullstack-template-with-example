@@ -30,9 +30,12 @@ Todo {
     NOTE: Start thur
     Golang:
     complete the remaining test - take testing to above 80%
-    user should not be able to see login page when logged in
+    -
+    NEEDED: Typescript revision *3
+    NEEDED: react course
     integrate graphql into golang
     integrate graphQl and jwt
+    -
     NEEDED: Docker completion {
         Re-answer all questions
         All Dockerfile writeup
@@ -49,6 +52,7 @@ Todo {
     NOTE: Start
     NEEDED: Typescript revision *3
     NEEDED: react course
+    user should not be able to see login page when logged in
     -FrontEnd: use a skeleton for the header, in the login session, show loading skeleton that will animate until
         we verify if the user is logged in or not
         let the header sized be fixed, let it not be jumping based on who
