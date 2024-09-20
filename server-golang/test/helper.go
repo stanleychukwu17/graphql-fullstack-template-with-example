@@ -13,7 +13,7 @@ func BeforeEach(t *testing.T) error {
 	godotenv.Load()
 	env, exists := os.LookupEnv("ENV")
 	bgUser, _ := os.LookupEnv("BG_USER")
-	fmt.Printf("this is the value of env: %v : %v \n", env, exists)
+	// fmt.Printf("this is the value of env: %v : %v \n", env, exists)
 
 	if exists {
 		if env == "development" {

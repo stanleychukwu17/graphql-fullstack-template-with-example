@@ -27,88 +27,68 @@ deploy {
     create your database @ railway for staging
 }
 Todo {
-    NOTE: Start fri
+    NOTE: Start thur
     Golang:
-    write test for logging out
+    complete the remaining test - take testing to above 80%
     user should not be able to see login page when logged in
-    -
+    integrate graphql into golang
+    integrate graphQl and jwt
+    NEEDED: Docker completion {
+        Re-answer all questions
+        All Dockerfile writeup
+        All docker-compose writeup
+        remaining revisions and questions
+    }
     BackEnd: dockerize and test it in a docker container - development
     BackEnd: dockerize and test it in a docker container - production
-    Test the frontEnd with the dockerizeD app for development and production
+    Test the frontEnd with the dockerizeD app for {development and production}
+    -
+    NOTE: End thur
     ---
-    today planning
-    {Github Actions, GitHub, Terraform lecture} - 2hr
     ---
-    NOTE: End fri
-    ---
-    NOTE: Start sat
-    Frontend:
-    FrontEnd: Jest revision complete
-    FrontEnd: cypress revision complete
-    FrontEnd: Next revision *2, react revision *2, js revision *2
-    -
-    tailwindCss: https://youtube.com/playlist?list=PL8HkCX2C5h0VM7zNTaGgRDEb0Mp18ttqp
-    Typescript *2; - Do that Typescript project of codeEditor
-    React-Hook-Form & Zod;
-    -
-    Next.js course
-    Next.js course & shadCN
-    React course
-    -
-    revisions {tailwindCss; Redux & Redux toolkit; Graphql & Apollo Client;}
-    visualization course
-    NOTE: End sat
-    -
     NOTE: Start
-    {work on golang in the mornings - revision and short other projects} (3hr)
+    NEEDED: Typescript revision *3
+    NEEDED: react course
     -FrontEnd: use a skeleton for the header, in the login session, show loading skeleton that will animate until
         we verify if the user is logged in or not
+        let the header sized be fixed, let it not be jumping based on who
     FrontEnd: work on preloader - when link is clicked on .. especially from homePage and Login page
     FrontEnd: redesign the theme selection
-    FrontEnd: Next i8n
-    FrontEnd: jest and cypress test should be above 75%
     FrontEnd: add google login and sign up
+    FrontEnd: jest and cypress test should be above 75%
     FrontEnd: Ci/CD the Frontend
-    FrontEnd: dockerize and test it in a docker container - development
-    FrontEnd: dockerize and test it in a docker container - production
+    check the graphQl code and integrate with golang backEnd
+    Generating apollo types, if there is any need for this
+    testing of Apollo - frontend {
+        apollo - set up Development & testing
+        apollo - set up performance
+        apollo - set up integration
+        apollo - set up Networking
+    }
+    FrontEnd: dockerize and test it in a docker container - development & production
+    -
     FrontEnd: start frontEnd in docker development and test with backend in development
     FrontEnd: start frontEnd in docker production and test with backend in production
     NOTE: End
     ---
-    *integrate graphql into golang
     ---
     Node:
-    backEnd: Node revision *2
+    NEEDED: backEnd: Node revision *2
+    backEnd: Rebuild from the ground up to make it easier for testing
     backend: convert the backEnd to class for easier testing
     backend: change everything to drizzle ORM
     backend: watch video on graphQl and jwt authentication
     backend: finish working on the graphQl side
+        graphql and jwt
     backend: finish test coverage 75%
     backend: write the ci/cd for the backend, make sure the test coverage is above 90%
-    sort {
-        graphql and jwt {1st_half and 2nd_half} - course, then integrate it
-        backend & frontend: testing of Apollo - BackEnd
-        Generating apollo types, if there is any need for this
-        testing of Apollo - frontend {
-            apollo - set up Development & testing
-            apollo - set up performance
-            apollo - set up integration
-            apollo - set up Networking
-        }
-    }
-    ---
-    ---
-    infra
-    deploy client and server as docker containers on both railway and aws
-    ---
-    ---
-    MyVs - Nodejs
-    MyTracker - Golang
-    start MyTracker app and rotate with nodejs backEnd setUp, so i can continue to practice Golang
-    ---
     ---
     ---
 
+    Infrastructure
+    deploy client and server as docker containers on both railway and aws
+    ---
+    ---
 
     ---
     ---
