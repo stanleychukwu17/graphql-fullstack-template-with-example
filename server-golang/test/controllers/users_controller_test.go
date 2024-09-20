@@ -270,6 +270,14 @@ func TestLogoutUser_Unit(t *testing.T) {
 	const reqUrl = LogOutUrl
 	app.Post(reqUrl, controllers.LogOutThisUser)
 
+	t.Run("should return an error for wrong body sent to the server", func(t *testing.T) {
+		body := `{wrong:jsonType}`
+
+		resp, err := SendRequestToUrl("POST", reqUrl, body, app)
+		require.NoError(t, err)
+		require.Equal(t, resp.StatusCode, fiber.StatusBadRequest)
+	})
+
 	t.Run("it should not find any logged in user details", func(t *testing.T) {
 		body := `{"which":"nothing"}`
 
@@ -280,10 +288,6 @@ func TestLogoutUser_Unit(t *testing.T) {
 		require.NoError(t, err)
 		require.Equal(t, resp.StatusCode, fiber.StatusUnauthorized)
 		require.Contains(t, strings.ToLower(responseBodyStr), "you are not logged in")
-	})
-
-	t.Run("", func(t *testing.T) {
-
 	})
 }
 
