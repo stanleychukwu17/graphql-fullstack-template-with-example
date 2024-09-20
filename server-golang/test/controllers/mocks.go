@@ -1,6 +1,7 @@
 package controllers_test
 
 import (
+	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"strings"
@@ -13,8 +14,11 @@ import (
 	"gorm.io/gorm"
 )
 
-const registerUrl = "/users/registerUser"
-const loginUrl = "/users/loginUser"
+const (
+	registerUrl = "/users/registerUser"
+	loginUrl    = "/users/loginUser"
+	loginOutUrl = "/users/logout"
+)
 
 // SendRequestToUrl sends a request to a url on the fiber app.
 func SendRequestToUrl(method string, url string, body string, app *fiber.App) (*http.Response, error) {
@@ -36,6 +40,18 @@ func (u *rgUserType) Mock_RegisterUser(app *fiber.App) (*http.Response, error) {
 // Mock_LoginUser sends a POST request to the "/users/loginUser" endpoint of the Fiber app with the user object converted to JSON.
 func (u *rgUserType) Mock_LoginUser(app *fiber.App) (*http.Response, error) {
 	return SendRequestToUrl("POST", loginUrl, u.ToJson(), app)
+}
+
+func (u *rgUserType) Mock_LogoutUser(app *fiber.App, dts map[string]interface{}) (*http.Response, error) {
+	session_fid := dts["session_fid"].(string)
+	accessToken := dts["accessToken"].(string)
+	refreshToken := dts["refreshToken"].(string)
+
+	toSend := fmt.Sprintf(`
+		{"accessToken": "%s", "refreshToken": "%s", "session_fid": "%s"}`,
+		accessToken, refreshToken, session_fid,
+	)
+	return SendRequestToUrl("POST", loginOutUrl, toSend, app)
 }
 
 // Mock_DeleteThisUser deletes the user with the given username from the database.
