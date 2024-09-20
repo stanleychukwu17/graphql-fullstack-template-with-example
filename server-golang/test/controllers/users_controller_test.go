@@ -3,8 +3,9 @@ package controllers_test
 import (
 	"encoding/json"
 	"errors"
-	"fmt"
+	"io"
 	"os"
+	"strings"
 	"testing"
 
 	"github.com/gofiber/fiber/v2"
@@ -18,7 +19,7 @@ import (
 )
 
 // ###--STARTS-- integration tests
-func TestRegisterUser_Integration(t *testing.T) {
+func TestRegisterUser(t *testing.T) {
 	test.BeforeEach(t)
 	// t.Skip()
 
@@ -35,6 +36,10 @@ func TestRegisterUser_Integration(t *testing.T) {
 		},
 	}
 
+	// delete user incase it already exist
+	user.Mock_DeleteThisUser(db, t)
+	defer user.Mock_DeleteThisUser(db, t) // after the test is completed
+
 	// Sends the request
 	resp, err := user.Mock_RegisterUser(app)
 	if err != nil {
@@ -42,19 +47,14 @@ func TestRegisterUser_Integration(t *testing.T) {
 	}
 
 	// check response status
-	assert.Equal(t, fiber.StatusCreated, resp.StatusCode)
+	require.Equal(t, fiber.StatusCreated, resp.StatusCode)
 
 	// check response body
 	var responseBody map[string]interface{}
-	if err = json.NewDecoder(resp.Body).Decode(&responseBody); err != nil {
-		t.Fatalf("Failed to decode response body: %v", err)
-	}
+	_ = json.NewDecoder(resp.Body).Decode(&responseBody)
 
 	// assert response body["msg"] is okay
 	require.Equal(t, "okay", responseBody["msg"])
-
-	// delete the user
-	user.Mock_DeleteThisUser(db, t)
 }
 
 func TestLoginThisUser(t *testing.T) {
@@ -68,48 +68,25 @@ func TestLoginThisUser(t *testing.T) {
 	}
 
 	// Create a test user
-	user := rgUserType{
+	user := &rgUserType{
 		User: models.User{
 			Name: "John Doe", Username: "johndoe", Email: "john@example.com", Password: "password", Gender: "male",
 		},
 	}
+
 	// delete user incase it already exist
 	user.Mock_DeleteThisUser(db, t)
+	defer user.Mock_DeleteThisUser(db, t) // after the test is completed
 
-	// Register the user
-	if _, err := user.Mock_RegisterUser(app); err != nil {
-		t.Fatalf("Failed to send request for registration of user: %v", err)
-	}
-
-	// now login the user
-	resp, err := user.Mock_LoginUser(app)
-	if err != nil {
-		t.Fatalf("Failed to send request for Logging into user account: %v", err)
-	}
-
-	// check response status
-	assert.Equal(t, fiber.StatusOK, resp.StatusCode)
-
-	// decode login response body
-	var responseBody map[string]interface{}
-	if err = json.NewDecoder(resp.Body).Decode(&responseBody); err != nil {
-		t.Fatalf("Failed to decode response body: %v", err)
-	}
-
-	// assert response body["msg"] is okay
-	assert.Equal(t, "okay", responseBody["msg"])
-	assert.NotNil(t, responseBody["name"])
-	assert.NotNil(t, responseBody["refreshToken"])
-
-	// delete the user
-	user.Mock_DeleteThisUser(db, t)
+	// log user in
+	loginRespBody := MockTestRegisterAndLoginUser(t, user, db, app)
+	require.NotNil(t, loginRespBody)
 }
 
 func TestLogOutThisUser(t *testing.T) {
 	test.BeforeEach(t)
 	// t.Skip()
 
-	// app, _, err := database.Setup()
 	app, db, err := database.Setup()
 	if err != nil {
 		t.Fatalf("Could not set up the database and a new Fiber App: %v", err)
@@ -121,34 +98,13 @@ func TestLogOutThisUser(t *testing.T) {
 			Name: "John Doe", Username: "johndoe", Email: "john@example.com", Password: "password", Gender: "male",
 		},
 	}
+
 	// delete user incase it already exist
 	user.Mock_DeleteThisUser(db, t)
-	// after the test is completed
-	defer user.Mock_DeleteThisUser(db, t)
+	defer user.Mock_DeleteThisUser(db, t) // after the test is completed
 
-	// Register the user
-	if _, err := user.Mock_RegisterUser(app); err != nil {
-		t.Fatalf("Failed to send request for registration of user: %v", err)
-	}
-
-	// now login the user
-	resp, err := user.Mock_LoginUser(app)
-	if err != nil {
-		t.Fatalf("Failed to send request for Logging into user account: %v", err)
-	}
-
-	// check login response status
-	require.Equal(t, fiber.StatusOK, resp.StatusCode)
-
-	// decode login response body, so we can collect the session_fid
-	var loginRespBody map[string]interface{}
-	if err = json.NewDecoder(resp.Body).Decode(&loginRespBody); err != nil {
-		t.Fatalf("Failed to decode response body: %v", err)
-	}
-	// assert response body["msg"] is okay
-	require.Equal(t, "okay", loginRespBody["msg"])
-	require.NotNil(t, loginRespBody["accessToken"])
-	require.NotNil(t, loginRespBody["refreshToken"])
+	// log user in
+	loginRespBody := MockTestRegisterAndLoginUser(t, user, db, app)
 
 	// logout the user
 	logoutResp, err := user.Mock_LogoutUser(app, loginRespBody)
@@ -158,14 +114,6 @@ func TestLogOutThisUser(t *testing.T) {
 
 	// check response status
 	assert.Equal(t, fiber.StatusOK, logoutResp.StatusCode)
-
-	logOutBody := map[string]interface{}{}
-	if err = json.NewDecoder(logoutResp.Body).Decode(&logOutBody); err != nil {
-		t.Fatalf("Failed to decode response body: %v", err)
-	}
-
-	fmt.Printf("LogOutBody: %+v\n", logOutBody)
-	// fmt.Printf("loginRespBody: %+v\n", loginRespBody)
 }
 
 //###--END--
@@ -183,7 +131,7 @@ func TestRegisterUser_Unit(t *testing.T) {
 	}
 
 	// register the controller to the app(fiber) with the url and the controller to handle every request to the url
-	const reqUrl = "/users/registerUser"
+	const reqUrl = RegisterUrl
 	app.Post(reqUrl, controller.RegisterUser)
 
 	// expects an error when bad json object is sent to the server
@@ -256,7 +204,7 @@ func TestLoginThisUser_Unit(t *testing.T) {
 		UserServices: mockService,
 	}
 
-	const reqUrl = "/users/loginUser"
+	const reqUrl = LoginUrl
 	app.Post(reqUrl, controller.LoginThisUser)
 
 	// expects an error when bad json request object is sent to the server
@@ -306,6 +254,36 @@ func TestLoginThisUser_Unit(t *testing.T) {
 
 		require.NoError(t, err)
 		require.Equal(t, fiber.StatusUnauthorized, resp.StatusCode, "Expects a %v status if password is a wrong password", fiber.StatusUnauthorized)
+	})
+}
+
+func TestLogoutUser_Unit(t *testing.T) {
+	test.BeforeEach(t)
+	// t.Skip()
+
+	app := fiber.New()
+	mockService := new(MockUserService)
+	controllers := &controllers.UsersController{
+		UserServices: mockService,
+	}
+
+	const reqUrl = LogOutUrl
+	app.Post(reqUrl, controllers.LogOutThisUser)
+
+	t.Run("it should not find any logged in user details", func(t *testing.T) {
+		body := `{"which":"nothing"}`
+
+		resp, err := SendRequestToUrl("POST", reqUrl, body, app)
+		responseBody, _ := io.ReadAll(resp.Body)
+		responseBodyStr := string(responseBody)
+
+		require.NoError(t, err)
+		require.Equal(t, resp.StatusCode, fiber.StatusUnauthorized)
+		require.Contains(t, strings.ToLower(responseBodyStr), "you are not logged in")
+	})
+
+	t.Run("", func(t *testing.T) {
+
 	})
 }
 
