@@ -17,10 +17,11 @@ func BeforeEach(t *testing.T) error {
 
 	if exists {
 		if env == "development" {
-			err := godotenv.Load("D:/Sz - projects/0-templates/0-graphql-project-client-and-server/server-golang/.env")
-			if err != nil {
-				t.Fatal("Error loading .env file")
-			}
+			godotenv.Load("D:/Sz - projects/0-templates/0-graphql-project-client-and-server/server-golang/.env")
+			// err := godotenv.Load("D:/Sz - projects/0-templates/0-graphql-project-client-and-server/server-golang/.env")
+			// if err != nil {
+			// 	t.Fatal("Error loading .env file")
+			// }
 		} else if env == "continuous_integration" || env == "production" {
 			if bgUser == "development" {
 				godotenv.Load("D:/Sz - projects/0-templates/0-graphql-project-client-and-server/server-golang/.env")
@@ -30,7 +31,8 @@ func BeforeEach(t *testing.T) error {
 			_, db_exists := os.LookupEnv("DB_NAME")
 
 			if !port_exists || !db_exists {
-				t.Fatal("PORT or DB_NAME is not set, please set your env variables")
+				t.Logf("PORT or DB_NAME is not set, please set your env variables")
+				return fmt.Errorf("PORT or DB_NAME is not set, please set your env variables")
 			}
 		} else {
 			t.Logf("ENV is not correct, please set your env variable to either test, continuous_integration or production")
