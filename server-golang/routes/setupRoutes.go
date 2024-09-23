@@ -17,13 +17,12 @@ func SetUpRoutes(app *fiber.App, db *gorm.DB) {
 	app.Post("/healthCheck/accessToken", func(ctx *fiber.Ctx) error {
 		loggedInDts := ctx.Locals("loggedInDts")
 		if loggedInDts == nil {
-			return ctx.Status(fiber.StatusUnauthorized).JSON(utils.Show_bad_message("Invalid accessToken"))
+			return ctx.Status(fiber.StatusUnauthorized).JSON(utils.Show_bad_message("Invalid SessionFid or accessToken 1"))
 		}
 
 		loggedIn := loggedInDts.(map[string]interface{})["loggedIn"]
 		new_token := loggedInDts.(map[string]interface{})["new_token"]
 		newAccessToken := loggedInDts.(map[string]interface{})["newAccessToken"]
-		// fmt.Printf("loggedInDts: %v\n", loggedInDts)
 
 		if loggedIn.(bool) {
 			if new_token == "yes" {
@@ -38,7 +37,7 @@ func SetUpRoutes(app *fiber.App, db *gorm.DB) {
 				return ctx.Status(fiber.StatusOK).JSON(utils.Show_good_message("user is logged in"))
 			}
 		} else {
-			return ctx.Status(fiber.StatusBadRequest).JSON(utils.Show_bad_message("Invalid accessToken"))
+			return ctx.Status(fiber.StatusUnauthorized).JSON(utils.Show_bad_message("Invalid SessionFid or accessToken 2"))
 		}
 	})
 
