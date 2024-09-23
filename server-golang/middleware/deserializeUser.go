@@ -35,7 +35,6 @@ func (d *DeserializeStruct) DeserializeUser(ctx *fiber.Ctx) error {
 
 	// verify the accessToken
 	payload, err := utils.VerifyJwt(query.AccessToken)
-	// fmt.Printf("accessToken payload: %v, err: %v\n", payload, err)
 
 	// it means the accessToken is still valid
 	if err == nil {
