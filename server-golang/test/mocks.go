@@ -9,6 +9,7 @@ import (
 	"testing"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/stanleychukwu17/graphql-fullstack-template-with-example/server-golang/database"
 	"github.com/stanleychukwu17/graphql-fullstack-template-with-example/server-golang/models"
 	"github.com/stanleychukwu17/graphql-fullstack-template-with-example/server-golang/services"
 	"github.com/stretchr/testify/mock"
@@ -17,10 +18,29 @@ import (
 )
 
 const (
-	RegisterUrl = "/users/registerUser"
-	LoginUrl    = "/users/loginUser"
-	LogOutUrl   = "/users/logout"
+	RegisterUrl    = "/users/registerUser"
+	LoginUrl       = "/users/loginUser"
+	LogOutUrl      = "/users/logout"
+	HealthTokenUrl = "/healthCheck/accessToken"
 )
+
+//
+// 	START: Helper functions
+//
+
+func CreateFiberApp_DB_UserAccount(t *testing.T) (*fiber.App, *gorm.DB, *RgUserType, error) {
+	// set up new fiber application
+	app, db, err := database.Setup()
+
+	// Create a test user
+	user := &RgUserType{
+		User: models.User{
+			Name: "John Doe", Username: "johndoe", Email: "john@example.com", Password: "password", Gender: "male",
+		},
+	}
+
+	return app, db, user, err
+}
 
 // SendRequestToUrl [helperFunction] sends a request to a url on the fiber app.
 func SendRequestToUrl(method string, url string, body string, app *fiber.App) (*http.Response, error) {
@@ -30,7 +50,7 @@ func SendRequestToUrl(method string, url string, body string, app *fiber.App) (*
 	return resp, err
 }
 
-func MockTestRegisterAndLoginUser(t *testing.T, user *rgUserType, db *gorm.DB, app *fiber.App) map[string]interface{} {
+func MockTestRegisterAndLoginUser(t *testing.T, user *RgUserType, db *gorm.DB, app *fiber.App) map[string]interface{} {
 	// Register the user
 	_, err := user.Mock_RegisterUser(app)
 	if err != nil {
@@ -62,24 +82,26 @@ func MockTestRegisterAndLoginUser(t *testing.T, user *rgUserType, db *gorm.DB, a
 }
 
 //
-//
+// END: Helper functions
 //
 
-type rgUserType struct {
+// RgUserType is a struct that contains a user object.
+// It implements the MockRegisterUser and MockLoginUser methods.
+type RgUserType struct {
 	models.User
 }
 
 // Mock_RegisterUser sends a POST request to the "/users/registerUser" endpoint of the Fiber app with the user object converted to JSON.
-func (u *rgUserType) Mock_RegisterUser(app *fiber.App) (*http.Response, error) {
+func (u *RgUserType) Mock_RegisterUser(app *fiber.App) (*http.Response, error) {
 	return SendRequestToUrl("POST", RegisterUrl, u.ToJson(), app)
 }
 
 // Mock_LoginUser sends a POST request to the "/users/loginUser" endpoint of the Fiber app with the user object converted to JSON.
-func (u *rgUserType) Mock_LoginUser(app *fiber.App) (*http.Response, error) {
+func (u *RgUserType) Mock_LoginUser(app *fiber.App) (*http.Response, error) {
 	return SendRequestToUrl("POST", LoginUrl, u.ToJson(), app)
 }
 
-func (u *rgUserType) Mock_LogoutUser(app *fiber.App, dts map[string]interface{}) (*http.Response, error) {
+func (u *RgUserType) Mock_LogoutUser(app *fiber.App, dts map[string]interface{}) (*http.Response, error) {
 	session_fid := dts["session_fid"].(string)
 	accessToken := dts["accessToken"].(string)
 	refreshToken := dts["refreshToken"].(string)
@@ -92,7 +114,7 @@ func (u *rgUserType) Mock_LogoutUser(app *fiber.App, dts map[string]interface{})
 }
 
 // Mock_DeleteThisUser deletes the user with the given username from the database.
-func (u *rgUserType) Mock_DeleteThisUser(db *gorm.DB, t *testing.T) {
+func (u *RgUserType) Mock_DeleteThisUser(db *gorm.DB, t *testing.T) {
 	user := models.User{}
 	err := db.Raw("SELECT id FROM users WHERE username = ? limit 1", u.Username).Scan(&user).Error
 	if err != nil {
@@ -105,8 +127,7 @@ func (u *rgUserType) Mock_DeleteThisUser(db *gorm.DB, t *testing.T) {
 	db.Exec("DELETE FROM users_session WHERE user_id = ? limit 1", user.ID)
 }
 
-// ###
-// ###--STARTS-- MockUserService tests
+// STARTS: MockUserService
 type MockUserService struct {
 	mock.Mock
 }
@@ -134,4 +155,4 @@ func (m *MockUserService) CreateSession(userId int) services.CheckSession {
 	return services.CheckSession{}
 }
 
-//###--ENDS--
+// ENDS: MockUserService
