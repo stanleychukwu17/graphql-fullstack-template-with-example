@@ -16,7 +16,8 @@ Todo {
 
     NOTE: Start thur
     Golang:
-    commit changes
+    DONE: commit changes
+    rename the RgUserType 
     update users test with new account creation
     complete the remaining test - take testing to above 80%
     --
@@ -49,6 +50,7 @@ Todo {
         let the header sized be fixed, let it not be jumping based on who
     FrontEnd: work on preloader - when link is clicked on .. especially from homePage and Login page
     FrontEnd: redesign the theme selection
+    FrontEnd: make the website to be international, start with 2 languages: english and spanish
     FrontEnd: add google login and sign up {react-google-login}
     FrontEnd: jest and cypress test should be above 75%
     FrontEnd: Ci/CD the Frontend

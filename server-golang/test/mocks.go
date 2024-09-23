@@ -28,12 +28,12 @@ const (
 // 	START: Helper functions
 //
 
-func CreateFiberApp_DB_UserAccount(t *testing.T) (*fiber.App, *gorm.DB, *RgUserType, error) {
+func CreateFiberApp_DB_UserAccount(t *testing.T) (*fiber.App, *gorm.DB, *UserStruct, error) {
 	// set up new fiber application
 	app, db, err := database.Setup()
 
 	// Create a test user
-	user := &RgUserType{
+	user := &UserStruct{
 		User: models.User{
 			Name: "John Doe", Username: "johndoe", Email: "john@example.com", Password: "password", Gender: "male",
 		},
@@ -50,7 +50,7 @@ func SendRequestToUrl(method string, url string, body string, app *fiber.App) (*
 	return resp, err
 }
 
-func MockTestRegisterAndLoginUser(t *testing.T, user *RgUserType, db *gorm.DB, app *fiber.App) map[string]interface{} {
+func MockTestRegisterAndLoginUser(t *testing.T, user *UserStruct, db *gorm.DB, app *fiber.App) map[string]interface{} {
 	// Register the user
 	_, err := user.Mock_RegisterUser(app)
 	if err != nil {
@@ -85,23 +85,23 @@ func MockTestRegisterAndLoginUser(t *testing.T, user *RgUserType, db *gorm.DB, a
 // END: Helper functions
 //
 
-// RgUserType is a struct that contains a user object.
+// UserStruct is a struct that contains a user object.
 // It implements the MockRegisterUser and MockLoginUser methods.
-type RgUserType struct {
+type UserStruct struct {
 	models.User
 }
 
 // Mock_RegisterUser sends a POST request to the "/users/registerUser" endpoint of the Fiber app with the user object converted to JSON.
-func (u *RgUserType) Mock_RegisterUser(app *fiber.App) (*http.Response, error) {
+func (u *UserStruct) Mock_RegisterUser(app *fiber.App) (*http.Response, error) {
 	return SendRequestToUrl("POST", RegisterUrl, u.ToJson(), app)
 }
 
 // Mock_LoginUser sends a POST request to the "/users/loginUser" endpoint of the Fiber app with the user object converted to JSON.
-func (u *RgUserType) Mock_LoginUser(app *fiber.App) (*http.Response, error) {
+func (u *UserStruct) Mock_LoginUser(app *fiber.App) (*http.Response, error) {
 	return SendRequestToUrl("POST", LoginUrl, u.ToJson(), app)
 }
 
-func (u *RgUserType) Mock_LogoutUser(app *fiber.App, dts map[string]interface{}) (*http.Response, error) {
+func (u *UserStruct) Mock_LogoutUser(app *fiber.App, dts map[string]interface{}) (*http.Response, error) {
 	session_fid := dts["session_fid"].(string)
 	accessToken := dts["accessToken"].(string)
 	refreshToken := dts["refreshToken"].(string)
@@ -114,7 +114,7 @@ func (u *RgUserType) Mock_LogoutUser(app *fiber.App, dts map[string]interface{})
 }
 
 // Mock_DeleteThisUser deletes the user with the given username from the database.
-func (u *RgUserType) Mock_DeleteThisUser(db *gorm.DB, t *testing.T) {
+func (u *UserStruct) Mock_DeleteThisUser(db *gorm.DB, t *testing.T) {
 	user := models.User{}
 	err := db.Raw("SELECT id FROM users WHERE username = ? limit 1", u.Username).Scan(&user).Error
 	if err != nil {
