@@ -31,9 +31,14 @@ func Setup() (*fiber.App, *gorm.DB, error) {
 
 	// Create a CORS middleware instance
 	allowedUrl := os.Getenv("ALLOWED_URL")
+	if allowedUrl == "" {
+		allowedUrl = "*"
+	} else {
+		allowedUrl = fmt.Sprintf("%s,http://main-site.com", allowedUrl) // Comma-separated string
+	}
 	corsConfig := cors.Config{
 		AllowHeaders:     "Origin, Content-Type, Accept, Content-Length, Accept-Language, Accept-Encoding, Connection, Access-Control-Allow-Origin",
-		AllowOrigins:     fmt.Sprintf("%s, http://main-site.com", allowedUrl),
+		AllowOrigins:     allowedUrl,
 		AllowCredentials: true,
 		AllowMethods:     "GET,POST,HEAD,PUT,DELETE,PATCH,OPTIONS",
 	}
