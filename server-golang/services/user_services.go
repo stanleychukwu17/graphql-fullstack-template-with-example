@@ -1,8 +1,6 @@
 package services
 
 import (
-	"log"
-
 	"github.com/stanleychukwu17/graphql-fullstack-template-with-example/server-golang/models"
 	"github.com/stanleychukwu17/graphql-fullstack-template-with-example/server-golang/utils"
 	"golang.org/x/crypto/bcrypt"
@@ -48,12 +46,9 @@ func (u *UserServiceStruct) HashPassword(password string) (string, error) {
 
 	// Generate a hashed password with default cost factor
 	hashedPassword, err := bcrypt.GenerateFromPassword(bytePassword, bcrypt.DefaultCost)
-	if err != nil {
-		return "", err
-	}
 
 	// Convert hashed password to a string and return
-	return string(hashedPassword), nil
+	return string(hashedPassword), err
 }
 
 // VerifyPassword checks if the provided password matches the hashed password.
@@ -86,25 +81,20 @@ func (u *UserServiceStruct) CreateSession(userId int) CheckSession {
 	}
 
 	// creates a new session
-	err := u.DB.Raw("INSERT INTO users_session (user_id, fake_id, active, created_at) VALUES (?, ?, 'yes', now())", userId, 0).Scan(&uSession).Error
-	if err != nil {
-		log.Fatalln(err.Error())
-		return uSession
+	err := u.DB.Exec("INSERT INTO users_session (user_id, fake_id, active, created_at) VALUES (?, ?, 'yes', now())", userId, 0).Error
+	if err == nil {
+		// fetch the current active session
+		u.DB.Raw("SELECT * FROM users_session WHERE user_id = ? and active = 'yes' LIMIT 1", userId).Scan(&uSession)
+		uSession.Msg = "okay"
+		sessionId := uSession.ID
+		new_fake_id := utils.Generate_fake_id(sessionId) // Generate a new fake_id
+
+		// updates the session created with the new fake_id
+		u.DB.Exec("UPDATE users_session SET fake_id = ? WHERE id = ?", new_fake_id, sessionId)
+
+		uSession.FakeId = new_fake_id
 	}
 
-	// fetch the current active session
-	u.DB.Raw("SELECT * FROM users_session WHERE user_id = ? and active = 'yes' LIMIT 1", userId).Scan(&uSession)
-	uSession.Msg = "okay"
-	sessionId := uSession.ID
-	new_fake_id := utils.Generate_fake_id(int(sessionId)) // Generate a new fake_id
-
-	// updates the session created with the new fake_id
-	err = u.DB.Raw("UPDATE users_session SET fake_id = ? WHERE id = ?", new_fake_id, sessionId).Scan(&uSession).Error
-	if err != nil {
-		log.Fatalln(err.Error())
-	}
-
-	uSession.FakeId = int(new_fake_id)
 	return uSession
 }
 
