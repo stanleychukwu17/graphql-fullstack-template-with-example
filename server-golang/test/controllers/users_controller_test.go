@@ -24,9 +24,6 @@ func TestRegisterUser(t *testing.T) {
 
 	// set up new fiber application and return a UserModel instance
 	app, db, user, _ := test.CreateFiberApp_DB_UserAccount(t)
-
-	// delete user incase it already exist
-	user.Mock_DeleteThisUser(db, t)
 	defer user.Mock_DeleteThisUser(db, t) // after the test is completed
 
 	// Sends the request
@@ -52,9 +49,6 @@ func TestLoginThisUser(t *testing.T) {
 
 	// set up new fiber application and return a UserModel instance
 	app, db, user, _ := test.CreateFiberApp_DB_UserAccount(t)
-
-	// delete user incase it already exist
-	user.Mock_DeleteThisUser(db, t)
 	defer user.Mock_DeleteThisUser(db, t) // after the test is completed
 
 	// log user in
@@ -68,9 +62,6 @@ func TestLogOutThisUser(t *testing.T) {
 
 	// set up new fiber application and return a UserModel instance
 	app, db, user, _ := test.CreateFiberApp_DB_UserAccount(t)
-
-	// delete user incase it already exist
-	user.Mock_DeleteThisUser(db, t)
 	defer user.Mock_DeleteThisUser(db, t) // after the test is completed
 
 	// log user in

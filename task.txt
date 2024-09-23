@@ -19,7 +19,11 @@ Todo {
     DONE: commit changes
     DONE: rename the RgUserType
     DONE: update users test with new account creation
-    complete the remaining test - take testing to above 80%
+    DONE: complete the remaining test - take testing to above 80%
+    commit changes
+    merge into the main branch
+    arrange links in chrome
+    move to revision
     --
     NEEDED: Docker completion {
         Re-answer all questions
@@ -37,8 +41,7 @@ Todo {
         https://github.com/99designs/gqlgen
     }
     -
-    Test the frontEnd with the dockerizeD app for {development and production}
-        to make sure the graphQl works with docker
+    Test the frontEnd with the dockerizeD app for {development and production} to make sure the graphQl works with docker
     -
     NOTE: End thur
     ---
