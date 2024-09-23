@@ -89,19 +89,25 @@ func TestLogOutThisUser(t *testing.T) {
 // END
 
 // STARTS: unit tests
-func TestRegisterUser_Unit(t *testing.T) {
-	test.BeforeEach(t)
-	// t.Skip()
-
-	// set up new fiber application and the mock service, also using the mock service in the controller
+func unitHelperFunction() (*fiber.App, *test.MockUserService, *controllers.UsersController) {
 	app := fiber.New()
 	mockService := new(test.MockUserService)
 	controller := &controllers.UsersController{
 		UserServices: mockService,
 	}
 
-	// register the controller to the app(fiber) with the url and the controller to handle every request to the url
+	return app, mockService, controller
+}
+
+func TestRegisterUser_Unit(t *testing.T) {
+	test.BeforeEach(t)
+	// t.Skip()
+
+	// set up new fiber application and the mock service
 	const reqUrl = test.RegisterUrl
+	app, mockService, controller := unitHelperFunction()
+
+	// register the controller to handle every request to the url
 	app.Post(reqUrl, controller.RegisterUser)
 
 	// expects an error when bad json object is sent to the server
@@ -168,13 +174,11 @@ func TestLoginThisUser_Unit(t *testing.T) {
 	test.BeforeEach(t)
 	// t.Skip()
 
-	app := fiber.New()
-	mockService := new(test.MockUserService)
-	controller := &controllers.UsersController{
-		UserServices: mockService,
-	}
-
+	// set up new fiber application and the mock service
 	const reqUrl = test.LoginUrl
+	app, mockService, controller := unitHelperFunction()
+
+	// register the controller to handle every request to the url
 	app.Post(reqUrl, controller.LoginThisUser)
 
 	// expects an error when bad json request object is sent to the server
@@ -231,14 +235,12 @@ func TestLogoutUser_Unit(t *testing.T) {
 	test.BeforeEach(t)
 	// t.Skip()
 
-	app := fiber.New()
-	mockService := new(test.MockUserService)
-	controllers := &controllers.UsersController{
-		UserServices: mockService,
-	}
-
+	// set up new fiber application and the mock service
 	const reqUrl = test.LogOutUrl
-	app.Post(reqUrl, controllers.LogOutThisUser)
+	app, _, controller := unitHelperFunction()
+
+	// register the controller to handle every request to the url
+	app.Post(reqUrl, controller.LogOutThisUser)
 
 	t.Run("should return an error for wrong body sent to the server", func(t *testing.T) {
 		body := `{wrong:jsonType}`
