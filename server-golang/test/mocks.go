@@ -125,14 +125,10 @@ func (u *UserStruct) Mock_LogoutUser(app *fiber.App, dts map[string]interface{})
 func (u *UserStruct) Mock_DeleteThisUser(db *gorm.DB, t *testing.T) {
 	user := models.User{}
 	err := db.Raw("SELECT id FROM users WHERE username = ? limit 1", u.Username).Scan(&user).Error
-	if err != nil {
-		if err.Error() != "record not found" {
-			t.Logf("Error occurred when searching for the user to delete, check your sql syntax, Error msg: %v", err)
-		}
+	if err == nil {
+		db.Exec("DELETE FROM users WHERE id = ? limit 1", user.ID)
+		db.Exec("DELETE FROM users_session WHERE user_id = ? limit 1", user.ID)
 	}
-
-	db.Exec("DELETE FROM users WHERE id = ? limit 1", user.ID)
-	db.Exec("DELETE FROM users_session WHERE user_id = ? limit 1", user.ID)
 }
 
 // STARTS: MockUserService
