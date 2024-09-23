@@ -90,9 +90,6 @@ func TestDeserializerUser_WithExpiredToken(t *testing.T) {
 		responseBody, _ := io.ReadAll(resp.Body)
 		responseBodyStr := string(responseBody)
 
-		fmt.Println(resp.StatusCode, fiber.StatusOK)
-		fmt.Printf("responseBodyStr: %s\n", responseBodyStr)
-
 		require.NoError(t, err)
 		require.Equal(t, resp.StatusCode, fiber.StatusOK)
 		require.Contains(t, responseBodyStr, "newAccessToken")
