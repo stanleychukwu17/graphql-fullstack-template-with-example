@@ -17,8 +17,8 @@ Todo {
     NOTE: Start thur
     Golang:
     DONE: commit changes
-    rename the RgUserType 
-    update users test with new account creation
+    DONE: rename the RgUserType
+    DONE: update users test with new account creation
     complete the remaining test - take testing to above 80%
     --
     NEEDED: Docker completion {
