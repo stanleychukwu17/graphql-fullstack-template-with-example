@@ -44,7 +44,7 @@ func (u *User) ToJson() string {
 
 type UsersSession struct {
 	ID        int       `gorm:"primaryKey;type:int" json:"id,omitempty"`
-	FakeId    int       `gorm:"uniqueIndex;type:int" json:"fake_id,omitempty"`
+	FakeId    int       `gorm:"type:int;index" json:"fake_id,omitempty"`
 	UserId    int16     `gorm:"type:smallint;index" json:"user_id,omitempty"`
 	Active    string    `gorm:"type:varchar(100);not null;default:'yes';index" json:"active,omitempty"`
 	CreatedAt time.Time `gorm:"type:date;not null;index" json:"created_at,omitempty"`
