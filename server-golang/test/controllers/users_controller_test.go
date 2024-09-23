@@ -18,7 +18,7 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-// ###--STARTS-- integration tests
+// STARTS: integration tests
 func TestRegisterUser(t *testing.T) {
 	test.BeforeEach(t)
 	// t.Skip()
@@ -30,7 +30,7 @@ func TestRegisterUser(t *testing.T) {
 	}
 
 	// Create a test user
-	user := rgUserType{
+	user := &test.RgUserType{
 		User: models.User{
 			Name: "John Doe", Username: "johndoe", Email: "john@example.com", Password: "password", Gender: "male",
 		},
@@ -68,7 +68,7 @@ func TestLoginThisUser(t *testing.T) {
 	}
 
 	// Create a test user
-	user := &rgUserType{
+	user := &test.RgUserType{
 		User: models.User{
 			Name: "John Doe", Username: "johndoe", Email: "john@example.com", Password: "password", Gender: "male",
 		},
@@ -79,7 +79,7 @@ func TestLoginThisUser(t *testing.T) {
 	defer user.Mock_DeleteThisUser(db, t) // after the test is completed
 
 	// log user in
-	loginRespBody := MockTestRegisterAndLoginUser(t, user, db, app)
+	loginRespBody := test.MockTestRegisterAndLoginUser(t, user, db, app)
 	require.NotNil(t, loginRespBody)
 }
 
@@ -93,7 +93,7 @@ func TestLogOutThisUser(t *testing.T) {
 	}
 
 	// Create a test user
-	user := &rgUserType{
+	user := &test.RgUserType{
 		User: models.User{
 			Name: "John Doe", Username: "johndoe", Email: "john@example.com", Password: "password", Gender: "male",
 		},
@@ -104,7 +104,7 @@ func TestLogOutThisUser(t *testing.T) {
 	defer user.Mock_DeleteThisUser(db, t) // after the test is completed
 
 	// log user in
-	loginRespBody := MockTestRegisterAndLoginUser(t, user, db, app)
+	loginRespBody := test.MockTestRegisterAndLoginUser(t, user, db, app)
 
 	// logout the user
 	logoutResp, err := user.Mock_LogoutUser(app, loginRespBody)
@@ -116,29 +116,29 @@ func TestLogOutThisUser(t *testing.T) {
 	assert.Equal(t, fiber.StatusOK, logoutResp.StatusCode)
 }
 
-//###--END--
+// END
 
-// ###--STARTS-- unit tests
+// STARTS: unit tests
 func TestRegisterUser_Unit(t *testing.T) {
 	test.BeforeEach(t)
 	// t.Skip()
 
 	// set up new fiber application and the mock service, also using the mock service in the controller
 	app := fiber.New()
-	mockService := new(MockUserService)
+	mockService := new(test.MockUserService)
 	controller := &controllers.UsersController{
 		UserServices: mockService,
 	}
 
 	// register the controller to the app(fiber) with the url and the controller to handle every request to the url
-	const reqUrl = RegisterUrl
+	const reqUrl = test.RegisterUrl
 	app.Post(reqUrl, controller.RegisterUser)
 
 	// expects an error when bad json object is sent to the server
 	t.Run("it should return fiber.StatusUnprocessableEntity for bad json request object sent to the server", func(t *testing.T) {
 		// format the body to json readable string
 		body := `{"name": "stanley chukwu",}`
-		resp, err := SendRequestToUrl("POST", reqUrl, body, app)
+		resp, err := test.SendRequestToUrl("POST", reqUrl, body, app)
 
 		require.NoError(t, err)
 		require.Equal(t, fiber.StatusUnprocessableEntity, resp.StatusCode, "expected status code %d, got %d", fiber.StatusUnprocessableEntity, resp.StatusCode)
@@ -151,7 +151,7 @@ func TestRegisterUser_Unit(t *testing.T) {
 		}
 
 		// sends the request
-		resp, err := SendRequestToUrl("POST", reqUrl, user.ToJson(), app)
+		resp, err := test.SendRequestToUrl("POST", reqUrl, user.ToJson(), app)
 
 		require.NoError(t, err)
 		require.Equal(t, fiber.StatusBadRequest, resp.StatusCode, "Expects an error code if any of the fields are too short")
@@ -167,7 +167,7 @@ func TestRegisterUser_Unit(t *testing.T) {
 		mockService.On("FindUserByUsernameOrEmail", user.Username, user.Email).Return(&user)
 
 		// sends the request
-		resp, err := SendRequestToUrl("POST", reqUrl, user.ToJson(), app)
+		resp, err := test.SendRequestToUrl("POST", reqUrl, user.ToJson(), app)
 
 		require.NoError(t, err)
 		require.Equal(t, fiber.StatusUnprocessableEntity, resp.StatusCode, "Expects an error code if email or username already exist")
@@ -187,7 +187,7 @@ func TestRegisterUser_Unit(t *testing.T) {
 		mockService.On("CreateUser", user).Return(errors.New("failed to create user"))
 
 		// Send the request
-		resp, err := SendRequestToUrl("POST", reqUrl, user.ToJson(), app)
+		resp, err := test.SendRequestToUrl("POST", reqUrl, user.ToJson(), app)
 
 		require.NoError(t, err, "Error while sending http request")
 		require.Equal(t, fiber.StatusBadRequest, resp.StatusCode, "Expects fiber.StatusBadRequest when trying to create a new user")
@@ -199,19 +199,19 @@ func TestLoginThisUser_Unit(t *testing.T) {
 	// t.Skip()
 
 	app := fiber.New()
-	mockService := new(MockUserService)
+	mockService := new(test.MockUserService)
 	controller := &controllers.UsersController{
 		UserServices: mockService,
 	}
 
-	const reqUrl = LoginUrl
+	const reqUrl = test.LoginUrl
 	app.Post(reqUrl, controller.LoginThisUser)
 
 	// expects an error when bad json request object is sent to the server
 	t.Run("it should return fiber.StatusUnprocessableEntity for bad json request object sent to the server", func(t *testing.T) {
 		body := `{"username": "stanley",}`
 
-		resp, err := SendRequestToUrl("POST", reqUrl, body, app)
+		resp, err := test.SendRequestToUrl("POST", reqUrl, body, app)
 
 		require.NoError(t, err)
 		require.Equal(t, fiber.StatusUnprocessableEntity, resp.StatusCode, "expected status code %d, got %d", fiber.StatusUnprocessableEntity, resp.StatusCode)
@@ -222,7 +222,7 @@ func TestLoginThisUser_Unit(t *testing.T) {
 		user := models.User{Username: "stanley", Password: ""}
 
 		// sends the request
-		resp, err := SendRequestToUrl("POST", reqUrl, user.ToJson(), app)
+		resp, err := test.SendRequestToUrl("POST", reqUrl, user.ToJson(), app)
 
 		require.NoError(t, err)
 		require.Equal(t, fiber.StatusBadRequest, resp.StatusCode, "Expects an error code if any of the fields are too short")
@@ -236,7 +236,7 @@ func TestLoginThisUser_Unit(t *testing.T) {
 		mockService.On("FindUserByUsernameOrEmail", user.Username, user.Username).Return(&models.User{Username: "", Email: ""})
 
 		// sends the request
-		resp, err := SendRequestToUrl("POST", reqUrl, user.ToJson(), app)
+		resp, err := test.SendRequestToUrl("POST", reqUrl, user.ToJson(), app)
 
 		require.NoError(t, err)
 		require.Equal(t, fiber.StatusForbidden, resp.StatusCode, "Expects a %v status if the username or email address does not exits in our database", fiber.StatusNotFound)
@@ -250,7 +250,7 @@ func TestLoginThisUser_Unit(t *testing.T) {
 		mockService.On("VerifyPassword", user.Password, user.Password).Return(false)
 
 		// sends the request
-		resp, err := SendRequestToUrl("POST", reqUrl, user.ToJson(), app)
+		resp, err := test.SendRequestToUrl("POST", reqUrl, user.ToJson(), app)
 
 		require.NoError(t, err)
 		require.Equal(t, fiber.StatusUnauthorized, resp.StatusCode, "Expects a %v status if password is a wrong password", fiber.StatusUnauthorized)
@@ -262,18 +262,18 @@ func TestLogoutUser_Unit(t *testing.T) {
 	// t.Skip()
 
 	app := fiber.New()
-	mockService := new(MockUserService)
+	mockService := new(test.MockUserService)
 	controllers := &controllers.UsersController{
 		UserServices: mockService,
 	}
 
-	const reqUrl = LogOutUrl
+	const reqUrl = test.LogOutUrl
 	app.Post(reqUrl, controllers.LogOutThisUser)
 
 	t.Run("should return an error for wrong body sent to the server", func(t *testing.T) {
 		body := `{wrong:jsonType}`
 
-		resp, err := SendRequestToUrl("POST", reqUrl, body, app)
+		resp, err := test.SendRequestToUrl("POST", reqUrl, body, app)
 		require.NoError(t, err)
 		require.Equal(t, resp.StatusCode, fiber.StatusBadRequest)
 	})
@@ -281,7 +281,7 @@ func TestLogoutUser_Unit(t *testing.T) {
 	t.Run("it should not find any logged in user details", func(t *testing.T) {
 		body := `{"which":"nothing"}`
 
-		resp, err := SendRequestToUrl("POST", reqUrl, body, app)
+		resp, err := test.SendRequestToUrl("POST", reqUrl, body, app)
 		responseBody, _ := io.ReadAll(resp.Body)
 		responseBodyStr := string(responseBody)
 
@@ -291,4 +291,4 @@ func TestLogoutUser_Unit(t *testing.T) {
 	})
 }
 
-// ###--ENDS--
+// ENDS
