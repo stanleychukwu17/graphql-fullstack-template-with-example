@@ -7,6 +7,7 @@ import (
 	"net/http/httptest"
 	"strings"
 	"testing"
+	"time"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/stanleychukwu17/graphql-fullstack-template-with-example/server-golang/database"
@@ -32,10 +33,17 @@ func CreateFiberApp_DB_UserAccount(t *testing.T) (*fiber.App, *gorm.DB, *UserStr
 	// set up new fiber application
 	app, db, err := database.Setup()
 
+	now := time.Now()
+	milliseconds := now.UnixNano() / 1_000_000
+	millisecondsStr := fmt.Sprintf("%d", milliseconds)
+
+	username := fmt.Sprintf("john_%s", millisecondsStr)
+	email := fmt.Sprintf("john_%s_email@example.com", millisecondsStr)
+
 	// Create a test user
 	user := &UserStruct{
 		User: models.User{
-			Name: "John Doe", Username: "johndoe", Email: "john@example.com", Password: "password", Gender: "male",
+			Name: "John Doe", Username: username, Email: email, Password: "password", Gender: "male",
 		},
 	}
 
