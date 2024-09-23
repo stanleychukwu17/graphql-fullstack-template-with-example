@@ -10,7 +10,6 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/stanleychukwu17/graphql-fullstack-template-with-example/server-golang/controllers"
-	"github.com/stanleychukwu17/graphql-fullstack-template-with-example/server-golang/database"
 	"github.com/stanleychukwu17/graphql-fullstack-template-with-example/server-golang/models"
 	"github.com/stanleychukwu17/graphql-fullstack-template-with-example/server-golang/test"
 	"github.com/stanleychukwu17/graphql-fullstack-template-with-example/server-golang/utils"
@@ -23,18 +22,8 @@ func TestRegisterUser(t *testing.T) {
 	test.BeforeEach(t)
 	// t.Skip()
 
-	// set up new fiber application
-	app, db, err := database.Setup()
-	if err != nil {
-		t.Fatalf("Could not set up the database and a new Fiber App: %v", err)
-	}
-
-	// Create a test user
-	user := &test.RgUserType{
-		User: models.User{
-			Name: "John Doe", Username: "johndoe", Email: "john@example.com", Password: "password", Gender: "male",
-		},
-	}
+	// set up new fiber application and return a UserModel instance
+	app, db, user, _ := test.CreateFiberApp_DB_UserAccount(t)
 
 	// delete user incase it already exist
 	user.Mock_DeleteThisUser(db, t)
@@ -61,18 +50,8 @@ func TestLoginThisUser(t *testing.T) {
 	test.BeforeEach(t)
 	// t.Skip()
 
-	// set up new fiber application and the database
-	app, db, err := database.Setup()
-	if err != nil {
-		t.Fatalf("Could not set up the database and a new Fiber App: %v", err)
-	}
-
-	// Create a test user
-	user := &test.RgUserType{
-		User: models.User{
-			Name: "John Doe", Username: "johndoe", Email: "john@example.com", Password: "password", Gender: "male",
-		},
-	}
+	// set up new fiber application and return a UserModel instance
+	app, db, user, _ := test.CreateFiberApp_DB_UserAccount(t)
 
 	// delete user incase it already exist
 	user.Mock_DeleteThisUser(db, t)
@@ -87,17 +66,8 @@ func TestLogOutThisUser(t *testing.T) {
 	test.BeforeEach(t)
 	// t.Skip()
 
-	app, db, err := database.Setup()
-	if err != nil {
-		t.Fatalf("Could not set up the database and a new Fiber App: %v", err)
-	}
-
-	// Create a test user
-	user := &test.RgUserType{
-		User: models.User{
-			Name: "John Doe", Username: "johndoe", Email: "john@example.com", Password: "password", Gender: "male",
-		},
-	}
+	// set up new fiber application and return a UserModel instance
+	app, db, user, _ := test.CreateFiberApp_DB_UserAccount(t)
 
 	// delete user incase it already exist
 	user.Mock_DeleteThisUser(db, t)
