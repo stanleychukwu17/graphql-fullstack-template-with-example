@@ -3,7 +3,6 @@ package controllers
 import (
 	"fmt"
 	"os"
-	"strings"
 
 	"github.com/gofiber/fiber/v2"
 	"gorm.io/gorm"
@@ -71,7 +70,7 @@ func (u *UsersController) RegisterUser(ctx *fiber.Ctx) error {
 
 	// return a success message
 	return ctx.Status(fiber.StatusCreated).JSON(
-		utils.Show_good_message("User created successfully from controller"),
+		utils.Show_good_message("You account has been created successfully, you can login now with your credentials"),
 	)
 }
 
@@ -101,7 +100,7 @@ func (u *UsersController) LoginThisUser(ctx *fiber.Ctx) error {
 	// checks to see if the user exists in our database
 	userDts = u.UserServices.FindUserByUsernameOrEmail(user.Username, user.Username)
 	if len(userDts.Username) == 0 {
-		return ctx.Status(fiber.StatusNotFound).JSON(utils.Show_bad_message("User not found"))
+		return ctx.Status(fiber.StatusForbidden).JSON(utils.Show_bad_message("This user is not in our database"))
 	}
 
 	// compare the password received to see if it is a valid password
@@ -113,10 +112,10 @@ func (u *UsersController) LoginThisUser(ctx *fiber.Ctx) error {
 	// creates a new session for the user
 	sessionDts := u.UserServices.CreateSession(userDts.ID)
 
-	// create access and refresh tokens
+	// payload used to create accessToken and refreshTokens
 	payload := map[string]interface{}{
-		"session_fid": int(sessionDts.FakeId),
-		"created_at":  strings.Split(fmt.Sprintf("%v", sessionDts.CreatedAt), " ")[0],
+		"session_fid": sessionDts.FakeId,
+		"created_at":  fmt.Sprintf("%v", sessionDts.CreatedAt),
 	}
 
 	// retrieve the accessToken and the refreshToken
@@ -125,11 +124,41 @@ func (u *UsersController) LoginThisUser(ctx *fiber.Ctx) error {
 
 	// return the access and refresh tokens
 	response := map[string]string{
-		"Msg":          "okay",
-		"Name":         userDts.Name,
-		"AccessToken":  accessToken,
-		"RefreshToken": refreshToken,
+		"msg":          "okay",
+		"name":         userDts.Name,
+		"accessToken":  accessToken,
+		"refreshToken": refreshToken,
+		"session_fid":  fmt.Sprintf("%d", sessionDts.FakeId),
 	}
 
 	return ctx.Status(fiber.StatusOK).JSON(response)
+}
+
+func (u *UsersController) LogOutThisUser(ctx *fiber.Ctx) error {
+	logoutDts := struct {
+		SessionFid string `json:"session_fid"`
+	}{}
+
+	// Parse the request body
+	if err := ctx.BodyParser(&logoutDts); err != nil {
+		return ctx.Status(fiber.StatusBadRequest).JSON(utils.Show_bad_message("Invalid request body received"))
+	}
+
+	// Get the loggedIn userDts, the info below is provided by the deserializer middleware
+	loggedInDts := ctx.Locals("loggedInDts")
+	if loggedInDts == nil {
+		return ctx.Status(fiber.StatusUnauthorized).JSON(utils.Show_bad_message("You are not logged in"))
+	}
+
+	// retrieve the logged in sessionFid
+	loggedInSessionFid := loggedInDts.(map[string]interface{})["sessionFid"]
+
+	// checks to make sure that the received sessionFid matches the logged in sessionFid
+	if loggedInSessionFid != logoutDts.SessionFid {
+		return ctx.Status(fiber.StatusUnauthorized).JSON(utils.Show_bad_message("invalid sessionFid received"))
+	}
+
+	// update the session to be inactive
+	u.DB.Exec("UPDATE users_session SET active = 'no' WHERE fake_id = ? and active = 'yes' limit 1", logoutDts.SessionFid)
+	return ctx.Status(fiber.StatusOK).JSON(utils.Show_good_message("You have been logged out successfully"))
 }

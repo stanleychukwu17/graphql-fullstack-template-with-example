@@ -14,14 +14,24 @@ const routes = (app: Express) => {
 
     // healthCheck for accessToken and refreshToken
     app.post('/healthCheck/accessToken', requireUser, (req, res) => {
-        //@ts-ignore
-        const new_token = req.body.loggedInDts.new_token || ''
         let returnMsg = {}
 
-        if (new_token === 'yes') {
-            returnMsg = {...show_good_message(), new_token, dts:req.body.loggedInDts}
+        if (req.body.loggedInDts.loggedIn === true) {
+            //@ts-ignore
+            const new_token = req.body.loggedInDts.new_token || ''
+            if (new_token === 'yes') {
+                returnMsg = {
+                    msg: "okay",
+                    new_token,
+                    dts: {
+                        accessToken: req.body.loggedInDts.newAccessToken
+                    }
+                }
+            } else {
+                returnMsg = show_good_message()
+            }
         } else {
-            returnMsg = show_good_message()
+            returnMsg = show_bad_message("accessToken & refreshToken are no longer valid")
         }
 
         res.json(returnMsg)

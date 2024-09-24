@@ -18,22 +18,23 @@ export default function LogOutComp() {
     const log_this_user_out = useCallback(() => {
         axios.post(`${backEndPort}/users/logout`, userInfo, config)
         .then((res) => {
-            if (res.data.msg === 'okay') {
-                localStorage.removeItem('userDts') // delete the localStorage cached user info
-                dispatch(updateUser({loggedIn:'no', name:'', session_fid:0})) // delete the redux item
+            localStorage.removeItem('userDts') // delete the localStorage cached user info
+            dispatch(updateUser({loggedIn:'no', name:'', session_fid:0})) // delete the redux item
 
-                // no need to send the user to the home page, redux will update the userInfo, the the useEffect below will send the user back to the home page
-                // setTimeout(() => { route.push('/') }, 1000) // setTimeout allows redux to finish updating before we redirect to the homePage
-            }
+            // no need to send the user to the home page, redux will update the userInfo, the
+            // the useEffect below will send the user back to the home page, other you can uncomment the setTimeout
+            // to manually redirect back to home page
+            // setTimeout(() => { route.push('/') }, 1000) // setTimeout allows redux to finish updating before we redirect to the homePage
         })
-        .catch((error) => {
-            // console.error('Error:', error.message);
-            alert(error.message)
+        .catch((err) => {
+            console.error('Error:', err.message, err);
+            alert(err.message)
         });
     }, [dispatch, userInfo])
 
     // checks to make sure that the user is logged in
     useEffect(() => {
+        // console.log(userInfo)
         if (userInfo.loggedIn === 'yes') {
             log_this_user_out()
         } else {

@@ -24,6 +24,7 @@ func (u *UsersRoutes) SetUpRoutes(app *fiber.App) {
 	userServices := &services.UserServiceStruct{DB: u.DB}
 	uControl := &controllers.UsersController{DB: u.DB, UserServices: userServices}
 
-	api.Post("/registerUser", uControl.RegisterUser) // Handles POST requests to "/users/registerNewUser" by invoking the RegisterUser method.
+	api.Post("/registerUser", uControl.RegisterUser) // Handles POST requests to "/users/registerUser" by invoking the RegisterUser method.
 	api.Post("/loginUser", uControl.LoginThisUser)   // Handles POST requests to "/users/loginUser" by invoking the LoginThisUser method.
+	api.Post("/logout", uControl.LogOutThisUser)     // Handles POST requests to "/users/logout" by invoking the LogOutThisUser method.
 }

@@ -64,6 +64,18 @@ jobs:
             run: go mod download
             working-directory: server-golang
 
-          - name: Run tests
-            run: go test -v ./...
+          - name: Run tests and generate coverage report
+            run: |
+              go test -coverprofile=coverage.out ./...
+              go tool cover -func=coverage.out | tee coverage.txt
+            working-directory: server-golang
+
+          - name: Check coverage percentage
+            run: |
+              coverage=$(grep "total:" coverage.txt | awk '{print $3}' | sed 's/%//')
+              echo "Coverage is $coverage%"
+              if [ $(echo "$coverage < 80" | bc) -eq 1 ]; then
+                echo "Coverage is below 80%. Failing the build."
+                exit 1
+              fi
             working-directory: server-golang

@@ -3,12 +3,13 @@ package controllers_test
 import (
 	"encoding/json"
 	"errors"
+	"io"
 	"os"
+	"strings"
 	"testing"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/stanleychukwu17/graphql-fullstack-template-with-example/server-golang/controllers"
-	"github.com/stanleychukwu17/graphql-fullstack-template-with-example/server-golang/database"
 	"github.com/stanleychukwu17/graphql-fullstack-template-with-example/server-golang/models"
 	"github.com/stanleychukwu17/graphql-fullstack-template-with-example/server-golang/test"
 	"github.com/stanleychukwu17/graphql-fullstack-template-with-example/server-golang/utils"
@@ -16,23 +17,14 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-// ###--STARTS-- integration tests
-func TestRegisterUser_Integration(t *testing.T) {
+// STARTS: integration tests
+func TestRegisterUser(t *testing.T) {
 	test.BeforeEach(t)
 	// t.Skip()
 
-	// set up new fiber application
-	app, db, err := database.Setup()
-	if err != nil {
-		t.Fatalf("Could not set up the database and a new Fiber App: %v", err)
-	}
-
-	// Create a test user
-	user := rgUserType{
-		User: models.User{
-			Name: "John Doe", Username: "johndoe", Email: "john@example.com", Password: "password", Gender: "male",
-		},
-	}
+	// set up new fiber application and return a UserModel instance
+	app, db, user, _ := test.CreateFiberApp_DB_UserAccount(t)
+	defer user.Mock_DeleteThisUser(db, t) // after the test is completed
 
 	// Sends the request
 	resp, err := user.Mock_RegisterUser(app)
@@ -41,92 +33,79 @@ func TestRegisterUser_Integration(t *testing.T) {
 	}
 
 	// check response status
-	assert.Equal(t, fiber.StatusCreated, resp.StatusCode)
+	require.Equal(t, fiber.StatusCreated, resp.StatusCode)
 
 	// check response body
 	var responseBody map[string]interface{}
-	if err = json.NewDecoder(resp.Body).Decode(&responseBody); err != nil {
-		t.Fatalf("Failed to decode response body: %v", err)
-	}
+	_ = json.NewDecoder(resp.Body).Decode(&responseBody)
 
 	// assert response body["msg"] is okay
 	require.Equal(t, "okay", responseBody["msg"])
-
-	// delete the user
-	user.Mock_DeleteThisUser(db, t)
 }
 
 func TestLoginThisUser(t *testing.T) {
 	test.BeforeEach(t)
 	// t.Skip()
 
-	// set up new fiber application and the database
-	app, db, err := database.Setup()
-	if err != nil {
-		t.Fatalf("Could not set up the database and a new Fiber App: %v", err)
-	}
+	// set up new fiber application and return a UserModel instance
+	app, db, user, _ := test.CreateFiberApp_DB_UserAccount(t)
+	defer user.Mock_DeleteThisUser(db, t) // after the test is completed
 
-	// Create a test user
-	user := rgUserType{
-		User: models.User{
-			Name: "John Doe", Username: "johndoe", Email: "john@example.com", Password: "password", Gender: "male",
-		},
-	}
-	// delete user incase it already exist
-	user.Mock_DeleteThisUser(db, t)
-
-	// Register the user
-	if _, err := user.Mock_RegisterUser(app); err != nil {
-		t.Fatalf("Failed to send request for registration of user: %v", err)
-	}
-
-	// now login the user
-	resp, err := user.Mock_LoginUser(app)
-	if err != nil {
-		t.Fatalf("Failed to send request for Logging into user account: %v", err)
-	}
-
-	// check response status
-	assert.Equal(t, fiber.StatusOK, resp.StatusCode)
-
-	// check response body
-	var responseBody map[string]interface{}
-	if err = json.NewDecoder(resp.Body).Decode(&responseBody); err != nil {
-		t.Fatalf("Failed to decode response body: %v", err)
-	}
-
-	// assert response body["msg"] is okay
-	assert.Equal(t, "okay", responseBody["Msg"])
-	assert.NotNil(t, responseBody["Name"])
-	assert.NotNil(t, responseBody["RefreshToken"])
-
-	// delete the user
-	user.Mock_DeleteThisUser(db, t)
+	// log user in
+	loginRespBody := test.MockTestRegisterAndLoginUser(t, user, db, app)
+	require.NotNil(t, loginRespBody)
 }
 
-//###--ENDS--
-
-// ###--STARTS-- unit tests
-func TestRegisterUser_Unit(t *testing.T) {
+func TestLogOutThisUser(t *testing.T) {
 	test.BeforeEach(t)
 	// t.Skip()
 
-	// set up new fiber application and the mock service, also using the mock service in the controller
+	// set up new fiber application and return a UserModel instance
+	app, db, user, _ := test.CreateFiberApp_DB_UserAccount(t)
+	defer user.Mock_DeleteThisUser(db, t) // after the test is completed
+
+	// log user in
+	loginRespBody := test.MockTestRegisterAndLoginUser(t, user, db, app)
+
+	// logout the user
+	logoutResp, err := user.Mock_LogoutUser(app, loginRespBody)
+	if err != nil {
+		t.Fatalf("Failed to send request for Logging out of user account: %v", err)
+	}
+
+	// check response status
+	assert.Equal(t, fiber.StatusOK, logoutResp.StatusCode)
+}
+
+// END
+
+// STARTS: unit tests
+func unitHelperFunction() (*fiber.App, *test.MockUserService, *controllers.UsersController) {
 	app := fiber.New()
-	mockService := new(MockUserService)
+	mockService := new(test.MockUserService)
 	controller := &controllers.UsersController{
 		UserServices: mockService,
 	}
 
-	// register the controller to the app(fiber) with the url and the controller to handle every request to the url
-	const reqUrl = "/users/registerUser"
+	return app, mockService, controller
+}
+
+func TestRegisterUser_Unit(t *testing.T) {
+	test.BeforeEach(t)
+	// t.Skip()
+
+	// set up new fiber application and the mock service
+	const reqUrl = test.RegisterUrl
+	app, mockService, controller := unitHelperFunction()
+
+	// register the controller to handle every request to the url
 	app.Post(reqUrl, controller.RegisterUser)
 
 	// expects an error when bad json object is sent to the server
 	t.Run("it should return fiber.StatusUnprocessableEntity for bad json request object sent to the server", func(t *testing.T) {
 		// format the body to json readable string
 		body := `{"name": "stanley chukwu",}`
-		resp, err := SendRequestToUrl("POST", reqUrl, body, app)
+		resp, err := test.SendRequestToUrl("POST", reqUrl, body, app)
 
 		require.NoError(t, err)
 		require.Equal(t, fiber.StatusUnprocessableEntity, resp.StatusCode, "expected status code %d, got %d", fiber.StatusUnprocessableEntity, resp.StatusCode)
@@ -139,7 +118,7 @@ func TestRegisterUser_Unit(t *testing.T) {
 		}
 
 		// sends the request
-		resp, err := SendRequestToUrl("POST", reqUrl, user.ToJson(), app)
+		resp, err := test.SendRequestToUrl("POST", reqUrl, user.ToJson(), app)
 
 		require.NoError(t, err)
 		require.Equal(t, fiber.StatusBadRequest, resp.StatusCode, "Expects an error code if any of the fields are too short")
@@ -155,7 +134,7 @@ func TestRegisterUser_Unit(t *testing.T) {
 		mockService.On("FindUserByUsernameOrEmail", user.Username, user.Email).Return(&user)
 
 		// sends the request
-		resp, err := SendRequestToUrl("POST", reqUrl, user.ToJson(), app)
+		resp, err := test.SendRequestToUrl("POST", reqUrl, user.ToJson(), app)
 
 		require.NoError(t, err)
 		require.Equal(t, fiber.StatusUnprocessableEntity, resp.StatusCode, "Expects an error code if email or username already exist")
@@ -175,7 +154,7 @@ func TestRegisterUser_Unit(t *testing.T) {
 		mockService.On("CreateUser", user).Return(errors.New("failed to create user"))
 
 		// Send the request
-		resp, err := SendRequestToUrl("POST", reqUrl, user.ToJson(), app)
+		resp, err := test.SendRequestToUrl("POST", reqUrl, user.ToJson(), app)
 
 		require.NoError(t, err, "Error while sending http request")
 		require.Equal(t, fiber.StatusBadRequest, resp.StatusCode, "Expects fiber.StatusBadRequest when trying to create a new user")
@@ -186,20 +165,18 @@ func TestLoginThisUser_Unit(t *testing.T) {
 	test.BeforeEach(t)
 	// t.Skip()
 
-	app := fiber.New()
-	mockService := new(MockUserService)
-	controller := &controllers.UsersController{
-		UserServices: mockService,
-	}
+	// set up new fiber application and the mock service
+	const reqUrl = test.LoginUrl
+	app, mockService, controller := unitHelperFunction()
 
-	const reqUrl = "/users/loginUser"
+	// register the controller to handle every request to the url
 	app.Post(reqUrl, controller.LoginThisUser)
 
 	// expects an error when bad json request object is sent to the server
 	t.Run("it should return fiber.StatusUnprocessableEntity for bad json request object sent to the server", func(t *testing.T) {
 		body := `{"username": "stanley",}`
 
-		resp, err := SendRequestToUrl("POST", reqUrl, body, app)
+		resp, err := test.SendRequestToUrl("POST", reqUrl, body, app)
 
 		require.NoError(t, err)
 		require.Equal(t, fiber.StatusUnprocessableEntity, resp.StatusCode, "expected status code %d, got %d", fiber.StatusUnprocessableEntity, resp.StatusCode)
@@ -210,7 +187,7 @@ func TestLoginThisUser_Unit(t *testing.T) {
 		user := models.User{Username: "stanley", Password: ""}
 
 		// sends the request
-		resp, err := SendRequestToUrl("POST", reqUrl, user.ToJson(), app)
+		resp, err := test.SendRequestToUrl("POST", reqUrl, user.ToJson(), app)
 
 		require.NoError(t, err)
 		require.Equal(t, fiber.StatusBadRequest, resp.StatusCode, "Expects an error code if any of the fields are too short")
@@ -224,10 +201,10 @@ func TestLoginThisUser_Unit(t *testing.T) {
 		mockService.On("FindUserByUsernameOrEmail", user.Username, user.Username).Return(&models.User{Username: "", Email: ""})
 
 		// sends the request
-		resp, err := SendRequestToUrl("POST", reqUrl, user.ToJson(), app)
+		resp, err := test.SendRequestToUrl("POST", reqUrl, user.ToJson(), app)
 
 		require.NoError(t, err)
-		require.Equal(t, fiber.StatusNotFound, resp.StatusCode, "Expects a %v status if the username or email address does not exits in our database", fiber.StatusNotFound)
+		require.Equal(t, fiber.StatusForbidden, resp.StatusCode, "Expects a %v status if the username or email address does not exits in our database", fiber.StatusNotFound)
 	})
 
 	// expects an error if password is a wrong password
@@ -238,11 +215,43 @@ func TestLoginThisUser_Unit(t *testing.T) {
 		mockService.On("VerifyPassword", user.Password, user.Password).Return(false)
 
 		// sends the request
-		resp, err := SendRequestToUrl("POST", reqUrl, user.ToJson(), app)
+		resp, err := test.SendRequestToUrl("POST", reqUrl, user.ToJson(), app)
 
 		require.NoError(t, err)
 		require.Equal(t, fiber.StatusUnauthorized, resp.StatusCode, "Expects a %v status if password is a wrong password", fiber.StatusUnauthorized)
 	})
 }
 
-// ###--ENDS--
+func TestLogoutUser_Unit(t *testing.T) {
+	test.BeforeEach(t)
+	// t.Skip()
+
+	// set up new fiber application and the mock service
+	const reqUrl = test.LogOutUrl
+	app, _, controller := unitHelperFunction()
+
+	// register the controller to handle every request to the url
+	app.Post(reqUrl, controller.LogOutThisUser)
+
+	t.Run("should return an error for wrong body sent to the server", func(t *testing.T) {
+		body := `{wrong:jsonType}`
+
+		resp, err := test.SendRequestToUrl("POST", reqUrl, body, app)
+		require.NoError(t, err)
+		require.Equal(t, resp.StatusCode, fiber.StatusBadRequest)
+	})
+
+	t.Run("it should not find any logged in user details", func(t *testing.T) {
+		body := `{"which":"nothing"}`
+
+		resp, err := test.SendRequestToUrl("POST", reqUrl, body, app)
+		responseBody, _ := io.ReadAll(resp.Body)
+		responseBodyStr := string(responseBody)
+
+		require.NoError(t, err)
+		require.Equal(t, resp.StatusCode, fiber.StatusUnauthorized)
+		require.Contains(t, strings.ToLower(responseBodyStr), "you are not logged in")
+	})
+}
+
+// ENDS

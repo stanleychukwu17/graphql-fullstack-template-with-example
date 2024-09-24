@@ -22,7 +22,7 @@ go-test-ci:
 	go run github.com/joho/godotenv/cmd/godotenv -f .env.ci -- go test ./...
 
 go-test-report:
-	@export ENV=development && \
+	@export ENV=development && export BG_USER="development" && \
 	echo $$ENV && \
 	go test -coverprofile=coverage.out ./... && \
 	go tool cover -html=coverage.out -o coverage.html && \
