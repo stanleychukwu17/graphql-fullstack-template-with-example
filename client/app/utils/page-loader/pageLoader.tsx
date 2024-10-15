@@ -1,6 +1,6 @@
 "use client"
 
-import { useAppSelector } from '@/app/redux/hook';
+import { useAppSelector } from '@/app/utils/redux/hook';
 import React, { useEffect } from 'react'
 import {animate, motion, useMotionValue, useTransform} from "framer-motion"
 
