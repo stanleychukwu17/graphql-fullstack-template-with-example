@@ -13,51 +13,56 @@ Todo {
     side_project = Golang
     main_project = FrontEnd
 
-
     NOTE: Start thur
-    Golang:
-    DONE: commit changes
-    DONE: rename the RgUserType
-    DONE: update users test with new account creation
-    DONE: complete the remaining test - take testing to above 80%
-    commit changes
-    merge into the main branch
-    arrange links in chrome
-    move to revision
-    --
+    Golang Backend:
+    NEEDED: frontend graphQl up and running {
+        NEEDED: frontEnd up and running
+        NEEDED: graphQl revision
+        NEEDED: frontEnd graphQl up and running
+    }
+    graphQl {
+        NEEDED: Revision: Graphql & Apollo Client*2;
+        integrate graphql into golang
+        integrate graphQl and jwt {
+            watch that video from that guy first
+        }
+        https://github.com/99designs/gqlgen
+    }
+    graphQl testing
     NEEDED: Docker completion {
         Re-answer all questions
         All Dockerfile writeup
         All docker-compose writeup
         remaining revisions and questions
     }
-    BackEnd: dockerize and test it in a docker container - development
-    BackEnd: dockerize and test it in a docker container - production
-    --
-    graphQl {
-        NEEDED: Revision: Graphql & Apollo Client*2;
-        integrate graphql into golang
-        integrate graphQl and jwt
-        https://github.com/99designs/gqlgen
-    }
-    -
+    dockerize and test it in a docker container - development
+    dockerize and test it in a docker container - production
     Test the frontEnd with the dockerizeD app for {development and production} to make sure the graphQl works with docker
     -
     NOTE: End thur
     ---
     ---
     NOTE: Start
+    FrontEnd:
+    fix bug
+    work on loading.tsx
+    Rebuild the login page using grids
+    Rebuild the register page using grids
+    test login and register to see they both work
+    ---
+    work on jest test and coverage
+    work on cypress test and coverage
+    jest and cypress test should be above 75%
+    revision of github_actions
+    CI/CD the Frontend
+    --
+    change the site to use i8n
+
     user should not be able to see login page when logged in
-    FrontEnd: use a skeleton for the header, in the login session, show loading skeleton that will animate until
         we verify if the user is logged in or not
         let the header sized be fixed, let it not be jumping based on who
-    FrontEnd: work on preloader - when link is clicked on .. especially from homePage and Login page
-    FrontEnd: redesign the theme selection
-    FrontEnd: make the website to be international, start with 2 languages: english and spanish
-    FrontEnd: add google login and sign up {react-google-login}
-    FrontEnd: jest and cypress test should be above 75%
-    FrontEnd: Ci/CD the Frontend
-    NEEDED: Revision: Graphql & Apollo Client*2;
+    redesign the theme selection
+    add google login and sign up {react-google-login}
     check the graphQl code and integrate with golang backEnd
     Generating apollo types, if there is any need for this
     testing of Apollo - frontend {
@@ -66,14 +71,15 @@ Todo {
         apollo - set up integration
         apollo - set up Networking
     }
-    FrontEnd: dockerize and test it in a docker container - development & production
+    dockerize and test it in a docker container - development & production
     -
-    FrontEnd: start frontEnd in docker development and test with backend in development
-    FrontEnd: start frontEnd in docker production and test with backend in production
+    start frontEnd in docker development and test with backend in development
+    start frontEnd in docker production and test with backend in production
     NOTE: End
     ---
     ---
     Node:
+    NEEDED: drizzle orm
     NEEDED: backEnd: Node revision *2
     backEnd: Rebuild from the ground up to make it easier for testing
     backend: convert the backEnd to class for easier testing
@@ -90,11 +96,8 @@ Todo {
     deploy client and server as docker containers on both railway and aws
     ---
     ---
-    MyVs: Node {
-
-    }
+    MyVs: Node {}
     OdiUp: Golang {
-
     }
     ---
     ---
