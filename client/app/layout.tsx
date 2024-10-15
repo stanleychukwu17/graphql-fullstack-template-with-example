@@ -3,6 +3,8 @@ import ReduxProvider from './redux/provider'
 import { ApolloWrapper } from './graphql/apollo-wrapper'
 import Header from './components/Header/Header'
 
+import PageTransitionLoader from '@/app/utils/page-loader/pageLoader'
+
 // import fonts
 import { Inter } from 'next/font/google'
 
@@ -21,6 +23,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <body className="">
                 <ApolloWrapper>
                     <ReduxProvider>
+                        <PageTransitionLoader />
                         <Header />
                         <main className='titi-font max-container'>
                             {children}
