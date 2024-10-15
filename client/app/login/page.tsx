@@ -5,6 +5,7 @@ import {useForm, SubmitHandler} from "react-hook-form"
 import { useRouter } from 'next/navigation';
 import { useAppDispatch, useAppSelector } from "../redux/hook";
 import { updateUser } from '../redux/features/userSlice';
+import { setPageTransition } from '../redux/features/siteSlice';
 import { BACKEND_PORT as backEndPort } from '@/my.config';
 
 import MessageComp, {MessageCompProps} from "../components/Message/MessageComp";
@@ -32,6 +33,11 @@ export default function LoginPage() {
     const [isLoading2, setIsLoading2] = useState<boolean>(false) // used for registering
     const [showAlert, setShowAlert] = useState<boolean>(false) // for showing of error messages from the backend
     const [alertMsg, setAlertMsg] = useState<MessageCompProps>({msg_type:'', msg_dts:''}) // the error message
+
+    // page transition completed, so update 'setPageTransition' to false
+    useEffect(() => {
+        dispatch(setPageTransition(false))
+    }, [])
 
     // setting up React Hook Form to handle the forms below(i.e both the login and registration forms)
     const { register: registerLogin, handleSubmit: handleLoginSubmit, setValue: loginSetValue, formState: {errors:loginError} } = useForm<LoginForRHF>()
