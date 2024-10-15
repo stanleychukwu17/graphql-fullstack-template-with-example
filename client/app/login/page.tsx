@@ -3,9 +3,9 @@ import axios from 'axios';
 import {useEffect, useLayoutEffect, useState} from "react";
 import {useForm, SubmitHandler} from "react-hook-form"
 import { useRouter } from 'next/navigation';
-import { useAppDispatch, useAppSelector } from "../redux/hook";
-import { updateUser } from '../redux/features/userSlice';
-import { setPageTransition } from '../redux/features/siteSlice';
+import { useAppDispatch, useAppSelector } from "@/app/utils/redux/hook";
+import { updateUser } from '@/app/utils/redux/features/userSlice';
+import { setPageTransition } from '@/app/utils/redux/features/siteSlice';
 import { BACKEND_PORT as backEndPort } from '@/my.config';
 
 import MessageComp, {MessageCompProps} from "../components/Message/MessageComp";
