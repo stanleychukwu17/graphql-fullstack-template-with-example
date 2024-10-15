@@ -17,7 +17,7 @@ const initialState: userDetailsType = {
     must_logged_in_to_view_this_page: 'no',
 };
 
-// Create a slice
+// Creates the user slice
 const userSlice = createSlice({
     name: 'user',
     initialState,
