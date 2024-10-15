@@ -1,8 +1,8 @@
 import type { Metadata } from 'next'
-import ReduxProvider from './redux/provider'
 import { ApolloWrapper } from './graphql/apollo-wrapper'
 import Header from './components/Header/Header'
 
+import ReduxProvider from '@/app/utils/redux/provider'
 import PageTransitionLoader from '@/app/utils/page-loader/pageLoader'
 
 // import fonts

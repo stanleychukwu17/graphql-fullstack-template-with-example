@@ -1,8 +1,8 @@
 'use client'
 import Link from "next/link"
 import { useCallback } from "react"
-import { useAppDispatch, useAppSelector } from "./redux/hook"
-import { updateUser } from "./redux/features/userSlice"
+import { useAppDispatch, useAppSelector } from "@/app/utils/redux/hook"
+import { updateUser } from "@/app/utils/redux/features/userSlice"
 
 export default function HomePage() {
     const userInfo = useAppSelector(state => state.user)
