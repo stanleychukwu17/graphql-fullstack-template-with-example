@@ -2,8 +2,8 @@
 import axios from "axios";
 import { useEffect, useLayoutEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { useAppSelector, useAppDispatch } from "../../redux/hook";
-import { updateUser, userDetailsType } from "../../redux/features/userSlice";
+import { useAppSelector, useAppDispatch } from "@/app/utils/redux/hook";
+import { updateUser, userDetailsType } from "@/app/utils/redux/features/userSlice";
 import { BACKEND_PORT as backEndPort } from "@/my.config";
 import Link from "next/link";
 

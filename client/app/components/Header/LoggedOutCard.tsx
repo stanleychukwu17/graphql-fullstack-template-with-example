@@ -1,8 +1,8 @@
 import Link from "next/link"
 import { useCallback } from "react"
 
-import { setPageTransition } from "@/app/redux/features/siteSlice"
-import { useAppDispatch } from "@/app/redux/hook"
+import { setPageTransition } from "@/app/utils/redux/features/siteSlice"
+import { useAppDispatch } from "@/app/utils/redux/hook"
 
 export default function LoggedOutCard() {
     const dispatch = useAppDispatch()

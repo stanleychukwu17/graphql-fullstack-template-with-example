@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { useAppSelector } from "../../redux/hook"
+import { useAppSelector } from "@/app/utils/redux/hook"
 
 export default function LoggedInCard() {
     const userInfo = useAppSelector(state => state.user)
