@@ -1,13 +1,15 @@
 "use client"
 import axios from 'axios';
+import { useRouter } from 'next/navigation';
 import React, {useEffect, useState} from "react";
 import {useForm, SubmitHandler} from "react-hook-form"
-import { useAppDispatch } from "@/app/utils/redux/hook";
+import { motion, useAnimationControls } from "framer-motion";
+
+import { useAppDispatch, useAppSelector } from "@/app/utils/redux/hook";
 import { setPageTransition } from '@/app/utils/redux/features/siteSlice';
 import { BACKEND_PORT as backEndPort } from '@/my.config';
 import { urlMappings } from "@/app/utils/url-mappings";
 import MessageComp, {MessageCompProps} from "@/app/components/Message/MessageComp";
-import { useRouter } from 'next/navigation';
 
 // url for server login request
 const regUrl = `${backEndPort}${urlMappings.serverAuth.register}`
@@ -22,16 +24,28 @@ type RegisterRHF = {
 }
 
 export default function RegComponent() {
+    const { loggedIn } = useAppSelector(state => state.user)
     const dispatch = useAppDispatch()
     const router = useRouter()
     const [isLoading2, setIsLoading2] = useState<boolean>(false) // used for registering
     const [showAlert, setShowAlert] = useState<boolean>(false) // for showing of error messages from the backend
     const [alertMsg, setAlertMsg] = useState<MessageCompProps>({msg_type:'', msg_dts:''}) // the error message
+    const animationControl = useAnimationControls()
 
     // page transition completed, so update 'setPageTransition' to false
     useEffect(() => {
         dispatch(setPageTransition(false))
     }, [dispatch])
+
+    // we don't want a logged in user to be able to view this page
+    useEffect(() => {
+        if (loggedIn === 'yes') {
+            router.push('/')
+            animationControl.set({opacity: 0})
+        } else {
+            animationControl.start({opacity: 1})
+        }
+    }, [loggedIn, router, animationControl])
 
     // setting up React Hook Form to handle the forms below(i.e both the login and registration forms)
     const { register: registerReg, handleSubmit: handleRegisterSubmit, setValue: regSetValue, formState: {errors:regError} } = useForm<RegisterRHF>()
@@ -69,7 +83,7 @@ export default function RegComponent() {
     }
 
     return (
-        <>
+        <motion.div initial={{opacity: 0}} animate={animationControl}>
             {showAlert && (
                 <MessageComp {...alertMsg} closeAlert={setShowAlert} />
             )}
@@ -145,6 +159,6 @@ export default function RegComponent() {
                 </div>
                 {/* --END-- */}
             </div>
-        </>
+        </motion.div>
     )
 }

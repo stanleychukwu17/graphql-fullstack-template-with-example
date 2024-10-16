@@ -3,11 +3,12 @@ import React, {useEffect, useState} from "react";
 import axios from 'axios';
 import {useForm, SubmitHandler} from "react-hook-form"
 import { useRouter } from 'next/navigation';
+import { motion, useAnimationControls } from "framer-motion";
+
 import { useAppDispatch, useAppSelector } from "@/app/utils/redux/hook";
 import { updateUser } from '@/app/utils/redux/features/userSlice';
 import { setPageTransition } from '@/app/utils/redux/features/siteSlice';
 import { BACKEND_PORT as backEndPort } from '@/my.config';
-
 import MessageComp, {MessageCompProps} from "@/app/components/Message/MessageComp";
 import { urlMappings } from "@/app/utils/url-mappings";
 
@@ -21,16 +22,28 @@ type LoginForRHF = {
 const loginUrl = `${backEndPort}${urlMappings.serverAuth.login}`
 
 export default function LoginComponent() {
+    const { loggedIn } = useAppSelector(state => state.user)
     const dispatch = useAppDispatch()
-    const route = useRouter()
+    const router = useRouter()
     const [isLoading1, setIsLoading1] = useState<boolean>(false) // used for login
     const [showAlert, setShowAlert] = useState<boolean>(false) // for showing of error messages from the backend
     const [alertMsg, setAlertMsg] = useState<MessageCompProps>({msg_type:'', msg_dts:''}) // the error message
+    const animationControl = useAnimationControls()
 
     // page transition completed, so update 'setPageTransition' to false
     useEffect(() => {
         dispatch(setPageTransition(false))
-    }, [])
+    }, [dispatch])
+
+    // we don't want a logged in user to be able to view this page
+    useEffect(() => {
+        if (loggedIn === 'yes') {
+            router.push('/')
+            animationControl.set({opacity: 0})
+        } else {
+            animationControl.start({opacity: 1})
+        }
+    }, [loggedIn, router, animationControl])
 
     const { register: registerLogin, handleSubmit: handleLoginSubmit, setValue: loginSetValue, formState: {errors:loginError} } = useForm<LoginForRHF>()
 
@@ -45,7 +58,7 @@ export default function LoginComponent() {
 
                 // waits a little bit so that redux can finish it's thing and they i can redirect to the home page
                 setTimeout(() => {
-                    route.push('/')
+                    router.push('/')
                 }, 500)
 
                 // clears all of the input field for login
@@ -69,7 +82,7 @@ export default function LoginComponent() {
     }
 
     return (
-        <>
+        <motion.div initial={{opacity: 0}} animate={animationControl}>
             {showAlert && (
                 <MessageComp {...alertMsg} closeAlert={setShowAlert} />
             )}
@@ -107,6 +120,6 @@ export default function LoginComponent() {
                 </div>
                 {/* --END-- */}
             </div>
-        </>
+        </motion.div>
     )
 }
