@@ -16,12 +16,9 @@ Todo {
     NOTE: Start thur
     Golang Backend:
     NEEDED: frontend graphQl up and running {
-        NEEDED: frontEnd up and running
-        NEEDED: graphQl revision
         NEEDED: frontEnd graphQl up and running
     }
     graphQl {
-        NEEDED: Revision: Graphql & Apollo Client*2;
         integrate graphql into golang
         integrate graphQl and jwt {
             watch that video from that guy first
@@ -35,33 +32,39 @@ Todo {
         All docker-compose writeup
         remaining revisions and questions
     }
-    dockerize and test it in a docker container - development
-    dockerize and test it in a docker container - production
-    Test the frontEnd with the dockerizeD app for {development and production} to make sure the graphQl works with docker
+    dockerize and test it in a docker container - development & production
     -
     NOTE: End thur
     ---
     ---
     NOTE: Start
     FrontEnd:
-    fix bug
-    work on loading.tsx
-    Rebuild the login page using grids
-    Rebuild the register page using grids
-    test login and register to see they both work
+    refactor both page not to be use client, so they can have page metaData
+    after registration, provide link for login page navigation
+    test the register with the backEnd
+    test the login with backend
+    user should not be able to see login page when logged in
+    -
+    delete the old login and register
+    -
+    we verify if the user is logged in or not, let the header sized be fixed, let it not be jumping based on who
     ---
     work on jest test and coverage
+    finish jest for all components (test should be above 75%)
+    ---
     work on cypress test and coverage
-    jest and cypress test should be above 75%
+    finish cypress for all routes (test should be above 75%)
+    ---
     revision of github_actions
     CI/CD the Frontend
-    --
+    ---
     change the site to use i8n
+    create a util to hold all your links and use it for links navigation
+    10:00am
+    --
+    --
 
-    user should not be able to see login page when logged in
-        we verify if the user is logged in or not
-        let the header sized be fixed, let it not be jumping based on who
-    redesign the theme selection
+    NEEDED: graphQl revision
     add google login and sign up {react-google-login}
     check the graphQl code and integrate with golang backEnd
     Generating apollo types, if there is any need for this
@@ -71,10 +74,11 @@ Todo {
         apollo - set up integration
         apollo - set up Networking
     }
+    --
+    --
     dockerize and test it in a docker container - development & production
-    -
-    start frontEnd in docker development and test with backend in development
-    start frontEnd in docker production and test with backend in production
+    ---
+    ---
     NOTE: End
     ---
     ---
@@ -91,17 +95,16 @@ Todo {
     backend: write the ci/cd for the backend, make sure the test coverage is above 90%
     ---
     ---
-
-    Infrastructure
-    deploy client and server as docker containers on both railway and aws
-    ---
-    ---
     MyVs: Node {}
     OdiUp: Golang {
     }
     ---
     ---
+    Infrastructure
+    deploy client and server as docker containers on both railway and aws
     ---
+    ---
+
 
     envs for testing {
         export ENV="development"

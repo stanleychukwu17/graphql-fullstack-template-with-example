@@ -1,6 +1,3 @@
-$purple_color: var(--text-100);
-$milk_color: #fffefb;
-
 .ovrCover {
     .titleUp {
         font-size: 22px;
@@ -14,7 +11,8 @@ $milk_color: #fffefb;
         .inpTitle {
             font-size: 17px;
             font-weight: 500;
-            padding: 0 0 5px;text-transform: capitalize;
+            padding: 0 0 5px;
+            text-transform: capitalize;
         }
 
         .inpInput {
