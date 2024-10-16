@@ -45,22 +45,21 @@ Todo {
     user should not be able to see login page when logged in
     delete the old login and register
     we verify if the user is logged in or not, let the header sized be fixed, let it not be jumping based on who
+    6:00am
     -
     work on jest test and coverage
     finish jest for all components (test should be above 75%)
+    8:00am
     ---
     work on cypress test and coverage
     finish cypress for all routes (test should be above 75%)
-    ---
-    revision of github_actions
-    CI/CD the Frontend
-    -
-    change the site to use i8n
-    create a util to hold all your links and use it for links navigation
     10:00am
-    --
-    --
-
+    ---
+    CI/CD the Frontend
+    change the site to use i8n
+    modify the Success message from login and register backend to instead use i18n from frontEnd
+    ---
+    ---
     NEEDED: graphQl revision
     check the graphQl code and integrate with golang backEnd
     Generating apollo types, if there is any need for this
@@ -70,6 +69,8 @@ Todo {
         apollo - set up integration
         apollo - set up Networking
     }
+    ---
+    ---
     add google login and sign up {react-google-login}
     --
     --

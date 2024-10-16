@@ -177,7 +177,7 @@ button:active { top: 1px; }
 /* configure tailwindCss */
 @layer components {
     .max-container {
-        max-width: 1440px;
+        max-width: 1540px;
         margin: 0 auto;
     }
 }
