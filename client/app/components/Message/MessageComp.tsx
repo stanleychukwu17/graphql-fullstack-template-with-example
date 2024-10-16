@@ -6,10 +6,12 @@ import { useCallback, useEffect } from 'react';
 export type MessageCompProps = {
     msg_type: 'okay'|'bad'|'';
     msg_dts: string;
-    closeAlert?: React.Dispatch<React.SetStateAction<boolean>>
+    closeAlert?: React.Dispatch<React.SetStateAction<boolean>>;
+    haveBtn?: boolean;
+    btnList?: {btnTitle: string, btnAction: () => void}[]
 }
 
-export default function MessageComp({msg_type, msg_dts, closeAlert}: MessageCompProps) {
+export default function MessageComp({msg_type, msg_dts, closeAlert, ...props}: MessageCompProps) {
 
     const timeToCloseThisAlert = useCallback(() => {
         if (closeAlert) {
@@ -56,6 +58,13 @@ export default function MessageComp({msg_type, msg_dts, closeAlert}: MessageComp
                     <div className="text-base pt-2 pb-10 pr-7 leading-normal tracking-wide first-letter:capitalize text-black">
                         {msg_dts}
                     </div>
+                    {props.haveBtn && (
+                        props.btnList?.map(({btnTitle, btnAction}, index) => (
+                            <div className="flex space-x-6 pb-5" key={`btn-${btnTitle}-${index}`}>
+                                <button className="generalBtn" onClick={btnAction}>{btnTitle}</button>
+                            </div>                            
+                        ))
+                    )}
                 </div>
             </div>
         </div>
