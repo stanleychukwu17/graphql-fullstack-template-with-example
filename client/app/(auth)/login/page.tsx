@@ -1,5 +1,5 @@
 import './page.scss'
-import LoginComponent from '@/app/components/auth/login/LoginComponent';
+import LoginComponent from '@/app/components/auth/login/LoginComp';
 import { siteName } from '@/app/utils/url-mappings'
 
 // page metadata

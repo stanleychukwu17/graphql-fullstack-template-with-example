@@ -1,5 +1,5 @@
 import './page.scss'
-import RegComponent from '@/app/components/auth/register/regComponent';
+import RegComponent from '@/app/components/auth/register/RegComp';
 import { siteName } from '@/app/utils/url-mappings'
 
 // page metadata
