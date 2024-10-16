@@ -1,8 +1,3 @@
-
-
----
-NOTE: try both the front and backend on docker
-
 deploy {
     deploy to staging and make sure working when merged with main branch
     ---
@@ -10,10 +5,7 @@ deploy {
     create your database @ railway for staging
 }
 Todo {
-    side_project = Golang
-    main_project = FrontEnd
-
-    NOTE: Start thur
+    NOTE: 
     Golang Backend:
     NEEDED: frontend graphQl up and running {
         NEEDED: frontEnd graphQl up and running
@@ -39,16 +31,8 @@ Todo {
     ---
     NOTE: Start
     FrontEnd:
-    -
-    (login & register page) user should not be able to see login page when logged in
-    we verify if the user is logged in or not, let the header sized be fixed, let it not be jumping based on who
-    8:00am
-    -
     work on jest test and coverage
     finish jest for all components (test should be above 75%)
-    10:00am
-    ---
-    ---
     work on cypress test and coverage
     finish cypress for all routes (test should be above 75%)
     CI/CD the Frontend

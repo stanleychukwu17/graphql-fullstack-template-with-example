@@ -1,11 +1,12 @@
 'use client'
 import axios from "axios";
 import { useEffect, useLayoutEffect, useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { motion, useAnimationControls } from "framer-motion";
 import { useAppSelector, useAppDispatch } from "@/app/utils/redux/hook";
 import { updateUser, userDetailsType } from "@/app/utils/redux/features/userSlice";
 import { BACKEND_PORT as backEndPort } from "@/my.config";
-import Link from "next/link";
 
 import { CiLight } from "react-icons/ci";
 
@@ -43,8 +44,7 @@ try {
 } catch (err: any) {
     // console.log(err.message) = window is not defined
 }
-
-        //--END--
+//--END--
 
 //--START--
 //validates the accessToken and Refresh token every 24_hour
@@ -118,8 +118,9 @@ export default function Header() {
     const reduxDispatch = useAppDispatch()
     const route = useRouter()
     const [openThemeMenu, setOpenThemeMenu] = useState<boolean>(false)
+    const animationControl = useAnimationControls()
 
-    useLayoutEffect(() => {
+    useEffect(() => {
         // updates the redux store to have the current details of the user
         if (userDts.loggedIn === 'yes' && userInfo.loggedIn === 'no') {
             reduxDispatch(updateUser(userDts))
@@ -128,7 +129,10 @@ export default function Header() {
         if (userInfo.must_logged_in_to_view_this_page === 'yes') {
             route.push('/login')
         }
-    }, [route, reduxDispatch, userInfo.must_logged_in_to_view_this_page, userInfo.loggedIn])
+        animationControl.start({
+            opacity: 1,
+        })
+    }, [route, reduxDispatch, userInfo.must_logged_in_to_view_this_page, userInfo.loggedIn, animationControl])
 
     // for color theme
     useLayoutEffect(() => {
@@ -136,12 +140,12 @@ export default function Header() {
     }, [])
 
     return (
-        <header className="headerCvr py-5 px-10" data-testid="site header">
-            <div className="flex justify-between items-center pb-5">
+        <header className="headerCvr relative py-5 px-10" data-testid="site header">
+            <div className="flex justify-between items-center pb-5 h-[55px]">
                 <div className="text-2xl font-bold">
                     <Link href="/">NEXT.</Link>
                 </div>
-                <div className="flex space-x-10 items-center">
+                <motion.div initial={{opacity: 0}} animate={animationControl} className="flex space-x-10 items-center">
                     {userInfo.loggedIn === 'no' && <LoggedOutCard />}
                     {userInfo.loggedIn === 'yes' && <LoggedInCard />}
 
@@ -149,7 +153,7 @@ export default function Header() {
                         <p><CiLight /></p>
                         <p>Theme</p>
                     </div>
-                </div>
+                </motion.div>
             </div>
             {openThemeMenu && <ThemesMenu closeMenu={setOpenThemeMenu} />}
         </header>
