@@ -39,27 +39,22 @@ Todo {
     ---
     NOTE: Start
     FrontEnd:
-    after registration, provide link for login page navigation
-    test the register with the backEnd
-    test the login with backend
-    user should not be able to see login page when logged in
-    delete the old login and register
+    -
+    (login & register page) user should not be able to see login page when logged in
     we verify if the user is logged in or not, let the header sized be fixed, let it not be jumping based on who
-    6:00am
+    8:00am
     -
     work on jest test and coverage
     finish jest for all components (test should be above 75%)
-    8:00am
+    10:00am
+    ---
     ---
     work on cypress test and coverage
     finish cypress for all routes (test should be above 75%)
-    10:00am
-    ---
     CI/CD the Frontend
     change the site to use i8n
     modify the Success message from login and register backend to instead use i18n from frontEnd
-    ---
-    ---
+    -
     NEEDED: graphQl revision
     check the graphQl code and integrate with golang backEnd
     Generating apollo types, if there is any need for this
