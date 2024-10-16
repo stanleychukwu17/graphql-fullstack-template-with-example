@@ -32,10 +32,10 @@ func Setup() (*fiber.App, *gorm.DB, error) {
 	// Create a CORS middleware instance
 	allowedUrl := os.Getenv("ALLOWED_URL")
 	if allowedUrl != "" {
-		// old config - but would not allow me work during development
+		// old config - but would not allow me work during development, i should enable if the mode is production mode
 		// corsConfig := cors.Config{
 		// 	AllowHeaders:     "Origin, Content-Type, Accept, Content-Length, Accept-Language, Accept-Encoding, Connection, Access-Control-Allow-Origin",
-		// 	AllowOrigins:     fmt.Sprintf("%s,http://main-site.com", "*"),
+		// 	AllowOrigins:     fmt.Sprintf("%s, http://main-site.com", allowedUrl),
 		// 	AllowCredentials: true,
 		// 	AllowMethods:     "GET,POST,HEAD,PUT,DELETE,PATCH,OPTIONS",
 		// }
