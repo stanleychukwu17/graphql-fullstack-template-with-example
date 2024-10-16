@@ -41,8 +41,7 @@ func Setup() (*fiber.App, *gorm.DB, error) {
 		// }
 
 		corsConfig := cors.Config{
-			AllowHeaders: "Origin, Content-Type, Accept, Content-Length, Accept-Language, Accept-Encoding, Connection, Access-Control-Allow-Origin",
-			// AllowOrigins:     fmt.Sprintf("%s,http://main-site.com", allowedUrl),
+			AllowHeaders:     "Origin, Content-Type, Accept, Content-Length, Accept-Language, Accept-Encoding, Connection, Access-Control-Allow-Origin",
 			AllowOrigins:     "*", // Allow all origins
 			AllowCredentials: false,
 			AllowMethods:     "GET,POST,HEAD,PUT,DELETE,PATCH,OPTIONS",

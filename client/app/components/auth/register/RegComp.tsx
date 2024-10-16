@@ -5,8 +5,12 @@ import {useForm, SubmitHandler} from "react-hook-form"
 import { useAppDispatch } from "@/app/utils/redux/hook";
 import { setPageTransition } from '@/app/utils/redux/features/siteSlice';
 import { BACKEND_PORT as backEndPort } from '@/my.config';
-
+import { urlMappings } from "@/app/utils/url-mappings";
 import MessageComp, {MessageCompProps} from "@/app/components/Message/MessageComp";
+import { useRouter } from 'next/navigation';
+
+// url for server login request
+const regUrl = `${backEndPort}${urlMappings.serverAuth.register}`
 
 type RegisterRHF = {
     name: string
@@ -19,6 +23,7 @@ type RegisterRHF = {
 
 export default function RegComponent() {
     const dispatch = useAppDispatch()
+    const router = useRouter()
     const [isLoading2, setIsLoading2] = useState<boolean>(false) // used for registering
     const [showAlert, setShowAlert] = useState<boolean>(false) // for showing of error messages from the backend
     const [alertMsg, setAlertMsg] = useState<MessageCompProps>({msg_type:'', msg_dts:''}) // the error message
@@ -26,18 +31,28 @@ export default function RegComponent() {
     // page transition completed, so update 'setPageTransition' to false
     useEffect(() => {
         dispatch(setPageTransition(false))
-    }, [])
+    }, [dispatch])
 
     // setting up React Hook Form to handle the forms below(i.e both the login and registration forms)
     const { register: registerReg, handleSubmit: handleRegisterSubmit, setValue: regSetValue, formState: {errors:regError} } = useForm<RegisterRHF>()
 
-    const submitRegistration: SubmitHandler<RegisterRHF> = (data) => {
+    const submitRegistration: SubmitHandler<RegisterRHF> = (data: any) => {
         setIsLoading2(true)
 
-        axios.post(`${backEndPort}/users/registerUser`, data, {headers: {'Content-Type': 'application/json'}})
+        axios.post(regUrl, data, {headers: {'Content-Type': 'application/json'}})
         .then((res) => {
             setShowAlert(true)
-            setAlertMsg({'msg_type':res.data.msg, 'msg_dts':res.data.cause})
+            setAlertMsg({
+                'msg_type': res.data.msg,
+                'msg_dts': res.data.cause,
+                'haveBtn': true,
+                'btnList': [
+                    {
+                        'btnTitle':'login',
+                        'btnAction':() => { router.push(urlMappings.clientAuth.login) }
+                    }
+                ]
+            })
             setIsLoading2(false)
 
             // clears all of the input field for registering
@@ -123,8 +138,8 @@ export default function RegComponent() {
                             </div>
                         </div>
                         <div className="btnCvr">
-                            {!isLoading2 && <button type="submit">Register</button>}
-                            {isLoading2 && <p>Loading...</p>}
+                            {!isLoading2 && <button className="general" type="submit">Register</button>}
+                            {isLoading2 && <p className='generalBtn'>Loading...</p>}
                         </div>
                     </form>
                 </div>
