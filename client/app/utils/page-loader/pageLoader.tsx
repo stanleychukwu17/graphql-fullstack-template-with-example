@@ -12,12 +12,12 @@ export default function PageTransitionLoader() {
     const animationControl = animate(progress, 100, {duration: 10, })
 
     const showProgress = () => {
-        // console.log('showing progress')
+        console.log('showing progress')
         progress.set(0)
         animationControl.play()
     }
     const hideProgress = () => {
-        // console.log('hiding progress')
+        console.log('hiding progress')
         animationControl.complete()
     }
 
