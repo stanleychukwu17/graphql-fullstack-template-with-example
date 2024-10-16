@@ -168,8 +168,28 @@ body {
     overflow: hidden;
 }
 button { position: relative; }
-button:is(:hover, :active) { top:-1px; box-shadow: none !important; }
-button:active { top: 1px; }
+button:is(:hover, :active) {
+    transform: translateY(-1px);
+    box-shadow: none !important;
+}
+button:active {
+    transform: translateY(1px);
+}
+button.generalBtn {
+    text-align: center;
+    background-color: var(--button4-bg);
+    color: var(--button4-text);
+    padding: 10px 25px;
+    font-size: 17px;
+    font-weight: bold;
+    letter-spacing: 0.6px;
+    border-radius: 2px;
+    box-shadow: 5px 5px 0 rgba(0,0,0,0.12);
+    transition: all .2s ease-out;
+}
+button.generalBtn::first-letter {
+    text-transform: capitalize;
+}
 /* a { color: var(--button1-bg); } */
 
 
