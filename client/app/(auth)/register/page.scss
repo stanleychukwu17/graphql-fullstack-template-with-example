@@ -1,0 +1,58 @@
+.ovrCover {
+    .titleUp {
+        font-size: 22px;
+        font-weight: 500;
+        margin: 0 0 15px 0;
+    }
+
+    .inputCover {
+        padding: 10px 0;
+    
+        .inpTitle {
+            font-size: 17px;
+            font-weight: 500;
+            padding: 0 0 5px;
+            text-transform: capitalize;
+        }
+
+        .inpInput {
+            input, select {
+                width: 60%;
+                height: 50px;
+                padding: 0 15px;
+                border-radius: 3px;
+                background-color: var(--bg-300)
+            }
+            p {
+                display: block;
+                position: relative;
+                margin: 6px 0 0;
+                font-size: 13px;
+                font-weight: bold;
+                color: #df0e3a;
+            }
+        }
+    }
+    .btnCvr {
+        margin: 10px 0 0;
+
+        button, p {
+            width: 160px;
+            text-align: center;
+            background-color: var(--button4-bg);
+            color: var(--button4-text);
+            padding: 10px 25px;
+            font-size: 17px;
+            font-weight: bold;
+            letter-spacing: 0.6px;
+            border-radius: 2px;
+            box-shadow: 5px 5px 0 rgba(0,0,0,0.12);
+            transition: all .5s ease-out;
+        }
+        p {
+            opacity: .5;
+            box-shadow: none;
+            cursor: progress;
+        }
+    }
+}
