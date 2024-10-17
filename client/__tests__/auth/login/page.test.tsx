@@ -2,12 +2,15 @@ import '@testing-library/jest-dom'
 import { fireEvent, render, screen, waitFor, within } from '@testing-library/react'
 
 import { BACKEND_PORT as backEndPort } from '@/my.config'; // port url for making request to backEnd
-import LoginPage from '@/app/(auth)/login/page' // the component we're testing
+import LoginComponent from '@/app/components/auth/login/LoginComp';
+import {urlMappings} from '@/app/utils/url-mappings'
 
 // mocking of redux
 const useAppDispatchMock = jest.fn()
-jest.mock('../../app/utils/redux/hook', () => ({
-    useAppDispatch: () => useAppDispatchMock, // 1. COMMENT
+const useAppSelector = jest.fn()
+jest.mock('../../../app/utils/redux/hook', () => ({
+    useAppDispatch: () => useAppDispatchMock,
+    useAppSelector: () => useAppSelector,
 }))
 
 // mocking of next/navigation
@@ -47,10 +50,10 @@ describe.only("Testing login component", () => {
 
     // renders the logIn page and fills the form if 'fillForm="yes"'
     const renderLoginPage = async ({fillForm} : {fillForm:'yes'|'no'}) => {
-        const container = render(<LoginPage />)
+        const container = render(<LoginComponent />)
 
-        const emailInput = container.getByLabelText('Username or Email') as HTMLInputElement
-        const passwordInput = container.getByTestId('login password') as HTMLInputElement
+        const emailInput = container.getByTestId('login_username') as HTMLInputElement
+        const passwordInput = container.getByTestId('login_password') as HTMLInputElement
         const button = container.getByRole('button', {name: /login/i}) as HTMLButtonElement
 
         if (fillForm === 'yes') {
@@ -88,8 +91,9 @@ describe.only("Testing login component", () => {
         expect(errMsg[0]).toBeInTheDocument()
     })
 
-    // test-2
     it('should login a user if correct details are provided', async () => {
+        const login_url = `${backEndPort}${urlMappings.serverAuth.login}`;
+
         // Mock the response from the server
         (axios.post as jest.Mock).mockResolvedValueOnce({ data: { msg: 'okay' } });
         // (axios.post as jest.Mock).mockImplementation({ data: responseData });
@@ -101,13 +105,14 @@ describe.only("Testing login component", () => {
             // assert that all the axios calls and arguments are as we expect
             expect(axios.post).toHaveBeenCalledTimes(1);
 
-            // for below: where .mock.calls[0][0] first [0] means we're accessing the first call, if the mock was called 3times, we would have had [0] t0 [2], while the second array, i.e [0]&[1] represents the arguments that the mock was called with
-            expect((axios.post as jest.Mock).mock.calls[0][0]).toBe(`${backEndPort}/users/login`);
+            // for below: where .mock.calls[0][0] first [0] means we're accessing the first call, if the mock was called 3times, we would have had [0] to [2]
+            // while the second array, i.e [0]&[1] represents the arguments that the mock was called with
+            expect((axios.post as jest.Mock).mock.calls[0][0]).toBe(login_url);
             expect((axios.post as jest.Mock).mock.calls[0][1]).toEqual({username: userEmail, password: userPassword});
             // console.log(JSON.stringify((axios.post as jest.Mock).mock.calls[0]))
 
             // expect the redux dispatch function to have been called
-            expect(useAppDispatchMock).toHaveBeenCalledTimes(1)
+            expect(useAppDispatchMock).toHaveBeenCalledTimes(2)
 
             // Assert that the user has been redirected back to the home page
             expect(routePushFunction).toHaveBeenCalled(); // i.e the next.js useRoute() function
@@ -115,7 +120,6 @@ describe.only("Testing login component", () => {
         });
     })
 
-    // test-3
     it('should show an error message if there is an issue from the server', async () => {
         // Mock the response from the server
         const responseData = { msg: 'bad', 'cause':'you provided an invalid username or password' };
@@ -130,15 +134,21 @@ describe.only("Testing login component", () => {
         });
     })
 
-    // test-4
     it('handle errors when form is submitted, i.e if there are any errors', async () => {
-        (axios.post as jest.Mock).mockRejectedValueOnce(new Error('Server error'));
+        // (axios.post as jest.Mock).mockRejectedValueOnce(new Error('Server error'));
+
+        const cause = "server error"
+        const axiosError = {
+            status: 400,
+            response: { data: {cause: 'server error'} }
+        };
+        (axios.post as jest.Mock).mockRejectedValueOnce(axiosError);
 
         const { button } = await renderLoginPage({fillForm:'yes'})
 
         // Wait and check to see if there were any errors
         await waitFor( async () => {
-            const errorMsg = await screen.findByText(/please contact the customer support and report this issue/i)
+            const errorMsg = await screen.findByText(new RegExp(cause, 'i'))
             expect(errorMsg).toBeInTheDocument()
         });
     })
