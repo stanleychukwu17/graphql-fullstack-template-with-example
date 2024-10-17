@@ -87,11 +87,11 @@ export async function run_access_token_health_check (uDts: userDetailsType) {
             }
         }
     }).catch(err => {
-        console.log(err.code, err.message)
+        console.log(err, err.code, err.message)
 
-        if (err.code === "ERR_NETWORK") {
-            console.log("The server is not running")
-        } if (err.response?.data.cause === 'Invalid accessToken') {
+        // if (err.code === "ERR_NETWORK") { console.log("The server is not running") }
+
+        if (err.response?.data.cause === 'Invalid accessToken') {
             localStorage.removeItem('userDts')
             location.href = '/logout'
         }
