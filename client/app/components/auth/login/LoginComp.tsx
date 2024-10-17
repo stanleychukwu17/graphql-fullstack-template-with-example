@@ -74,7 +74,7 @@ export default function LoginComponent() {
         })
         .catch((err) => {
             const msg_dts = `Status: ${err.response?.status}, ${err.response?.data.cause}` 
-            // console.log(err.message)
+            // console.log(err.message, err.response)
             setShowAlert(true)
             setAlertMsg({'msg_type':'bad', 'msg_dts':msg_dts})
             setIsLoading1(false)
@@ -99,7 +99,7 @@ export default function LoginComponent() {
                                 <label htmlFor="login_input">Username or Email</label>
                             </div>
                             <div className="inpInput">
-                                <input id='login_input' type="text" {...registerLogin("username", { required: true })} />
+                                <input data-testid='login_username'  id='login_input' type="text" {...registerLogin("username", { required: true })} />
                                 {loginError.username && <p>This field is required!!!</p>}
                             </div>
                         </div>
@@ -108,7 +108,7 @@ export default function LoginComponent() {
                                 <label htmlFor="login_password">Password</label>
                             </div>
                             <div className="inpInput">
-                                <input data-testid='login password' type="password" {...registerLogin("password", { required: true })} />
+                                <input data-testid='login_password' type="password" {...registerLogin("password", { required: true })} />
                                 {loginError.password && <p>This field is required!!!</p>}
                             </div>
                         </div>
