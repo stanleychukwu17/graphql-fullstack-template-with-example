@@ -31,16 +31,16 @@ Todo {
     ---
     NOTE: Start
     FrontEnd:
-    work on jest test and coverage
-    finish jest for all components (test should be above 75%)
+    work on jest test and coverage {
+        finish jest for all components (test should be above 75%)
+    }
     work on cypress test and coverage
     finish cypress for all routes (test should be above 75%)
     CI/CD the Frontend
     change the site to use i8n
     modify the Success message from login and register backend to instead use i18n from frontEnd
-    -
     NEEDED: graphQl revision
-    check the graphQl code and integrate with golang backEnd
+    check the graphQl code and start integrating with golang 
     Generating apollo types, if there is any need for this
     testing of Apollo - frontend {
         apollo - set up Development & testing
@@ -51,8 +51,6 @@ Todo {
     ---
     ---
     add google login and sign up {react-google-login}
-    --
-    --
     dockerize and test it in a docker container - development & production
     ---
     ---
@@ -66,8 +64,7 @@ Todo {
     backend: convert the backEnd to class for easier testing
     backend: change everything to drizzle ORM
     backend: watch video on graphQl and jwt authentication
-    backend: finish working on the graphQl side
-        graphql and jwt
+    backend: finish working on the graphQl side (graphql and jwt video)
     backend: finish test coverage 75%
     backend: write the ci/cd for the backend, make sure the test coverage is above 90%
     ---
@@ -75,6 +72,8 @@ Todo {
     MyVs: Node {}
     OdiUp: Golang {
     }
+    StickerMule: Node {}
+    ConvertKit: Ruby | Golang
     ---
     ---
     Infrastructure
