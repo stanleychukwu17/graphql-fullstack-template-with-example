@@ -44,8 +44,8 @@ export default function ThemesMenu({closeMenu}: themesMenuProps) {
     }, [checkIfToCloseMenu])
 
     return (
-        <div className="ThemeAbsoluteCvr z-10">
-            <div className="ThemeCloser" onClick={() => closeMenu(false)}>
+        <div className="ThemeAbsoluteCvr z-10" data-testid="theme-menu">
+            <div className="ThemeCloser" data-testid="close-theme-menu" onClick={() => closeMenu(false)}>
                 <p><IoClose /></p>
             </div>
             {Object.keys(differentThemeTitles).map((item) => (
@@ -55,6 +55,7 @@ export default function ThemesMenu({closeMenu}: themesMenuProps) {
                         color: `var(--text-100-${item})`
                     }}
                     key={`theme-${item}`}
+                    data-testid={`theme-${item}`}
                     className="ThemeChildMain"
                     onClick={() => update_this_user_preferred_theme(item) }
                 >
