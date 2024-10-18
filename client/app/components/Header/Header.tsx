@@ -64,11 +64,10 @@ export function check_if_we_can_run_the_access_token_health_check (uDts: userDet
             const current_time = new Date()
             localStorage.setItem('last_24hr_check', `${current_time}`)
         }
+
+        // if (typeof alert != 'undefined') { alert(err.message) }
     } catch(err: any) {
-        if (typeof alert != 'undefined') {
-            alert(err.message)
-            console.log(err.message)
-        }
+        // console.log(err.message)
     }
 }
 
@@ -87,8 +86,7 @@ export async function run_access_token_health_check (uDts: userDetailsType) {
             }
         }
     }).catch(err => {
-        console.log(err, err.code, err.message)
-
+        // console.log(err, err.code, err.message)
         // if (err.code === "ERR_NETWORK") { console.log("The server is not running") }
 
         if (err.response?.data.cause === 'Invalid accessToken') {
