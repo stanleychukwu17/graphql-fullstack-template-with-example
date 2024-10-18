@@ -99,7 +99,7 @@ export default function LoginComponent() {
                                 <label htmlFor="login_input">Username or Email</label>
                             </div>
                             <div className="inpInput">
-                                <input data-testid='login_username'  id='login_input' type="text" {...registerLogin("username", { required: true })} />
+                                <input data-testid='login_username' id='login_input' type="text" {...registerLogin("username", { required: true })} />
                                 {loginError.username && <p>This field is required!!!</p>}
                             </div>
                         </div>
