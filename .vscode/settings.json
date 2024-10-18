@@ -5,8 +5,11 @@
         "gofiber",
         "goimports",
         "joho",
+        "pino",
+        "reduxjs",
         "stanleychukwu",
         "stretchr",
+        "tailwindcss",
         "testcontainers"
     ]
 }
