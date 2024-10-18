@@ -136,12 +136,8 @@ describe.only("Testing login component", () => {
 
     it('handle errors when form is submitted, i.e if there are any errors', async () => {
         // (axios.post as jest.Mock).mockRejectedValueOnce(new Error('Server error'));
-
         const cause = "server error"
-        const axiosError = {
-            status: 400,
-            response: { data: {cause: 'server error'} }
-        };
+        const axiosError = {status: 400, response: { data: {cause} }};
         (axios.post as jest.Mock).mockRejectedValueOnce(axiosError);
 
         const { button } = await renderLoginPage({fillForm:'yes'})
