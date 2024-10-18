@@ -1,5 +1,7 @@
 export const urlMappings = {
+    home: '/',
     games: '/test/graphql/games',
+
     clientAuth: {
         login: '/login',
         logout: '/logout',
@@ -9,7 +11,7 @@ export const urlMappings = {
     // for back-end
     serverAuth: {
         login: '/users/loginUser/',
-        // logout: '/users/logout',
+        logout: '/users/logout',
         register: '/users/registerUser',
     }
 }
