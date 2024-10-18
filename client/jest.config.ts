@@ -36,7 +36,7 @@ const config: Config = {
   // An array of regexp pattern strings used to skip coverage collection
   coveragePathIgnorePatterns: [
     "/node_modules/", // Ignore node_modules
-    "/client/app/redux/features/" // Ignore client/app/redux/features
+    "/client/app/utils/redux/features/" // Ignore client/app/redux/features
   ],
 
   // Indicates which provider should be used to instrument code for coverage
@@ -169,7 +169,7 @@ const config: Config = {
   // An array of regexp pattern strings that are matched against all test paths, matched tests are skipped
   testPathIgnorePatterns: [
     "/node_modules/", // Ignore node_modules
-    "/client/app/redux/features/" // Ignore client/app/redux/features
+    "/client/app/utils/redux/features/" // Ignore client/app/redux/features
   ],
 
   // The regexp pattern or array of patterns that Jest uses to detect test files

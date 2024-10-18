@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "test": "jest",
-    "test:one": "jest --testPathPattern=login/page.test.tsx",
+    "test:one": "jest --testPathPattern=ThemesMenu.test.tsx",
     "test:watch": "jest --watch",
     "test:coverage":"pnpm test -- --coverage"
   },
