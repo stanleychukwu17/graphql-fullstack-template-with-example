@@ -7,8 +7,8 @@ import { FaPencil, FaRegTrashCan  } from "react-icons/fa6";
 import { CiStar } from "react-icons/ci";
 import './page.scss'
 
-import { GET_ALL_THE_GAMES } from '@/app/graphql/queries';
-import { CREATE_THIS_NEW_GAME_RECORD, UPDATE_THIS_GAME_DETAILS, DELETE_THIS_GAME } from '@/app/graphql/mutations';
+import { GET_ALL_THE_GAMES } from '@/app/utils/graphql/queries';
+import { CREATE_THIS_NEW_GAME_RECORD, UPDATE_THIS_GAME_DETAILS, DELETE_THIS_GAME } from '@/app/utils/graphql/mutations';
 import Link from 'next/link';
 
 type GamesProp = {

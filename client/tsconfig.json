@@ -1,8 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "lib": ["es5", "dom", "dom.iterable", "esnext"],
-    "types": ["cypress", "node"],
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -14,23 +12,15 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
-    "baseUrl": ".", // Make sure this is included
     "plugins": [
       {
         "name": "next"
       }
     ],
     "paths": {
-      "@/*": ["*"]
+      "@/*": ["./*"]
     }
   },
-  "include": [
-    "next-env.d.ts",
-    ".next/types/**/*.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    "cypress/**/*.ts",
-    "cypress/**/*.tsx"
-  ],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
   "exclude": ["node_modules"]
 }

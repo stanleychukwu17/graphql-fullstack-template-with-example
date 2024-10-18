@@ -1,10 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { urlMap } from "../../url-mappings";
 
 type siteDetailsType = {
-    pageTransition: boolean
+    urlBeforeLogin: string;
+    pageTransition: boolean;
 }
 
 const initialState: siteDetailsType = {
+    urlBeforeLogin: urlMap.home,
     pageTransition: false,
 };
 
@@ -13,6 +16,11 @@ const siteSlice = createSlice({
     name: 'site',
     initialState,
     reducers: {
+        // we want to navigate the user back to this link after they log in
+        updateUrlBeforeLogin: (state, action: PayloadAction<string>) => {
+            state.urlBeforeLogin = action.payload;
+        },
+
         setPageTransition: (state, action: PayloadAction<boolean>) => {
             state.pageTransition = action.payload;
         },
@@ -20,5 +28,7 @@ const siteSlice = createSlice({
 })
 
 // Export the actions and reducer
-export const { setPageTransition } = siteSlice.actions;
+export const {
+    setPageTransition, updateUrlBeforeLogin
+} = siteSlice.actions;
 export default siteSlice.reducer;

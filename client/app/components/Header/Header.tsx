@@ -1,4 +1,7 @@
 'use client'
+
+import 'dotenv/config'
+
 import './Header.scss' // import the stylesheet
 import axios from "axios";
 import { useEffect, useLayoutEffect, useState } from "react";
@@ -16,7 +19,7 @@ import { urlMap } from "@/app/utils/url-mappings";
 import LoggedInCard from "./LoggedInCard";
 import LoggedOutCard from "./LoggedOutCard";
 import ThemesMenu, {update_this_user_preferred_theme} from './theme/ThemesMenu'
-import { url } from 'inspector';
+import { env } from 'process';
 
 
 //--START-- checks to see if there are any stored information about the user in the user's localStorage space
@@ -120,6 +123,7 @@ export default function Header() {
     const animationControl = useAnimationControls()
 
     useEffect(() => {
+        console.log(process.env, env, process.env.ENV)
         // updates the redux store to have the current details of the user
         if (userDts.loggedIn === 'yes' && userInfo.loggedIn === 'no') {
             reduxDispatch(updateUser(userDts))

@@ -23,6 +23,7 @@ const loginUrl = `${backEndPort}${urlMap.serverAuth.login}`
 
 export default function LoginComponent() {
     const { loggedIn } = useAppSelector(state => state.user)
+    const urlBeforeLogin = useAppSelector(state => state.site.urlBeforeLogin)
     const dispatch = useAppDispatch()
     const router = useRouter()
     const [isLoading1, setIsLoading1] = useState<boolean>(false) // used for login
@@ -38,12 +39,12 @@ export default function LoginComponent() {
     // we don't want a logged in user to be able to view this page
     useEffect(() => {
         if (loggedIn === 'yes') {
-            router.push('/')
+            router.push(urlBeforeLogin)
             animationControl.set({opacity: 0})
         } else {
             animationControl.start({opacity: 1})
         }
-    }, [loggedIn, router, animationControl])
+    }, [loggedIn, router, animationControl, urlBeforeLogin])
 
     const { register: registerLogin, handleSubmit: handleLoginSubmit, setValue: loginSetValue, formState: {errors:loginError} } = useForm<LoginForRHF>()
 
@@ -58,7 +59,7 @@ export default function LoginComponent() {
 
                 // waits a little bit so that redux can finish it's thing and they i can redirect to the home page
                 setTimeout(() => {
-                    router.push('/')
+                    router.push(urlBeforeLogin)
                 }, 500)
 
                 // clears all of the input field for login
