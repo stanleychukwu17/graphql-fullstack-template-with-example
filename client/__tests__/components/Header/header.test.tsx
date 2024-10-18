@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom'
-import { RenderResult, render } from '@testing-library/react'
+import { render } from '@testing-library/react'
 import axios from 'axios'
 
 import Header, {
