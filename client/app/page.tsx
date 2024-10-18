@@ -15,7 +15,7 @@ export default function HomePage() {
 
     return (
         <main>
-            <div className="">Hello world</div>
+            <div data-testid="home-page-hero">Welcome Home</div>
             {userInfo.loggedIn === 'no' && (
                 <button className="p-5 bg-lime-500 mt-5 rounded-md" onClick={() => { upFunc() }} >
                     update must be logged in to yes

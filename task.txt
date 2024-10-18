@@ -33,7 +33,10 @@ Todo {
     FrontEnd:
     fri:
     finish cypress for all routes (test should be above 75%) {
-
+        work on the home route, let the there be a test data-testid there
+        work on login route
+        work on logout route
+        work on register route
     }
     9am
     CI/CD the Frontend for cypress and jest
