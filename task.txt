@@ -31,13 +31,16 @@ Todo {
     ---
     NOTE: Start
     FrontEnd:
-    --
     fri:
-    finish cypress for all routes (test should be above 75%)
-    CI/CD the Frontend
+    finish cypress for all routes (test should be above 75%) {
+
+    }
+    9am
+    CI/CD the Frontend for cypress and jest
+    10am
     change the site to use i8n
     modify the Success message from login and register backend to instead use i18n from frontEnd
-    9:00am
+    12:00am
     --
     sat:
     NEEDED: graphQl revision
@@ -68,7 +71,7 @@ Todo {
     backend: watch video on graphQl and jwt authentication
     backend: finish working on the graphQl side (graphql and jwt video)
     backend: finish test coverage 75%
-    backend: write the ci/cd for the backend, make sure the test coverage is above 90%
+    backend: write the ci/cd for the backend, make sure the test coverage is above 75%
     ---
     ---
     MyVs: Node {}
