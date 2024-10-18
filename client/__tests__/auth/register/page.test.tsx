@@ -2,12 +2,14 @@ import '@testing-library/jest-dom'
 import { fireEvent, render, screen, waitFor, within } from '@testing-library/react'
 
 import { BACKEND_PORT as backEndPort } from '@/my.config'; // port url for making request to backEnd
-import LoginPage from '@/app/(auth)/login/page' // the component we're testing
+import RegComponent from '@/app/components/auth/register/RegComp';
 
 // mocking of redux
 const useAppDispatchMock = jest.fn()
-jest.mock('../../app/utils/redux/hook', () => ({
-    useAppDispatch: () => useAppDispatchMock, // 1. COMMENT
+const useAppSelectorMock = jest.fn()
+jest.mock('../../../app/utils/redux/hook', () => ({
+    useAppDispatch: () => useAppDispatchMock,
+    useAppSelector: () => useAppSelectorMock
 }))
 
 // mocking of next/navigation
@@ -52,7 +54,7 @@ describe("Testing Register page", () => {
 
     // renders the logIn page
     const renderRegisterPage = async ({fillForm} : {fillForm:'yes'|'no'}) => {
-        const container = render(<LoginPage />)
+        const container = render(<RegComponent />)
 
         const name = container.getByLabelText('name') as HTMLInputElement
         const username = container.getByLabelText('username') as HTMLInputElement
@@ -103,15 +105,16 @@ describe("Testing Register page", () => {
     })
 
     it('handle all errors from axios (i.e when making the axios request)', async () => {
-        const cause = 'Custom error from testing';
         // Mocking the Axios post method to reject with an error object
-        (axios.post as jest.Mock).mockRejectedValueOnce({ message: cause, data: { msg: 'error', cause } });
-    
+        const cause = "server error"
+        const axiosError = {status: 400, response: { data: {cause} }};
+        (axios.post as jest.Mock).mockRejectedValueOnce(axiosError);
+
         // render the registration page, fill the form and submit the form
         const {button} = await renderRegisterPage({fillForm:'yes'})
 
         const msgBox = await screen.findByTestId('message-box')
-        const errMsg = within(msgBox).getByText(new RegExp(cause))
+        const errMsg = within(msgBox).getByText(new RegExp(cause, 'i'))
 
         expect(axios.post).toHaveBeenCalled()
         expect(msgBox).toBeInTheDocument()
