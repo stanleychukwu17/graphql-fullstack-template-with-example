@@ -1,22 +1,24 @@
 'use client'
+import './Header.scss' // import the stylesheet
 import axios from "axios";
 import { useEffect, useLayoutEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { motion, useAnimationControls } from "framer-motion";
+import { CiLight } from "react-icons/ci";
+
 import { useAppSelector, useAppDispatch } from "@/app/utils/redux/hook";
 import { updateUser, userDetailsType } from "@/app/utils/redux/features/userSlice";
 import { BACKEND_PORT as backEndPort } from "@/my.config";
-
-import { CiLight } from "react-icons/ci";
+import { urlMappings } from "@/app/utils/url-mappings";
+console.log(urlMappings, urlMappings.clientAuth.login)
 
 // import other components to use in this page
 import LoggedInCard from "./LoggedInCard";
 import LoggedOutCard from "./LoggedOutCard";
 import ThemesMenu, {update_this_user_preferred_theme} from './theme/ThemesMenu'
+import { url } from 'inspector';
 
-// import the stylesheet
-import './Header.scss'
 
 //--START-- checks to see if there are any stored information about the user in the user's localStorage space
 let userDts: userDetailsType = {loggedIn: 'no'}
@@ -125,7 +127,7 @@ export default function Header() {
         }
 
         if (userInfo.must_logged_in_to_view_this_page === 'yes') {
-            route.push('/login')
+            route.push(urlMappings.clientAuth.login)
         }
         animationControl.start({
             opacity: 1,
