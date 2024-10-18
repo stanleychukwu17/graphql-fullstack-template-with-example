@@ -1,6 +1,6 @@
 import Link from "next/link"
 import { useAppSelector } from "@/app/utils/redux/hook"
-import { urlMappings } from "@/app/utils/url-mappings"
+import { urlMap } from "@/app/utils/url-mappings"
 
 export default function LoggedInCard() {
     const userInfo = useAppSelector(state => state.user)
@@ -11,7 +11,7 @@ export default function LoggedInCard() {
             <div className="">
                 <div className="capitalize">{userInfo.name}</div>
                 <div className="text-sm text-[#0056b6] font-bold">
-                    <Link href={urlMappings.clientAuth.logout}>Logout</Link>
+                    <Link href={urlMap.clientAuth.logout}>Logout</Link>
                 </div>
             </div>
         </div>

@@ -10,7 +10,7 @@ import { updateUser } from '@/app/utils/redux/features/userSlice';
 import { setPageTransition } from '@/app/utils/redux/features/siteSlice';
 import { BACKEND_PORT as backEndPort } from '@/my.config';
 import MessageComp, {MessageCompProps} from "@/app/components/Message/MessageComp";
-import { urlMappings } from "@/app/utils/url-mappings";
+import { urlMap } from "@/app/utils/url-mappings";
 
 // type - for React Hook Form
 type LoginForRHF = {
@@ -19,7 +19,7 @@ type LoginForRHF = {
 }
 
 // url for server login request
-const loginUrl = `${backEndPort}${urlMappings.serverAuth.login}`
+const loginUrl = `${backEndPort}${urlMap.serverAuth.login}`
 
 export default function LoginComponent() {
     const { loggedIn } = useAppSelector(state => state.user)

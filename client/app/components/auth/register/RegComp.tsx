@@ -8,11 +8,11 @@ import { motion, useAnimationControls } from "framer-motion";
 import { useAppDispatch, useAppSelector } from "@/app/utils/redux/hook";
 import { setPageTransition } from '@/app/utils/redux/features/siteSlice';
 import { BACKEND_PORT as backEndPort } from '@/my.config';
-import { urlMappings } from "@/app/utils/url-mappings";
+import { urlMap } from "@/app/utils/url-mappings";
 import MessageComp, {MessageCompProps} from "@/app/components/Message/MessageComp";
 
 // url for server login request
-const regUrl = `${backEndPort}${urlMappings.serverAuth.register}`
+const regUrl = `${backEndPort}${urlMap.serverAuth.register}`
 
 type RegisterRHF = {
     name: string
@@ -63,7 +63,7 @@ export default function RegComponent() {
                 'btnList': [
                     {
                         'btnTitle':'login',
-                        'btnAction':() => { router.push(urlMappings.clientAuth.login) }
+                        'btnAction':() => { router.push(urlMap.clientAuth.login) }
                     }
                 ]
             })

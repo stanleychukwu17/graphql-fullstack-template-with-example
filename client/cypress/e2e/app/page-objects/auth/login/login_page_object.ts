@@ -1,12 +1,12 @@
 //Inside your google-search.page.ts file. This is pageobject file.
 /// <reference types="cypress" />
 
-import { urlMappings } from "@/app/utils/url-mappings/"
+import { urlMap } from "@/app/utils/url-mappings/"
 
 export default class LoginPageObject {
 
     visitLoginPage() {
-        cy.visit(urlMappings.clientAuth.login)
+        cy.visit(urlMap.clientAuth.login)
     }
 
     getUsernameInput() {

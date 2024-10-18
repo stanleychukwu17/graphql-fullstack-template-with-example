@@ -3,7 +3,7 @@ import { fireEvent, render, screen, waitFor, within } from '@testing-library/rea
 
 import { BACKEND_PORT as backEndPort } from '@/my.config'; // port url for making request to backEnd
 import LoginComponent from '@/app/components/auth/login/LoginComp';
-import {urlMappings} from '@/app/utils/url-mappings'
+import {urlMap} from '@/app/utils/url-mappings'
 
 // mocking of redux
 const useAppDispatchMock = jest.fn()
@@ -92,7 +92,7 @@ describe.only("Testing login component", () => {
     })
 
     it('should login a user if correct details are provided', async () => {
-        const login_url = `${backEndPort}${urlMappings.serverAuth.login}`;
+        const login_url = `${backEndPort}${urlMap.serverAuth.login}`;
 
         // Mock the response from the server
         (axios.post as jest.Mock).mockResolvedValueOnce({ data: { msg: 'okay' } });

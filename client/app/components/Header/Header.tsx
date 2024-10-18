@@ -10,7 +10,7 @@ import { CiLight } from "react-icons/ci";
 import { useAppSelector, useAppDispatch } from "@/app/utils/redux/hook";
 import { updateUser, userDetailsType } from "@/app/utils/redux/features/userSlice";
 import { BACKEND_PORT as backEndPort } from "@/my.config";
-import { urlMappings } from "@/app/utils/url-mappings";
+import { urlMap } from "@/app/utils/url-mappings";
 
 // import other components to use in this page
 import LoggedInCard from "./LoggedInCard";
@@ -92,7 +92,7 @@ export async function run_access_token_health_check (uDts: userDetailsType) {
 
         if (err.response?.data.cause === 'Invalid accessToken') {
             localStorage.removeItem('userDts')
-            location.href = urlMappings.clientAuth.logout
+            location.href = urlMap.clientAuth.logout
         }
     })
 }
@@ -126,7 +126,7 @@ export default function Header() {
         }
 
         if (userInfo.must_logged_in_to_view_this_page === 'yes') {
-            route.push(urlMappings.clientAuth.login)
+            route.push(urlMap.clientAuth.login)
         }
         animationControl.start({
             opacity: 1,
