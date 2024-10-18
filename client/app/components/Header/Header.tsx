@@ -11,7 +11,6 @@ import { useAppSelector, useAppDispatch } from "@/app/utils/redux/hook";
 import { updateUser, userDetailsType } from "@/app/utils/redux/features/userSlice";
 import { BACKEND_PORT as backEndPort } from "@/my.config";
 import { urlMappings } from "@/app/utils/url-mappings";
-console.log(urlMappings, urlMappings.clientAuth.login)
 
 // import other components to use in this page
 import LoggedInCard from "./LoggedInCard";
@@ -93,7 +92,7 @@ export async function run_access_token_health_check (uDts: userDetailsType) {
 
         if (err.response?.data.cause === 'Invalid accessToken') {
             localStorage.removeItem('userDts')
-            location.href = '/logout'
+            location.href = urlMappings.clientAuth.logout
         }
     })
 }

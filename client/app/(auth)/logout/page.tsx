@@ -2,13 +2,15 @@
 import axios from "axios"
 import { useCallback, useEffect } from "react"
 import { useRouter } from "next/navigation";
-import { useAppSelector, useAppDispatch } from "../redux/hook"
-import { updateUser } from "../redux/features/userSlice"
+import { useAppSelector, useAppDispatch } from "@/app/utils/redux/hook"
+import { updateUser } from "@/app/utils/redux/features/userSlice"
 import { BACKEND_PORT as backEndPort } from "@/my.config";
+import { urlMappings } from "@/app/utils/url-mappings"
 
 const config = {
     headers: {'Content-Type': 'application/json'},
 };
+const logOutUrl = `${backEndPort}${urlMappings.serverAuth.logout}`;
 
 export default function LogOutComp() {
     const userInfo = useAppSelector((state) => state.user)
@@ -16,7 +18,7 @@ export default function LogOutComp() {
     const route = useRouter()
 
     const log_this_user_out = useCallback(() => {
-        axios.post(`${backEndPort}/users/logout`, userInfo, config)
+        axios.post(logOutUrl, userInfo, config)
         .then((res) => {
             localStorage.removeItem('userDts') // delete the localStorage cached user info
             dispatch(updateUser({loggedIn:'no', name:'', session_fid:0})) // delete the redux item
@@ -38,7 +40,7 @@ export default function LogOutComp() {
         if (userInfo.loggedIn === 'yes') {
             log_this_user_out()
         } else {
-            route.push('/') // send them man back to the home page
+            route.push(urlMappings.home) // send them man back to the home page
         }
     }, [log_this_user_out, userInfo.loggedIn, route])
 
