@@ -1,4 +1,4 @@
-export const urlMappings = {
+export const urlMap = {
     home: '/',
     games: '/test/graphql/games',
 
