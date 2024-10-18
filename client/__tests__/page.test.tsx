@@ -7,7 +7,7 @@ import Page from '@/app/page'
 const useAppSelectorMock = jest.fn()
 const useAppDispatchMock = jest.fn()
 
-jest.mock('../../app/redux/hook', () => ({
+jest.mock('../app/utils/redux/hook', () => ({
     useAppSelector: () => useAppSelectorMock(),
     useAppDispatch: () => useAppDispatchMock,
 }))
