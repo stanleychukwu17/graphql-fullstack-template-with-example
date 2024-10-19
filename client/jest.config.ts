@@ -36,6 +36,7 @@ const config: Config = {
   // An array of regexp pattern strings used to skip coverage collection
   coveragePathIgnorePatterns: [
     "/node_modules/", // Ignore node_modules
+    "<rootDir>/cypress/", // Ignore cypress
     "/client/app/utils/redux/features/" // Ignore client/app/redux/features
   ],
 
@@ -169,6 +170,7 @@ const config: Config = {
   // An array of regexp pattern strings that are matched against all test paths, matched tests are skipped
   testPathIgnorePatterns: [
     "/node_modules/", // Ignore node_modules
+    "<rootDir>/cypress/", // Ignore cypress
     "/client/app/utils/redux/features/" // Ignore client/app/redux/features
   ],
 
