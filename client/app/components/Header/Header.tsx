@@ -114,8 +114,6 @@ function check_if_there_is_a_user_selected_theme () {
 }
 //--END--
 
-console.log(process.env, process.env.ENV)
-
 export default function Header() {
     const userInfo = useAppSelector(state => state.user)
     const reduxDispatch = useAppDispatch()
