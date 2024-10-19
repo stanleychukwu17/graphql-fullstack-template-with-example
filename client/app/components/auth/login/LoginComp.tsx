@@ -8,9 +8,10 @@ import { motion, useAnimationControls } from "framer-motion";
 import { useAppDispatch, useAppSelector } from "@/app/utils/redux/hook";
 import { updateUser } from '@/app/utils/redux/features/userSlice';
 import { setPageTransition } from '@/app/utils/redux/features/siteSlice';
-import { BACKEND_PORT as backEndPort } from '@/my.config';
 import MessageComp, {MessageCompProps} from "@/app/components/Message/MessageComp";
 import { urlMap } from "@/app/utils/url-mappings";
+
+const backEndPort = process.env.BACKEND_PORT;
 
 // type - for React Hook Form
 type LoginForRHF = {

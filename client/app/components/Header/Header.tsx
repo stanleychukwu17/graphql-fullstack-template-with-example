@@ -12,14 +12,14 @@ import { CiLight } from "react-icons/ci";
 
 import { useAppSelector, useAppDispatch } from "@/app/utils/redux/hook";
 import { updateUser, userDetailsType } from "@/app/utils/redux/features/userSlice";
-import { BACKEND_PORT as backEndPort } from "@/my.config";
 import { urlMap } from "@/app/utils/url-mappings";
+
+const backEndPort = process.env.BACKEND_PORT;
 
 // import other components to use in this page
 import LoggedInCard from "./LoggedInCard";
 import LoggedOutCard from "./LoggedOutCard";
 import ThemesMenu, {update_this_user_preferred_theme} from './theme/ThemesMenu'
-import { env } from 'process';
 
 
 //--START-- checks to see if there are any stored information about the user in the user's localStorage space
@@ -45,8 +45,9 @@ export function update_the_userDetails_information (cached_user_details: string|
 try {
     const cached_user_dts = window.localStorage.getItem('userDts') // the user details stored to the localStorage whenever a user logs in
     update_the_userDetails_information(cached_user_dts);
-} catch (err: any) {
+} catch (err: Error|unknown) {
     // console.log(err.message) = window is not defined
+    // console.log(err, (err as Error).message)
 }
 //--END--
 
@@ -70,8 +71,8 @@ export function check_if_we_can_run_the_access_token_health_check (uDts: userDet
         }
 
         // if (typeof alert != 'undefined') { alert(err.message) }
-    } catch(err: any) {
-        // console.log(err.message)
+    } catch(err: Error|unknown) {
+        // console.log(err, (err as Error).message)
     }
 }
 
@@ -108,12 +109,12 @@ function check_if_there_is_a_user_selected_theme () {
     if (typeof window !== 'undefined') {
         const myCustomTheme = window.localStorage.getItem("myCustomTheme")
 
-        myCustomTheme && update_this_user_preferred_theme(myCustomTheme)
+        if (myCustomTheme) update_this_user_preferred_theme(myCustomTheme);
     }
 }
 //--END--
 
-
+console.log(process.env, process.env.ENV)
 
 export default function Header() {
     const userInfo = useAppSelector(state => state.user)
@@ -123,7 +124,6 @@ export default function Header() {
     const animationControl = useAnimationControls()
 
     useEffect(() => {
-        console.log(process.env, env, process.env.ENV)
         // updates the redux store to have the current details of the user
         if (userDts.loggedIn === 'yes' && userInfo.loggedIn === 'no') {
             reduxDispatch(updateUser(userDts))

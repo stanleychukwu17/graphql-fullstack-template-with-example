@@ -4,8 +4,9 @@ import { useCallback, useEffect } from "react"
 import { useRouter } from "next/navigation";
 import { useAppSelector, useAppDispatch } from "@/app/utils/redux/hook"
 import { updateUser } from "@/app/utils/redux/features/userSlice"
-import { BACKEND_PORT as backEndPort } from "@/my.config";
 import { urlMap } from "@/app/utils/url-mappings"
+
+const backEndPort = process.env.BACKEND_PORT;
 
 const config = {
     headers: {'Content-Type': 'application/json'},

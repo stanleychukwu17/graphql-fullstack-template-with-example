@@ -33,12 +33,18 @@ Todo {
     FrontEnd:
     fri:
     finish cypress for all routes (test should be above 75%) {
+        commit all changes
+        check that all jest test are working with all these changes
+        delete the my config
+        -
         work on env testing to determine if to use mock or real-time testing
-
         work on login route {
             successful login
             error when user try to login
+            work with real database and with mock
         }
+        8:00am
+
         work on logout route {
             successful logout
             error when user try to logout
@@ -48,15 +54,15 @@ Todo {
             error when user try to register
         }
         work on theme selection
+        9am
     }
-    9am
     CI/CD the Frontend for cypress and jest
     10am
     change the site to use i8n
     modify the Success message from login and register backend to instead use i18n from frontEnd
-    12:00am
+    1:00am
     --
-    sat:
+    sun:
     NEEDED: graphQl revision
     check the graphQl code and start integrating with golang 
     Generating apollo types, if there is any need for this
@@ -68,7 +74,7 @@ Todo {
     }
     ---
     ---
-    sun:
+    mon:
     add google login and sign up {react-google-login}
     dockerize and test it in a docker container - development & production
     ---

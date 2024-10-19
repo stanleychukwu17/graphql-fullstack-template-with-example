@@ -7,9 +7,10 @@ import { motion, useAnimationControls } from "framer-motion";
 
 import { useAppDispatch, useAppSelector } from "@/app/utils/redux/hook";
 import { setPageTransition } from '@/app/utils/redux/features/siteSlice';
-import { BACKEND_PORT as backEndPort } from '@/my.config';
 import { urlMap } from "@/app/utils/url-mappings";
 import MessageComp, {MessageCompProps} from "@/app/components/Message/MessageComp";
+
+const backEndPort = process.env.BACKEND_PORT;
 
 // url for server login request
 const regUrl = `${backEndPort}${urlMap.serverAuth.register}`

@@ -1,9 +1,10 @@
 import '@testing-library/jest-dom'
 import { fireEvent, render, screen, waitFor, within } from '@testing-library/react'
 
-import { BACKEND_PORT as backEndPort } from '@/my.config'; // port url for making request to backEnd
 import LoginComponent from '@/app/components/auth/login/LoginComp';
 import {urlMap} from '@/app/utils/url-mappings'
+
+const backEndPort = process.env.BACKEND_PORT;
 
 // mocking of redux
 const useAppDispatchMock = jest.fn()
