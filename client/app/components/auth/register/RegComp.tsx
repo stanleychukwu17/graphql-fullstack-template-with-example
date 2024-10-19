@@ -51,7 +51,7 @@ export default function RegComponent() {
     // setting up React Hook Form to handle the forms below(i.e both the login and registration forms)
     const { register: registerReg, handleSubmit: handleRegisterSubmit, setValue: regSetValue, formState: {errors:regError} } = useForm<RegisterRHF>()
 
-    const submitRegistration: SubmitHandler<RegisterRHF> = (data: any) => {
+    const submitRegistration: SubmitHandler<RegisterRHF> = (data) => {
         setIsLoading2(true)
 
         axios.post(regUrl, data, {headers: {'Content-Type': 'application/json'}})
