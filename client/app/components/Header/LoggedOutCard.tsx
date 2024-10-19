@@ -11,7 +11,7 @@ export default function LoggedOutCard() {
     const dispatch = useAppDispatch()
     const pathname = usePathname();
     const searchParams = useSearchParams();
-    
+
     // Combine pathname with search params if they exist
     const currentPath = pathname + (searchParams.toString() ? `?${searchParams.toString()}` : '');
 
