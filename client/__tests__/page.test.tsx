@@ -1,8 +1,6 @@
 import '@testing-library/jest-dom'
 import { fireEvent, render } from '@testing-library/react'
-// import { describe } from 'node:test'
 import Page from '@/app/page'
-
 
 const useAppSelectorMock = jest.fn()
 const useAppDispatchMock = jest.fn()
@@ -23,11 +21,10 @@ describe("Page test", () => {
     }
 
     it("renders the HomePage component properly", () => {
-        const { getByText, getByRole } = render_default_page()
+        const { getByTestId, getByRole } = render_default_page()
 
         // assert that the page loads correctly and the button is visible
-        expect(getByText('Hello world')).toBeInTheDocument();
-        expect(getByRole('button', {name: /update must be logged in to yes/})).toBeInTheDocument();
+        expect(getByTestId('home-page-hero')).toBeInTheDocument();
     })
 
     it('should update the status of the page to must be logged_in when the button is clicked', () => {
@@ -35,7 +32,7 @@ describe("Page test", () => {
         // i would have done the above if i did:: useAppDispatch: () => useAppDispatchMock(), but i did:: useAppDispatch: () => useAppDispatchMock
         const { getByRole } = render_default_page()
 
-        const button = getByRole('button', {name: /update must be logged in to yes/})
+        const button = getByRole('button', {name: /update must be logged in to yes/i})
         fireEvent.click(button)
 
         expect(useAppDispatchMock).toHaveBeenCalled()
