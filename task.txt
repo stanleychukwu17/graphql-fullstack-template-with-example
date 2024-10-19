@@ -33,10 +33,6 @@ Todo {
     FrontEnd:
     fri:
     finish cypress for all routes (test should be above 75%) {
-        commit all changes
-        check that all jest test are working with all these changes
-        delete the my config
-        -
         work on env testing to determine if to use mock or real-time testing
         work on login route {
             successful login
