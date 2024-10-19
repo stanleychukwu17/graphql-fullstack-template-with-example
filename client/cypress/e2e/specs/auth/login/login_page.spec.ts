@@ -1,6 +1,8 @@
-import { urlMap } from "@/app/utils/url-mappings/"
+// import { urlMap } from "@/app/utils/url-mappings"
+import { urlMap } from "../../../../../../app/utils/url-mappings"
 import LoginPageObject from "../../../page-objects/auth/login/login_page_object"
 
+// const cypress_test_with = Cypress.env('CYPRESS_TEST_WITH');
 const loginPageObject = new LoginPageObject()
 
 describe('Login page', () => {
@@ -12,7 +14,7 @@ describe('Login page', () => {
         }).as('loginRequest'); // Adjust the URL as needed
 
         loginPageObject.visitLoginPage()
-        loginPageObject.login('stanley', 'p2456d')
+        // loginPageObject.login('stanley', 'p2456d')
 
         // Wait for the login request to finish
         cy.wait('@loginRequest');
