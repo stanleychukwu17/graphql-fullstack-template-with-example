@@ -145,10 +145,10 @@ export default function RegComponent() {
                         </div>
                         <div className="inputCover">
                             <div className="inpTitle">
-                                <label htmlFor="Re-enter Password">Re-enter Password</label>
+                                <label htmlFor="re-enter-password">Re-enter Password</label>
                             </div>
                             <div className="inpInput">
-                                <input id="Re-enter Password" type="password" {...registerReg("confirm_password", {required: true})} />
+                                <input id="re-enter-password" type="password" {...registerReg("confirm_password", {required: true})} />
                                 {regError.confirm_password && <p>This field is required!!!</p>}
                             </div>
                         </div>
