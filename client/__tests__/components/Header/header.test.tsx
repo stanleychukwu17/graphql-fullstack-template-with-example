@@ -9,12 +9,6 @@ import Header, {
 } from '@/app/components/Header/Header'
 import { userDetailsType } from '@/app/utils/redux/features/userSlice'
 
-// mocking next navigation
-const useRouterMock = jest.fn()
-jest.mock('next/navigation', () => ({
-    useRouter: () => useRouterMock
-}))
-
 // mocking of redux
 const useAppSelectorMock = jest.fn()
 const useAppDispatchMock = jest.fn()
@@ -44,13 +38,17 @@ Object.defineProperty(window, 'location', {
 // --END--
 
 // mocking of next/navigation
+const usePathnameMock = jest.fn()
+const useSearchParamsMock = jest.fn()
 const routePushFunction = jest.fn((url: string) => {
     window.location.pathname = url
 })
 jest.mock('next/navigation', () => ({
     useRouter: () => ({
         push: routePushFunction
-    })
+    }),
+    usePathname: () => usePathnameMock,
+    useSearchParams: () => useSearchParamsMock,
 }))
 
 
@@ -73,7 +71,7 @@ describe("Testing suite for Header component", () => {
             must_logged_in_to_view_this_page:'yes'
         })
 
-        let {findByText}  = await renderComponent()
+        const {findByText} = await renderComponent()
         const actual = await findByText(/Logout/i)
         expect(actual).toBeInTheDocument()
     })
@@ -82,13 +80,17 @@ describe("Testing suite for Header component", () => {
         // this function runs before the component is rendered and it checks the localStorage to see if the user is logged in or not
         update_the_userDetails_information({loggedIn: 'out'})
 
-        // mocking the redux to return value that says a user is logged out
+        // mock redux useAppSelector: to return value that says a user is logged out
         useAppSelectorMock.mockReturnValue({
             loggedIn:'no',
             must_logged_in_to_view_this_page:'no'
         })
 
-        let {findByText}  = await renderComponent()
+        // mock usePathname and useSearchParams to return empty strings
+        usePathnameMock.mockReturnValue('')
+        useSearchParamsMock.mockReturnValue({})
+
+        const {findByText}  = await renderComponent()
         const actual = await findByText(/Login/i)
         expect(actual).toBeInTheDocument()
     })
