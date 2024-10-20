@@ -7,9 +7,7 @@ deploy {
 Todo {
     NOTE: 
     Golang Backend:
-    NEEDED: frontend graphQl up and running {
-        NEEDED: frontEnd graphQl up and running
-    }
+    NEEDED: frontend graphQl up and running
     graphQl {
         integrate graphql into golang
         integrate graphQl and jwt {
@@ -31,46 +29,38 @@ Todo {
     ---
     NOTE: Start
     FrontEnd:
-    fri:
     finish cypress for all routes (test should be above 75%) {
-        work on env testing to determine if to use mock or real-time testing
         work on login route {
             successful login
             error when user try to login
             work with real database and with mock
         }
-        8:00am
-
-        work on logout route {
-            successful logout
-            error when user try to logout
-        }
         work on register route {
             successful register
             error when user try to register
         }
+        work on logout route {
+            successful logout
+            error when user try to logout
+        }
+
         work on theme selection
-        9am
+        write a function to clean-up the database after all testing
     }
-    CI/CD the Frontend for cypress and jest
-    10am
+    3pm
+    5pm
     change the site to use i8n
     modify the Success message from login and register backend to instead use i18n from frontEnd
-    1:00am
+    7pm
+    graphQl note revision
+    check the graphQl code and start integrating with golang
+    9pm
+    ---
+    ---
+    CI/CD the Frontend for cypress and jest
     --
-    sun:
-    NEEDED: graphQl revision
-    check the graphQl code and start integrating with golang 
-    Generating apollo types, if there is any need for this
-    testing of Apollo - frontend {
-        apollo - set up Development & testing
-        apollo - set up performance
-        apollo - set up integration
-        apollo - set up Networking
-    }
-    ---
-    ---
-    mon:
+    testing of Apollo for frontEnd and backEnd
+    --
     add google login and sign up {react-google-login}
     dockerize and test it in a docker container - development & production
     ---

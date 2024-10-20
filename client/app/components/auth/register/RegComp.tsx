@@ -10,9 +10,8 @@ import { setPageTransition } from '@/app/utils/redux/features/siteSlice';
 import { urlMap } from "@/app/utils/url-mappings";
 import MessageComp, {MessageCompProps} from "@/app/components/Message/MessageComp";
 
-const backEndPort = process.env.BACKEND_PORT;
-
 // url for server login request
+const backEndPort = process.env.NEXT_PUBLIC_BACKEND_PORT;
 const regUrl = `${backEndPort}${urlMap.serverAuth.register}`
 
 type RegisterRHF = {
@@ -76,7 +75,12 @@ export default function RegComponent() {
             })
         })
         .catch((err) => {
-            const msg_dts = `Status: ${err.response.status}, ${err.response.data.cause}` 
+            console.log(err)
+            const msg_dts = `
+                Status: ${err.response?.status},
+                Code: ${err.message},
+                Message: ${err.response?.data.cause}
+            ` 
             setShowAlert(true)
             setAlertMsg({'msg_type':'bad', 'msg_dts':msg_dts})
             setIsLoading2(false)
