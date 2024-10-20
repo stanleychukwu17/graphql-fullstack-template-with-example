@@ -61,7 +61,7 @@ export default function MessageComp({msg_type, msg_dts, closeAlert, ...props}: M
                     {props.haveBtn && (
                         props.btnList?.map(({btnTitle, btnAction}, index) => (
                             <div className="flex space-x-6 pb-5" key={`btn-${btnTitle}-${index}`}>
-                                <button className="generalBtn" onClick={btnAction}>{btnTitle}</button>
+                                <button data-testid="btn-msg-comp" className="generalBtn" onClick={btnAction}>{btnTitle}</button>
                             </div>                            
                         ))
                     )}
