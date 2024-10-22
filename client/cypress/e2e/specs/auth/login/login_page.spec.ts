@@ -1,5 +1,5 @@
 // import { urlMap } from "@/app/utils/url-mappings"
-import { urlMap } from "../../../../../../app/utils/url-mappings"
+import { urlMap } from "../../../../../app/utils/url-mappings"
 import LoginPageObject from "../../../page-objects/auth/login/login_page_object"
 
 // const cypress_test_with = Cypress.env('CYPRESS_TEST_WITH');
@@ -10,7 +10,7 @@ describe('Login page', () => {
         // Intercept the login request and provide a custom response
         cy.intercept('POST', urlMap.serverAuth.login, {
             statusCode: 200,
-            body:{msg: 'okay', accessToken: 'mockedToken', refreshToken: 'mockedRefreshToken', session_fid:"134535", name: "Big stanlo" },
+            body:{msg: 'okay', accessToken: 'mockedToken', refreshToken: 'mockedRefreshToken', session_fid:"134535", name: "Big stanley" },
         }).as('loginRequest'); // Adjust the URL as needed
 
         loginPageObject.visitLoginPage()
@@ -19,4 +19,6 @@ describe('Login page', () => {
         // Wait for the login request to finish
         cy.wait('@loginRequest');
     })
+
+
 })
