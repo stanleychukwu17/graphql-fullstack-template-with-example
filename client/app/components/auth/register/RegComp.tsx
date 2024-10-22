@@ -29,13 +29,17 @@ export default function RegComponent() {
     const router = useRouter()
     const [isLoading2, setIsLoading2] = useState<boolean>(false) // used for registering
     const [showAlert, setShowAlert] = useState<boolean>(false) // for showing of error messages from the backend
-    const [alertMsg, setAlertMsg] = useState<MessageCompProps>({msg_type:'', msg_dts:''}) // the error message
+    const [alertMsg, setAlertMsg] = useState<MessageCompProps>({msg_type:'', msg_dts:[]}) // the error message
     const animationControl = useAnimationControls()
 
     // page transition completed, so update 'setPageTransition' to false
     useEffect(() => {
+        // page transition completed, so update 'setPageTransition' to false
         dispatch(setPageTransition(false))
-    }, [dispatch])
+
+        // prefetch the login page
+        if (loggedIn === 'no') router.prefetch(urlMap.clientAuth.login);
+    }, [dispatch, router, loggedIn])
 
     // we don't want a logged in user to be able to view this page
     useEffect(() => {
@@ -58,7 +62,7 @@ export default function RegComponent() {
             setShowAlert(true)
             setAlertMsg({
                 'msg_type': res.data.msg,
-                'msg_dts': res.data.cause,
+                'msg_dts': [{text: res.data.cause}],
                 'haveBtn': true,
                 'btnList': [
                     {
@@ -75,12 +79,12 @@ export default function RegComponent() {
             })
         })
         .catch((err) => {
-            console.log(err)
-            const msg_dts = `
-                Status: ${err.response?.status},
-                Code: ${err.message},
-                Message: ${err.response?.data.cause}
-            ` 
+            const msg_dts = [
+                {text:`Cause: ${err.response?.data.cause}`},
+                {text:`Status: ${err.response?.status}`},
+                {text:`Code: ${err.message}`},
+            ]
+
             setShowAlert(true)
             setAlertMsg({'msg_type':'bad', 'msg_dts':msg_dts})
             setIsLoading2(false)
