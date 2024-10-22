@@ -35,32 +35,21 @@ Todo {
             error when user try to login
             work with real database and with mock
         }
-        work on register route {
-            successful register
-            error when user try to register
-        }
         work on logout route {
             successful logout
             error when user try to logout
         }
-
         work on theme selection
         write a function to clean-up the database after all testing
     }
-    3pm
-    5pm
     change the site to use i8n
     modify the Success message from login and register backend to instead use i18n from frontEnd
-    7pm
     graphQl note revision
     check the graphQl code and start integrating with golang
-    9pm
+    testing of Apollo for frontEnd and backEnd
     ---
     ---
     CI/CD the Frontend for cypress and jest
-    --
-    testing of Apollo for frontEnd and backEnd
-    --
     add google login and sign up {react-google-login}
     dockerize and test it in a docker container - development & production
     ---
