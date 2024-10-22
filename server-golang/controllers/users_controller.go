@@ -46,7 +46,7 @@ func (u *UsersController) RegisterUser(ctx *fiber.Ctx) error {
 	// check to see if the email already or username exist
 	check_usr := u.UserServices.FindUserByUsernameOrEmail(user.Username, user.Email)
 	if len(check_usr.Username) > 0 {
-		return ctx.Status(fiber.StatusUnprocessableEntity).JSON(
+		return ctx.Status(fiber.StatusConflict).JSON(
 			utils.Show_bad_message("Email or username already exist"),
 		)
 	}
