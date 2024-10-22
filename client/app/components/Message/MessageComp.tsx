@@ -5,7 +5,7 @@ import { useCallback, useEffect } from 'react';
 
 export type MessageCompProps = {
     msg_type: 'okay'|'bad'|'';
-    msg_dts: string;
+    msg_dts: {text:string}[];
     closeAlert?: React.Dispatch<React.SetStateAction<boolean>>;
     haveBtn?: boolean;
     btnList?: {btnTitle: string, btnAction: () => void}[]
@@ -56,7 +56,9 @@ export default function MessageComp({msg_type, msg_dts, closeAlert, ...props}: M
                         {msg_type === 'bad' && <p className="text-[#df0e3a]">Error</p>}
                     </div>
                     <div className="text-base pt-2 pb-10 pr-7 leading-normal tracking-wide first-letter:capitalize text-black">
-                        {msg_dts}
+                        {
+                            msg_dts.map(items => <p key={items.text}>{items.text}</p>)
+                        }
                     </div>
                     {props.haveBtn && (
                         props.btnList?.map(({btnTitle, btnAction}, index) => (
