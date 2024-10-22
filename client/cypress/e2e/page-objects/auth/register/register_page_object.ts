@@ -1,77 +1,73 @@
+import { StatusCodes } from "http-status-codes"
 import { urlMap } from "../../../../../app/utils/url-mappings/"
-import { generateRandomString } from "../../utils"
+import { generateRandomString, interceptRequest } from "../../utils"
 
-type RegisterUserProps = {
-    name: string;
-    username: string;
-    email: string;
-    password: string;
-    gender: string;
+export type userRegistrationDetails = {
+    name:string;
+    username:string;
+    email:string;
+    password:string;
+    gender:string;
 }
 
+type completeRegistrationType = {
+    userDts: userRegistrationDetails
+    loginLink: Cypress.Chainable<JQuery<HTMLElement>>
+}
 
 export default class RegisterPageObject {
     visitRegisterPage() {
         cy.visit(urlMap.clientAuth.register)
     }
 
-    async fillRegistrationForm(userDts: RegisterUserProps) {
-        // get all the input element and type
-        cy.get("input#name").type(userDts.name)
-        cy.get("input#username").type(userDts.username)
-        cy.get("input#email").type(userDts.email)
-        cy.get("select#gender").select(userDts.gender)
-        cy.get("input#password").type(userDts.password)
-        cy.get("input#re-enter-password").type(userDts.password)
+    getSubmitButton() {
+        return cy.get("div.btnCvr button[type='submit']")
     }
 
-    async interceptRegistrationRequest () {
-        const cypress_test_with = Cypress.env('CYPRESS_TEST_WITH');
-        const requestName = "registerRequest"
-        let mocked = false
-
-        if (cypress_test_with === "REAL_DATABASE") {
-            // do nothing
-        } else if (cypress_test_with === "MOCK_DATABASE") {
-            // Intercept the registration request and provide a custom response
-            mocked = true
-            cy.intercept('POST', urlMap.serverAuth.register, {
-                statusCode: 200,
-                body: {msg: 'okay', cause: 'registration successful from mocked database'},
-            }).as(requestName);
-        }
-
-        return {requestName, mocked}
-    }
-
-    async completeUserRegistration() {
+    generateRegistrationFormFields() : userRegistrationDetails {
         const name = `test-${generateRandomString(5)}`
         const username = `test-${generateRandomString(5)}`
         const email = `test-${generateRandomString(5)}@testing.com`
         const password = `stanley`
         const gender = "male"
-        const fields = {name, username, email, password, gender}
+
+        return {name, username, email, password, gender}
+    }
+
+    fillRegistrationForm(dts: userRegistrationDetails) : userRegistrationDetails {
+        cy.get("input#name").type(dts.name)
+        cy.get("input#username").type(dts.username)
+        cy.get("input#email").type(dts.email)
+        cy.get("select#gender").select(dts.gender)
+        cy.get("input#password").type(dts.password)
+        cy.get("input#re-enter-password").type(dts.password)
+
+        return dts
+    }
+
+    completeUserRegistration(userDts: userRegistrationDetails) : completeRegistrationType {
+        const requestName = "register"
 
         // intercepts the request, incase we are using the MOCK_DATABASE
-        const {requestName, mocked} = await this.interceptRegistrationRequest()
+        const {mocked} = interceptRequest({
+            requestName: "register",
+            method: "POST",
+            url: urlMap.serverAuth.register,
+            statusCode: StatusCodes.OK,
+            body: {msg: 'okay', cause: 'registration successful from mocked database'},
+        })
 
         this.visitRegisterPage()
-        this.fillRegistrationForm(fields)
-
-        cy.get("div.btnCvr button[type='submit']").click()
+        this.fillRegistrationForm(userDts)
+        this.getSubmitButton().click()
 
         // if we are using the MOCK_DATABASE, wait for the request to complete
         if (mocked) cy.wait(`@${requestName}`);
 
         // assert that the login was successful
-        const loginBtn = cy.get("button[data-testid='btn-msg-comp']")
-        loginBtn.should('be.visible');
-        loginBtn.click().then(() => {
-            // assert that we are on the login page
-            cy.url().should("include", urlMap.clientAuth.login, {timeout: 15000})
-            console.log(cy.url())
-        })
+        const loginLink = cy.get("button[data-testid='btn-msg-comp']")
+        loginLink.should('be.visible');
 
-        return fields
+        return {userDts, loginLink}
     }
 }
