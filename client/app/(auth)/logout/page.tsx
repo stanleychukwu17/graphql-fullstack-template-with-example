@@ -6,7 +6,7 @@ import { useAppSelector, useAppDispatch } from "@/app/utils/redux/hook"
 import { updateUser } from "@/app/utils/redux/features/userSlice"
 import { urlMap } from "@/app/utils/url-mappings"
 
-const backEndPort = process.env.BACKEND_PORT;
+const backEndPort = process.env.NEXT_PUBLIC_BACKEND_PORT;
 
 const config = {
     headers: {'Content-Type': 'application/json'},
@@ -24,7 +24,7 @@ export default function LogOutComp() {
             localStorage.removeItem('userDts') // delete the localStorage cached user info
             dispatch(updateUser({loggedIn:'no', name:'', session_fid:0})) // delete the redux item
 
-            // no need to send the user to the home page, redux will update the userInfo, the
+            // no need to send the user to the home page, redux will update the userInfo,
             // the useEffect below will send the user back to the home page, other you can uncomment the setTimeout
             // to manually redirect back to home page
             // setTimeout(() => { route.push('/') }, 1000) // setTimeout allows redux to finish updating before we redirect to the homePage

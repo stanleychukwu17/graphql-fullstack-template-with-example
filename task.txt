@@ -29,28 +29,28 @@ Todo {
     ---
     NOTE: Start
     FrontEnd:
+    wednesday finish:
     finish cypress for all routes (test should be above 75%) {
-        work on login route {
-            successful login
-            error when user try to login
-            work with real database and with mock
-        }
         work on logout route {
             successful logout
             error when user try to logout
         }
+        work on homePage testing
         work on theme selection
         write a function to clean-up the database after all testing
     }
+    -
+    revise chart.js and React i18n
     change the site to use i8n
     modify the Success message from login and register backend to instead use i18n from frontEnd
-    graphQl note revision
+    -
+    graphQl note revision *2
     check the graphQl code and start integrating with golang
-    testing of Apollo for frontEnd and backEnd
+    testing of graphQl for frontEnd and backEnd
     ---
     ---
-    CI/CD the Frontend for cypress and jest
     add google login and sign up {react-google-login}
+    CI/CD the Frontend for cypress and jest
     dockerize and test it in a docker container - development & production
     ---
     ---
@@ -58,7 +58,7 @@ Todo {
     ---
     ---
     Node:
-    NEEDED: drizzle orm
+    NEEDED: drizzle orm complete course and questions
     NEEDED: backEnd: Node revision *2
     backEnd: Rebuild from the ground up to make it easier for testing
     backend: convert the backEnd to class for easier testing
@@ -80,7 +80,6 @@ Todo {
     deploy client and server as docker containers on both railway and aws
     ---
     ---
-
 
     envs for testing {
         export ENV="development"

@@ -11,7 +11,9 @@ import { setPageTransition } from '@/app/utils/redux/features/siteSlice';
 import MessageComp, {MessageCompProps} from "@/app/components/Message/MessageComp";
 import { urlMap } from "@/app/utils/url-mappings";
 
-const backEndPort = process.env.BACKEND_PORT;
+// url for server login request
+const backEndPort = process.env.NEXT_PUBLIC_BACKEND_PORT;
+const loginUrl = `${backEndPort}${urlMap.serverAuth.login}`
 
 // type - for React Hook Form
 type LoginForRHF = {
@@ -19,8 +21,7 @@ type LoginForRHF = {
     password: string
 }
 
-// url for server login request
-const loginUrl = `${backEndPort}${urlMap.serverAuth.login}`
+
 
 export default function LoginComponent() {
     const { loggedIn } = useAppSelector(state => state.user)
@@ -29,7 +30,7 @@ export default function LoginComponent() {
     const router = useRouter()
     const [isLoading1, setIsLoading1] = useState<boolean>(false) // used for login
     const [showAlert, setShowAlert] = useState<boolean>(false) // for showing of error messages from the backend
-    const [alertMsg, setAlertMsg] = useState<MessageCompProps>({msg_type:'', msg_dts:''}) // the error message
+    const [alertMsg, setAlertMsg] = useState<MessageCompProps>({msg_type:'', msg_dts:[{text:''}]}) // the error message
     const animationControl = useAnimationControls()
 
     // page transition completed, so update 'setPageTransition' to false
@@ -69,7 +70,7 @@ export default function LoginComponent() {
                 })
             } else {
                 setShowAlert(true)
-                setAlertMsg({'msg_type':res.data.msg, 'msg_dts':res.data.cause})
+                setAlertMsg({'msg_type':res.data.msg, 'msg_dts':[{text:res.data.cause}]})
             }
 
             setIsLoading1(false)
@@ -78,7 +79,7 @@ export default function LoginComponent() {
             const msg_dts = `Status: ${err.response?.status}, ${err.response?.data.cause}` 
             // console.log(err.message, err.response)
             setShowAlert(true)
-            setAlertMsg({'msg_type':'bad', 'msg_dts':msg_dts})
+            setAlertMsg({'msg_type':'bad', 'msg_dts':[{text:msg_dts}]})
             setIsLoading1(false)
         });
     }
