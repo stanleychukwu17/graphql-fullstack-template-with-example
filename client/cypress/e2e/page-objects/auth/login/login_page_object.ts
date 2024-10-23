@@ -70,7 +70,7 @@ export default class LoginPageObject {
             method: "POST",
             url: urlMap.serverAuth.login,
             statusCode: StatusCodes.OK,
-            body: {msg: 'okay', accessToken: 'mockedToken', refreshToken: 'mockedRefreshToken', session_fid:"134535", name: "Big stanley" },
+            body: {msg: 'okay', accessToken: 'mockedToken', refreshToken: 'mockedRefreshToken', session_fid:"134535", name: "Big stanley"},
         })
 
         // fill's and submits the login info
@@ -83,7 +83,6 @@ export default class LoginPageObject {
         cy.url().should('not.include', urlMap.clientAuth.login)
     }
 
-
     completeRegisterAndLoginUser(userDts: userRegistrationDetails) {
         // register the user
         const {loginLink} = registerPage.completeUserRegistration(userDts)
@@ -94,5 +93,28 @@ export default class LoginPageObject {
 
         // log the user in using the user's username
         this.completeUserLogin(userDts.username, userDts.password)
+    }
+
+    completeUserLoginWithError(loginDts: {username: string, password: string, statusCode: number}) {
+        this.visitLoginPage()
+
+        const requestName = 'userLoginRequest';
+        const {mocked} = interceptRequest({
+            requestName,
+            method: "POST",
+            url: urlMap.serverAuth.login,
+            statusCode: loginDts.statusCode,
+            body: {msg: 'bad', cause: "mocked error" },
+        })
+
+        // fill's and submits the login info
+        this.fillAndSubmitLoginInfo(loginDts.username, loginDts.password)
+
+        // if we are using the MOCK_DATABASE, wait for the request to complete
+        if (mocked) cy.wait(`@${requestName}`);
+
+        // verify that the user is still in the login page and the correct error message was displayed
+        cy.url().should('include', urlMap.clientAuth.login)
+        cy.contains(loginDts.statusCode).should("exist")
     }
 }
