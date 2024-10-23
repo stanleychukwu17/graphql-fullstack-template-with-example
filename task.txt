@@ -37,8 +37,11 @@ Todo {
         }
         work on homePage testing
         work on theme selection
+        -
         write a function to clean-up the database after all testing
+        also refactor go-backEnd to use the same parameters for easier database clean up
     }
+    8:00am
     -
     revise chart.js and React i18n
     change the site to use i8n

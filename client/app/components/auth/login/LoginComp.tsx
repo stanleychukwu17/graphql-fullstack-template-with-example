@@ -76,10 +76,13 @@ export default function LoginComponent() {
             setIsLoading1(false)
         })
         .catch((err) => {
-            const msg_dts = `Status: ${err.response?.status}, ${err.response?.data.cause}` 
+            const msg_dts = `, ` 
             // console.log(err.message, err.response)
             setShowAlert(true)
-            setAlertMsg({'msg_type':'bad', 'msg_dts':[{text:msg_dts}]})
+            setAlertMsg({'msg_type':'bad', 'msg_dts':[
+                {text: `Status: ${err.response?.status}`},
+                {text: `Message: ${err.response?.data.cause}`},
+            ]})
             setIsLoading1(false)
         });
     }
