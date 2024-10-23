@@ -8,13 +8,15 @@ import (
 
 // create a function to set up routes
 func SetUpRoutes(app *fiber.App, db *gorm.DB) {
+	urlMap := utils.GetUrlMap()
+
 	// Route to check if connection is working
-	app.Get("/healthCheck", func(ctx *fiber.Ctx) error {
+	app.Get(urlMap.HealthCheck.Home, func(ctx *fiber.Ctx) error {
 		return ctx.Status(fiber.StatusOK).JSON(fiber.Map{"msg": "okay-1", "cause": "Users route says:Hello, World!"})
 	})
 
 	// Route to check if connection is working
-	app.Post("/healthCheck/accessToken", func(ctx *fiber.Ctx) error {
+	app.Post(urlMap.HealthCheck.AccessToken, func(ctx *fiber.Ctx) error {
 		loggedInDts := ctx.Locals("loggedInDts")
 		if loggedInDts == nil {
 			return ctx.Status(fiber.StatusUnauthorized).JSON(utils.Show_bad_message("Invalid SessionFid or accessToken 1"))
@@ -29,8 +31,8 @@ func SetUpRoutes(app *fiber.App, db *gorm.DB) {
 				return ctx.Status(fiber.StatusOK).JSON(fiber.Map{
 					"msg":       "okay",
 					"new_token": new_token,
-					"dts": map[string]interface{}{
-						"newAccessToken": newAccessToken,
+					"dts": map[string]string{
+						"newAccessToken": newAccessToken.(string),
 					},
 				})
 			} else {
@@ -41,6 +43,7 @@ func SetUpRoutes(app *fiber.App, db *gorm.DB) {
 		}
 	})
 
+	// sets up the users routes
 	usersRoutes := &UsersRoutes{DB: db}
 	usersRoutes.SetUpRoutes(app)
 }
