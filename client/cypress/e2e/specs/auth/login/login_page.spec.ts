@@ -1,24 +1,42 @@
-// import { urlMap } from "@/app/utils/url-mappings"
+import { StatusCodes } from "http-status-codes"
 import { urlMap } from "../../../../../app/utils/url-mappings"
+import { interceptRequest } from "../../../../e2e/page-objects/utils"
 import LoginPageObject from "../../../page-objects/auth/login/login_page_object"
+import RegisterPageObject, {userRegistrationDetails} from "../../../page-objects/auth/register/register_page_object"
 
 // const cypress_test_with = Cypress.env('CYPRESS_TEST_WITH');
-const loginPageObject = new LoginPageObject()
+const loginPage = new LoginPageObject()
+const registerPage = new RegisterPageObject()
 
 describe('Login page', () => {
-    it("should login with valid credentials", () => {
-        // Intercept the login request and provide a custom response
-        cy.intercept('POST', urlMap.serverAuth.login, {
-            statusCode: 200,
-            body:{msg: 'okay', accessToken: 'mockedToken', refreshToken: 'mockedRefreshToken', session_fid:"134535", name: "Big stanley" },
-        }).as('loginRequest'); // Adjust the URL as needed
+    let userDts: userRegistrationDetails
 
-        loginPageObject.visitLoginPage()
-        // loginPageObject.login('stanley', 'p2456d')
-
-        // Wait for the login request to finish
-        cy.wait('@loginRequest');
+    before(() => {
+        userDts = registerPage.generateRegistrationFormFields()
     })
 
+    it.skip("should register and login user with valid credentials", () => {
+        loginPage.completeRegisterAndLoginUser(userDts)
+        loginPage.logoutTheLoggedInUser()
+    })
 
+    it.skip("should login user with valid email", () => {
+        loginPage.completeUserLogin(userDts.email, userDts.password)
+        loginPage.logoutTheLoggedInUser()
+    })
+
+    it("should fail to login with invalid username", () => {
+        loginPage.completeUserLogin(`${userDts.username}wrong`, userDts.password)
+        cy.pause()
+    })
+
+    it("should fail to login with invalid email", () => {
+        loginPage.completeUserLogin(`wrong${userDts.email}`, userDts.password)
+    })
+
+    it.skip("should fail to login with invalid password", () => {
+        loginPage.completeUserLogin(userDts.username, `wrong${userDts.password}`)
+    })
+
+    it.skip("should fail to login if other errors from the server", () => {})
 })
