@@ -27,11 +27,11 @@ export default function LoggedOutCard() {
 
     return (
         <div className="flex space-x-8 font-semibold text-[16.5px]">
-            <div className="">
-                <Link href={urlMap.clientAuth.register} onClick={linkClicked}>Register</Link>
+            <div>
+                <Link href={urlMap.clientAuth.register} onClick={linkClicked} data-testid="register">Register</Link>
             </div>
-            <div className="">
-                <Link href={urlMap.clientAuth.login} onClick={linkClicked}>Login</Link>
+            <div>
+                <Link href={urlMap.clientAuth.login} onClick={linkClicked} data-testid="login">Login</Link>
             </div>
         </div>
     )

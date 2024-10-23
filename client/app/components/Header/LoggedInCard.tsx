@@ -11,7 +11,7 @@ export default function LoggedInCard() {
             <div className="">
                 <div className="capitalize">{userInfo.name}</div>
                 <div className="text-sm text-[#0056b6] font-bold">
-                    <Link href={urlMap.clientAuth.logout}>Logout</Link>
+                    <Link href={urlMap.clientAuth.logout} data-testid="logout">Logout</Link>
                 </div>
             </div>
         </div>
