@@ -16,4 +16,5 @@ export default class HomePageObject {
     getLogoutLink() {
         return cy.get("[data-testid='logout']")
     }
+
 }

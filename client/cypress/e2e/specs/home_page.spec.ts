@@ -53,4 +53,12 @@ describe('Home Page', () => {
         cy.url({timeout: 10000}).should("include", urlMap.home)
     })
 
+    it("should select a theme and make sure it works", () => {
+        homePage.visitHomePage()
+        cy.get("div.changeThemeCover").click()
+        cy.get("[data-testid='theme-dark']").click()
+
+        cy.get("html").should("have.attr", "data-theme", "dark");
+        loginPage.visitLoginPage()
+    })
 })
