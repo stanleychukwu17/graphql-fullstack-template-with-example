@@ -1,6 +1,8 @@
 package services
 
 import (
+	"time"
+
 	"github.com/stanleychukwu17/graphql-fullstack-template-with-example/server-golang/models"
 	"github.com/stanleychukwu17/graphql-fullstack-template-with-example/server-golang/utils"
 	"golang.org/x/crypto/bcrypt"
@@ -14,6 +16,7 @@ type UserServices interface {
 	HashPassword(password string) (string, error)
 	VerifyPassword(hashedPassword, password string) bool
 	CreateSession(userId int) CheckSession
+	TestingDatabaseCleanUp()
 }
 
 // define the struct for that implements the user services
@@ -96,6 +99,24 @@ func (u *UserServiceStruct) CreateSession(userId int) CheckSession {
 	}
 
 	return uSession
+}
+
+func (u *UserServiceStruct) TestingDatabaseCleanUp() {
+	users := []*models.User{}
+
+	// we want to delete only test account that were created the previous day
+	currentDate := time.Now()                        // Get the current date and time
+	twoDaysAgo := currentDate.AddDate(0, 0, -1)      // Subtract 2 days - AddDate(years, months, days)
+	formattedDate := twoDaysAgo.Format("2006-01-02") // Format the date to "YYYY-MM-DD"
+
+	err := u.DB.Raw("SELECT id, username, email FROM users WHERE username LIKE ? AND created_at <= ? ", "%test-%", formattedDate).Scan(&users).Error
+	if err == nil {
+		for _, user := range users {
+			u.DB.Exec("DELETE FROM users WHERE id = ? limit 1", user.ID)
+			u.DB.Exec("DELETE FROM users_session WHERE user_id = ? limit 1", user.ID)
+		}
+	}
+
 }
 
 // --END-- sessions
