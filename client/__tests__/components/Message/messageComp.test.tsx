@@ -19,7 +19,7 @@ describe("Message Component test suite", () => {
     beforeEach(async() => {
         container = await renderComponent({
             msg_type: 'okay',
-            msg_dts: msg_dts,
+            msg_dts: [{text:msg_dts}],
             closeAlert: closeAlertMock
         })
     })
