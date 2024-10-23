@@ -4,7 +4,7 @@ import { fireEvent, render, screen, waitFor, within } from '@testing-library/rea
 import LoginComponent from '@/app/components/auth/login/LoginComp';
 import {urlMap} from '@/app/utils/url-mappings'
 
-const backEndPort = process.env.BACKEND_PORT;
+const backEndPort = process.env.NEXT_PUBLIC_BACKEND_PORT;
 
 // mocking of redux
 const useAppDispatchMock = jest.fn()
