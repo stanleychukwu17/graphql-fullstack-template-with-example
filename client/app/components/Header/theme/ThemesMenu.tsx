@@ -11,7 +11,7 @@ import './ThemesMenu.scss'
 //--START-- for color theme
 export function update_this_user_preferred_theme (theme: string) {
     // Access the root HTML element
-    var htmlElement = document.documentElement;
+    const htmlElement = document.documentElement;
 
     // Add an attribute to the HTML element
     htmlElement.setAttribute("data-theme", theme);
