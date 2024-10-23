@@ -7,12 +7,6 @@ import (
 	"time"
 )
 
-type FieldRequirement struct {
-	Key    string `json:"key"`
-	Length int    `json:"length"`
-	Msg    string `json:"msg"`
-}
-
 func Generate_fake_id(id int) int {
 	// Create a new random source
 	r := rand.New(rand.NewSource(time.Now().UnixNano()))
@@ -37,6 +31,12 @@ func Show_good_message(cause string) map[string]string {
 		"msg":   "okay",
 		"cause": cause,
 	}
+}
+
+type FieldRequirement struct {
+	Key    string `json:"key"`
+	Length int    `json:"length"`
+	Msg    string `json:"msg"`
 }
 
 func Check_if_required_fields_are_present(list []FieldRequirement) (bool, string) {
