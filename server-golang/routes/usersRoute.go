@@ -4,6 +4,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/stanleychukwu17/graphql-fullstack-template-with-example/server-golang/controllers"
 	"github.com/stanleychukwu17/graphql-fullstack-template-with-example/server-golang/services"
+	"github.com/stanleychukwu17/graphql-fullstack-template-with-example/server-golang/utils"
 	"gorm.io/gorm"
 )
 
@@ -18,13 +19,18 @@ type UsersRoutes struct {
 // It sets up the routes under the "/users" path and binds them to the appropriate handler methods.
 func (u *UsersRoutes) SetUpRoutes(app *fiber.App) {
 	// Create a new route group for "/users".
-	api := app.Group("/users")
+	// api := app.Group("/users")
+	// api.Post("/registerUser", uControl.RegisterUser)
+
+	urlMap := utils.GetUrlMap()
 
 	// initialize the users controller
 	userServices := &services.UserServiceStruct{DB: u.DB}
 	uControl := &controllers.UsersController{DB: u.DB, UserServices: userServices}
 
-	api.Post("/registerUser", uControl.RegisterUser) // Handles POST requests to "/users/registerUser" by invoking the RegisterUser method.
-	api.Post("/loginUser", uControl.LoginThisUser)   // Handles POST requests to "/users/loginUser" by invoking the LoginThisUser method.
-	api.Post("/logout", uControl.LogOutThisUser)     // Handles POST requests to "/users/logout" by invoking the LogOutThisUser method.
+	api := app
+	api.Post(urlMap.Users.Register, uControl.RegisterUser)                  // invokes RegisterUser method.
+	api.Post(urlMap.Users.Login, uControl.LoginThisUser)                    // invokes LoginThisUser method.
+	api.Post(urlMap.Users.Logout, uControl.LogOutThisUser)                  // invokes LogOutThisUser method.
+	api.Post(urlMap.Users.CleanTestDB, uControl.CleanUpTestingFromDatabase) // invokes LogOutThisUser method.
 }
