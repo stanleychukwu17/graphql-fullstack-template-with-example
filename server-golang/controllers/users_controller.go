@@ -162,3 +162,24 @@ func (u *UsersController) LogOutThisUser(ctx *fiber.Ctx) error {
 	u.DB.Exec("UPDATE users_session SET active = 'no' WHERE fake_id = ? and active = 'yes' limit 1", logoutDts.SessionFid)
 	return ctx.Status(fiber.StatusOK).JSON(utils.Show_good_message("You have been logged out successfully"))
 }
+
+func (u *UsersController) CleanUpTestingFromDatabase(ctx *fiber.Ctx) error {
+	dts := struct {
+		Cleaner string `json:"cleaner"`
+	}{}
+
+	// printout the body of the request
+	fmt.Println(string(ctx.Body()))
+
+	// Parse the request body
+	if err := ctx.BodyParser(&dts); err != nil {
+		return ctx.Status(fiber.StatusBadRequest).JSON(utils.Show_bad_message("Invalid request body received"))
+	}
+
+	// calls the function that cleans up the database
+	u.UserServices.TestingDatabaseCleanUp()
+
+	fmt.Printf("cleaner: %v\n", dts.Cleaner)
+	fmt.Println("we received a request")
+	return nil
+}
