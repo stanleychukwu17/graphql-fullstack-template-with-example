@@ -9,7 +9,7 @@ const loginPage = new LoginPageObject()
 const registerPage = new RegisterPageObject()
 
 describe('Login page', () => {
-    let userDts: userRegistrationDetails
+    let userDts: userRegistrationDetails;
 
     before(() => {
         userDts = registerPage.generateRegistrationFormFields()

@@ -30,9 +30,6 @@ export default class LoginPageObject {
         this.getPasswordInput().type(password)
         this.getLoginButton().click()
     }
-    // ---
-    // ---
-    // ---
 
     logoutTheLoggedInUser() {
         // intercept the logout request
