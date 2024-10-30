@@ -1,15 +1,18 @@
 package controllers_test
 
 import (
+	"context"
 	"encoding/json"
 	"errors"
 	"io"
 	"os"
 	"strings"
 	"testing"
+	"time"
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/stanleychukwu17/graphql-fullstack-template-with-example/server-golang/controllers"
+	"github.com/stanleychukwu17/graphql-fullstack-template-with-example/server-golang/database"
 	"github.com/stanleychukwu17/graphql-fullstack-template-with-example/server-golang/models"
 	"github.com/stanleychukwu17/graphql-fullstack-template-with-example/server-golang/test"
 	"github.com/stanleychukwu17/graphql-fullstack-template-with-example/server-golang/utils"
@@ -23,8 +26,7 @@ func TestRegisterUser(t *testing.T) {
 	// t.Skip()
 
 	// set up new fiber application and return a UserModel instance
-	app, db, user, _ := test.CreateFiberApp_DB_UserAccount(t)
-	defer user.Mock_DeleteThisUser(db, t) // after the test is completed
+	app, _, user, _ := test.CreateFiberApp_DB_UserAccount(t)
 
 	// Sends the request
 	resp, err := user.Mock_RegisterUser(app)
@@ -49,7 +51,6 @@ func TestLoginThisUser(t *testing.T) {
 
 	// set up new fiber application and return a UserModel instance
 	app, db, user, _ := test.CreateFiberApp_DB_UserAccount(t)
-	defer user.Mock_DeleteThisUser(db, t) // after the test is completed
 
 	// log user in
 	loginRespBody := test.MockTestRegisterAndLoginUser(t, user, db, app)
@@ -62,7 +63,6 @@ func TestLogOutThisUser(t *testing.T) {
 
 	// set up new fiber application and return a UserModel instance
 	app, db, user, _ := test.CreateFiberApp_DB_UserAccount(t)
-	defer user.Mock_DeleteThisUser(db, t) // after the test is completed
 
 	// log user in
 	loginRespBody := test.MockTestRegisterAndLoginUser(t, user, db, app)
@@ -92,10 +92,11 @@ func unitHelperFunction() (*fiber.App, *test.MockUserService, *controllers.Users
 
 func TestRegisterUser_Unit(t *testing.T) {
 	test.BeforeEach(t)
+	urlMap := utils.GetUrlMap()
 	// t.Skip()
 
 	// set up new fiber application and the mock service
-	const reqUrl = test.RegisterUrl
+	reqUrl := urlMap.Users.Register
 	app, mockService, controller := unitHelperFunction()
 
 	// register the controller to handle every request to the url
@@ -137,7 +138,7 @@ func TestRegisterUser_Unit(t *testing.T) {
 		resp, err := test.SendRequestToUrl("POST", reqUrl, user.ToJson(), app)
 
 		require.NoError(t, err)
-		require.Equal(t, fiber.StatusUnprocessableEntity, resp.StatusCode, "Expects an error code if email or username already exist")
+		require.Equal(t, fiber.StatusConflict, resp.StatusCode, "Expects an error code if email or username already exist")
 	})
 
 	// expects an error when trying to create a new user
@@ -163,10 +164,11 @@ func TestRegisterUser_Unit(t *testing.T) {
 
 func TestLoginThisUser_Unit(t *testing.T) {
 	test.BeforeEach(t)
+	urlMap := utils.GetUrlMap()
 	// t.Skip()
 
 	// set up new fiber application and the mock service
-	const reqUrl = test.LoginUrl
+	reqUrl := urlMap.Users.Login
 	app, mockService, controller := unitHelperFunction()
 
 	// register the controller to handle every request to the url
@@ -224,10 +226,11 @@ func TestLoginThisUser_Unit(t *testing.T) {
 
 func TestLogoutUser_Unit(t *testing.T) {
 	test.BeforeEach(t)
+	urlMap := utils.GetUrlMap()
 	// t.Skip()
 
 	// set up new fiber application and the mock service
-	const reqUrl = test.LogOutUrl
+	reqUrl := urlMap.Users.Logout
 	app, _, controller := unitHelperFunction()
 
 	// register the controller to handle every request to the url
@@ -255,3 +258,25 @@ func TestLogoutUser_Unit(t *testing.T) {
 }
 
 // ENDS
+
+func TestCleanupTheDatabase(t *testing.T) {
+	test.BeforeEach(t)
+	urlMap := utils.GetUrlMap()
+
+	// i want the test to not timeout with the golang default timeout of 1000ms
+	// the test should run for at-least 2mins (120s = 2m)
+	ctx, cancel := context.WithTimeout(context.Background(), 120*time.Second)
+	defer cancel() // Ensure resources are cleaned up
+
+	// set up new fiber application
+	app, _, _ := database.Setup()
+
+	// initialize the users controller
+	body := `{"cleaner": "backend_test"}`
+	resp, err := test.SendRequestToUrl("POST", urlMap.Users.CleanTestDB, body, app)
+
+	require.NoError(t, err)
+	require.Equal(t, resp.StatusCode, fiber.StatusOK)
+
+	ctx.Done()
+}

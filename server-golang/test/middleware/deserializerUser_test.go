@@ -9,15 +9,16 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/stanleychukwu17/graphql-fullstack-template-with-example/server-golang/test"
+	"github.com/stanleychukwu17/graphql-fullstack-template-with-example/server-golang/utils"
 	"github.com/stretchr/testify/require"
 )
 
 func TestDeserializerUser_WithInvalidSessionFid(t *testing.T) {
 	test.BeforeEach(t)
+	urlMap := utils.GetUrlMap()
 
 	// set up new fiber application and return a UserModel instance
 	app, db, user, _ := test.CreateFiberApp_DB_UserAccount(t)
-	defer user.Mock_DeleteThisUser(db, t) // after the test is completed
 
 	// log user in
 	loginRespBody := test.MockTestRegisterAndLoginUser(t, user, db, app)
@@ -33,7 +34,7 @@ func TestDeserializerUser_WithInvalidSessionFid(t *testing.T) {
 			"123456789", accessToken, refreshToken,
 		)
 
-		resp, err := test.SendRequestToUrl("POST", test.HealthTokenUrl, body, app)
+		resp, err := test.SendRequestToUrl("POST", urlMap.HealthCheck.AccessToken, body, app)
 		require.NoError(t, err)
 		require.Equal(t, resp.StatusCode, fiber.StatusUnauthorized)
 	})
@@ -41,13 +42,13 @@ func TestDeserializerUser_WithInvalidSessionFid(t *testing.T) {
 
 func TestDeserializerUser_WithExpiredToken(t *testing.T) {
 	test.BeforeEach(t)
+	urlMap := utils.GetUrlMap()
 
 	// sets the time for the accessToken to 0.5seconds, so the the accessToken will expire very fast
 	os.Setenv("JWT_TIME_1", "0.0000058")
 
 	// set up new fiber application, database connection and a new UserModel instance
 	app, db, user, _ := test.CreateFiberApp_DB_UserAccount(t)
-	defer user.Mock_DeleteThisUser(db, t) // after the test is completed
 
 	// log user in
 	loginRespBody := test.MockTestRegisterAndLoginUser(t, user, db, app)
@@ -67,12 +68,14 @@ func TestDeserializerUser_WithExpiredToken(t *testing.T) {
 		)
 
 		// send the request
-		resp, err := test.SendRequestToUrl("POST", test.HealthTokenUrl, body, app)
+		resp, err := test.SendRequestToUrl("POST", urlMap.HealthCheck.AccessToken, body, app)
 		require.NoError(t, err)
 		require.Equal(t, resp.StatusCode, fiber.StatusUnauthorized)
 	})
 
 	t.Run("should create a new accessToken when the current accessToken has expired", func(t *testing.T) {
+		urlMap := utils.GetUrlMap()
+
 		// format the request body
 		body := fmt.Sprintf(
 			`{"session_fid": "%s", "accessToken": "%s", "refreshToken": "%s"}`,
@@ -80,7 +83,7 @@ func TestDeserializerUser_WithExpiredToken(t *testing.T) {
 		)
 
 		// send the request
-		resp, err := test.SendRequestToUrl("POST", test.HealthTokenUrl, body, app)
+		resp, err := test.SendRequestToUrl("POST", urlMap.HealthCheck.AccessToken, body, app)
 		responseBody, _ := io.ReadAll(resp.Body)
 		responseBodyStr := string(responseBody)
 

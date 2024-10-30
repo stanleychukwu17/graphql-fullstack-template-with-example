@@ -22,7 +22,6 @@ func TestCreateFiberApp_DB_UserAccount(t *testing.T) {
 
 	t.Run("it should create a new user account and login the user", func(t *testing.T) {
 		loginRespBody := test.MockTestRegisterAndLoginUser(t, user, db, app)
-		defer user.Mock_DeleteThisUser(db, t) // after the test is completed
 
 		require.Equal(t, "okay", loginRespBody["msg"])
 	})
