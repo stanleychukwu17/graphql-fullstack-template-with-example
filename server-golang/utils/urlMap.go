@@ -23,10 +23,10 @@ func GetUrlMap() UrlMapStruct {
 			AccessToken: "/healthCheck/accessToken",
 		},
 		Users: Users{
-			Login:       "/users1/loginUser",
-			Register:    "/users1/registerUser",
-			Logout:      "/users1/logout",
-			CleanTestDB: "/users1/testing-database-cleanup",
+			Login:       "/users/loginUser",
+			Register:    "/users/registerUser",
+			Logout:      "/users/logout",
+			CleanTestDB: "/users/testing-database-cleanup",
 		},
 	}
 }
