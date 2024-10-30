@@ -20,6 +20,7 @@ module.exports = defineConfig({
 
     setupNodeEvents(on, config) {
       config.env.CYPRESS_TEST_WITH = process.env.CYPRESS_TEST_WITH;
+      config.env.BACKEND_PORT = process.env.NEXT_PUBLIC_BACKEND_PORT;
 
       return config;
     },
