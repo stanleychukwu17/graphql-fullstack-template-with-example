@@ -13,16 +13,10 @@ import (
 	"github.com/stanleychukwu17/graphql-fullstack-template-with-example/server-golang/database"
 	"github.com/stanleychukwu17/graphql-fullstack-template-with-example/server-golang/models"
 	"github.com/stanleychukwu17/graphql-fullstack-template-with-example/server-golang/services"
+	"github.com/stanleychukwu17/graphql-fullstack-template-with-example/server-golang/utils"
 	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/require"
 	"gorm.io/gorm"
-)
-
-const (
-	RegisterUrl    = "/users/registerUser"
-	LoginUrl       = "/users/loginUser"
-	LogOutUrl      = "/users/logout"
-	HealthTokenUrl = "/healthCheck/accessToken"
 )
 
 //
@@ -37,13 +31,13 @@ func CreateFiberApp_DB_UserAccount(t *testing.T) (*fiber.App, *gorm.DB, *UserStr
 	milliseconds := now.UnixNano() / 1_000_000
 	millisecondsStr := fmt.Sprintf("%d", milliseconds)
 
-	username := fmt.Sprintf("john_%s", millisecondsStr)
-	email := fmt.Sprintf("john_%s_email@example.com", millisecondsStr)
+	username := fmt.Sprintf("test-%s", millisecondsStr)
+	email := fmt.Sprintf("test-%s@test.com", millisecondsStr)
 
 	// Create a test user
 	user := &UserStruct{
 		User: models.User{
-			Name: "John Doe", Username: username, Email: email, Password: "password", Gender: "male",
+			Name: "stanley", Username: username, Email: email, Password: "stanley", Gender: "male",
 		},
 	}
 
@@ -72,7 +66,7 @@ func MockTestRegisterAndLoginUser(t *testing.T, user *UserStruct, db *gorm.DB, a
 	}
 
 	// check login response status
-	require.Equal(t, fiber.StatusOK, resp.StatusCode)
+	require.Equal(t, fiber.StatusOK, resp.StatusCode, "There was an issue logging into user account")
 
 	// decode login response body, so we can collect the session_fid
 	var loginRespBody map[string]interface{}
@@ -101,15 +95,18 @@ type UserStruct struct {
 
 // Mock_RegisterUser sends a POST request to the "/users/registerUser" endpoint of the Fiber app with the user object converted to JSON.
 func (u *UserStruct) Mock_RegisterUser(app *fiber.App) (*http.Response, error) {
-	return SendRequestToUrl("POST", RegisterUrl, u.ToJson(), app)
+	urlMap := utils.GetUrlMap()
+	return SendRequestToUrl("POST", urlMap.Users.Register, u.ToJson(), app)
 }
 
 // Mock_LoginUser sends a POST request to the "/users/loginUser" endpoint of the Fiber app with the user object converted to JSON.
 func (u *UserStruct) Mock_LoginUser(app *fiber.App) (*http.Response, error) {
-	return SendRequestToUrl("POST", LoginUrl, u.ToJson(), app)
+	urlMap := utils.GetUrlMap()
+	return SendRequestToUrl("POST", urlMap.Users.Login, u.ToJson(), app)
 }
 
 func (u *UserStruct) Mock_LogoutUser(app *fiber.App, dts map[string]interface{}) (*http.Response, error) {
+	urlMap := utils.GetUrlMap()
 	session_fid := dts["session_fid"].(string)
 	accessToken := dts["accessToken"].(string)
 	refreshToken := dts["refreshToken"].(string)
@@ -118,11 +115,11 @@ func (u *UserStruct) Mock_LogoutUser(app *fiber.App, dts map[string]interface{})
 		{"accessToken": "%s", "refreshToken": "%s", "session_fid": "%s"}`,
 		accessToken, refreshToken, session_fid,
 	)
-	return SendRequestToUrl("POST", LogOutUrl, toSend, app)
+	return SendRequestToUrl("POST", urlMap.Users.Logout, toSend, app)
 }
 
 // Mock_DeleteThisUser deletes the user with the given username from the database.
-func (u *UserStruct) Mock_DeleteThisUser(db *gorm.DB, t *testing.T) {
+func (u *UserStruct) Mock_DeleteThisUser1(db *gorm.DB, t *testing.T) {
 	user := models.User{}
 	err := db.Raw("SELECT id FROM users WHERE username = ? limit 1", u.Username).Scan(&user).Error
 	if err == nil {
@@ -157,6 +154,10 @@ func (m *MockUserService) VerifyPassword(hashedPassword, password string) bool {
 
 func (m *MockUserService) CreateSession(userId int) services.CheckSession {
 	return services.CheckSession{}
+}
+
+func (u *MockUserService) TestingDatabaseCleanUp() {
+
 }
 
 // ENDS: MockUserService
