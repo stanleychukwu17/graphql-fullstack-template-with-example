@@ -1,6 +1,7 @@
 {
     "cSpell.words": [
         "coverprofile",
+        "datetime",
         "godotenv",
         "gofiber",
         "goimports",
@@ -10,6 +11,7 @@
         "stanleychukwu",
         "stretchr",
         "tailwindcss",
-        "testcontainers"
+        "testcontainers",
+        "varchar"
     ]
 }

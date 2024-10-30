@@ -21,28 +21,22 @@ Todo {
         remaining revisions and questions
     }
     dockerize and test it in a docker container - development & production
+    run test & see test coverage
     -
     NOTE: End thur
     ---
     ---
     NOTE: Start
     FrontEnd:
-    wednesday finish:
-    11-5:
-    write a function to clean-up the database after all testing
-    also refactor go-backEnd to use the same parameters for easier database clean up
-    call the function from the frontEnd
-    run go test
-    --
+    commit all the changes
+    -
     revise chart.js and React i18n
     change the site to use i8n
+    select language from the ui-page bottom
     modify the Success message from login and register backend to instead use i18n from frontEnd
-    -
     graphQl note revision *2
     check the graphQl code and start integrating with golang
     testing of graphQl for frontEnd and backEnd
-    -
-    ---
     add google login and sign up {react-google-login}
     CI/CD the Frontend for cypress and jest
     dockerize and test it in a docker container - development & production
@@ -103,6 +97,12 @@ Todo {
         go tool cover -func=coverage.out
         go test -v ./...
         go test -v
+        go test -run TestCleanupTheDatabase
+        go test game_test.go
+        -
+        go test -timeout 5s
+        go test -run TestFunctionName -timeout 5s
+
     }
     explanation {
         go test -coverprofile=coverage.out ./...  ===  print out the coverage of your test
