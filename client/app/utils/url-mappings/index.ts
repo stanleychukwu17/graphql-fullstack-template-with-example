@@ -13,6 +13,7 @@ export const urlMap = {
         login: '/users/loginUser/',
         logout: '/users/logout',
         register: '/users/registerUser',
+        cleanup: '/users/testing-database-cleanup',
     }
 }
 
