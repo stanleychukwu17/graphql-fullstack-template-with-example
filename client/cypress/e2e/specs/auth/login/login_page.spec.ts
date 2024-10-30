@@ -12,17 +12,23 @@ describe('Login page', () => {
     let userDts: userRegistrationDetails;
 
     before(() => {
+        // register a user
         userDts = registerPage.generateRegistrationFormFields()
+    })
+
+    after(() => {
+        // cleans up the test database
+        loginPage.cleanUpTheTestDB()
     })
 
     it("should register and login user with valid credentials", () => {
         loginPage.completeRegisterAndLoginUser(userDts)
-        loginPage.logoutTheLoggedInUser()
+        loginPage.logoutUser()
     })
 
     it("should login user with valid email", () => {
         loginPage.completeUserLogin(userDts.email, userDts.password)
-        loginPage.logoutTheLoggedInUser()
+        loginPage.logoutUser()
     })
 
     it("should fail to login with invalid username", () => {
