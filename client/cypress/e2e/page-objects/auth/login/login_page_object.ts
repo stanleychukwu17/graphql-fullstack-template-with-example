@@ -1,5 +1,6 @@
 /// <reference types="cypress" />
 
+import axios from "axios"
 import { StatusCodes } from "http-status-codes"
 import { urlMap } from "../../../../../app/utils/url-mappings/"
 import { interceptRequest } from "../../utils"
@@ -31,7 +32,7 @@ export default class LoginPageObject {
         this.getLoginButton().click()
     }
 
-    logoutTheLoggedInUser() {
+    logoutUser() {
         // intercept the logout request
         const requestName = 'logoutRequest';
         const {mocked} = interceptRequest({
@@ -113,5 +114,22 @@ export default class LoginPageObject {
         // verify that the user is still in the login page and the correct error message was displayed
         cy.url().should('include', urlMap.clientAuth.login)
         cy.contains(loginDts.statusCode).should("exist")
+    }
+
+    cleanUpTheTestDB() {
+        const cypress_test_with = Cypress.env('CYPRESS_TEST_WITH');
+        const backendPort = Cypress.env('BACKEND_PORT');
+        const logOutUrl = `${backendPort}${urlMap.serverAuth.cleanup}`
+        const body = {cleaner: "cypress_test"}
+        const config = {
+            headers: {'Content-Type': 'application/json'},
+        };
+
+        if (cypress_test_with === "REAL_DATABASE") {
+            axios.post(logOutUrl, body, config)
+            .then((res) => {
+                console.log(res.data)
+            })
+        }
     }
 }
