@@ -164,22 +164,19 @@ func (u *UsersController) LogOutThisUser(ctx *fiber.Ctx) error {
 }
 
 func (u *UsersController) CleanUpTestingFromDatabase(ctx *fiber.Ctx) error {
+	// cleaner value should be = cypress_test or backend_test
 	dts := struct {
 		Cleaner string `json:"cleaner"`
 	}{}
 
 	// printout the body of the request
-	fmt.Println(string(ctx.Body()))
+	// fmt.Println(string(ctx.Body()))
 
 	// Parse the request body
 	if err := ctx.BodyParser(&dts); err != nil {
 		return ctx.Status(fiber.StatusBadRequest).JSON(utils.Show_bad_message("Invalid request body received"))
 	}
 
-	// calls the function that cleans up the database
-	u.UserServices.TestingDatabaseCleanUp()
-
-	fmt.Printf("cleaner: %v\n", dts.Cleaner)
-	fmt.Println("we received a request")
-	return nil
+	u.UserServices.TestingDatabaseCleanUp() // cleans up the database
+	return ctx.Status(fiber.StatusOK).JSON(fiber.Map{"msg": "okay"})
 }
