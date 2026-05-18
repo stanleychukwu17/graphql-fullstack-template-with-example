@@ -1,33 +1,19 @@
-deploy {
-    deploy to staging and make sure working when merged with main branch
-    ---
-    deploy staging to aws and test to make sure all is working properly
-    create your database @ railway for staging
-}
-Todo {
-    NOTE: 
-    Golang Backend:
-    graphQl {
-        integrate graphql into golang
-        integrate graphQl and jwt {
-            watch that video from that guy first
-        }
-        https://github.com/99designs/gqlgen
+
+FrontEnd {
+    BLOCKER:: NEEDED: {
+        Finish revision of next.js
+        Finish revision of react
+        Finish FramerMotion revision
+        Finish gsap revision and questions and answers
+        -
+        Finish React-19 lectures and notes
+        Finish next.js 15 lectures and notes
+        Finish tailwind lectures and notes
+        -
+        update my frontEnd to next.js-15
     }
-    NEEDED: Docker completion {
-        Re-answer all questions
-        All Dockerfile writeup
-        All docker-compose writeup
-        remaining revisions and questions
-    }
-    dockerize and test it in a docker container - development & production
-    run test & see test coverage
+    write proper documentation of the site so far
     -
-    NOTE: End thur
-    ---
-    ---
-    NOTE: Start
-    FrontEnd:
     cypress: clean up the database after registration test
     revise chart.js and React i18n
     change the site to use i8n
@@ -43,14 +29,13 @@ Todo {
         local server
         cypress set up and env variables needed
     }
-    ---
-    ---
-    NOTE: End
-    ---
-    ---
-    Node:
-    NEEDED: drizzle orm complete course and questions
-    NEEDED: backEnd: Node revision *2
+}
+
+Node {
+    BLOCKER:: NEEDED: {
+        drizzle orm complete course and questions
+        Node revision *2
+    }
     backEnd: Rebuild from the ground up to make it easier for testing
     backend: convert the backEnd to class for easier testing
     backend: change everything to drizzle ORM
@@ -58,19 +43,42 @@ Todo {
     backend: finish working on the graphQl side (graphql and jwt video)
     backend: finish test coverage 75%
     backend: write the ci/cd for the backend, make sure the test coverage is above 75%
-    ---
-    ---
+}
+
+Golang {
+    write proper documentation of the site so far
+    -
+    BLOCKER:: NEEDED: {
+        Golang revision * 4
+        Golang go routine *3 
+        Docker completion {
+            finish docker remaining course
+            Re-answer all questions
+            All Dockerfile writeup
+            All docker-compose writeup
+            remaining revisions and questions
+        }
+    }
+
+
+    graphQl {
+        integrate graphql into golang
+        integrate graphQl and jwt {
+            watch that video from that guy first
+        }
+        https://github.com/99designs/gqlgen
+    }
+
+    dockerize and test it in a docker container - development & production
+    run test & see test coverage
+}
+
+Todo {
     MyVs: Node {}
     OdiUp: Golang {
     }
     StickerMule: Node {}
     ConvertKit: Ruby | Golang
-    ---
-    ---
-    Infrastructure
-    deploy client and server as docker containers on both railway and aws
-    ---
-    ---
 
     envs for testing {
         export ENV="development"
@@ -90,7 +98,8 @@ Todo {
         export JWT_TIME_1=7
         export JWT_TIME_2=365
     }
-    testing {
+
+    testing golang {
         go test -coverprofile=coverage.out ./...
         go tool cover -html=coverage.out -o coverage.html
         go tool cover -func=coverage.out
@@ -103,12 +112,14 @@ Todo {
         go test -run TestFunctionName -timeout 5s
 
     }
+
     explanation {
         go test -coverprofile=coverage.out ./...  ===  print out the coverage of your test
         go tool cover -html=coverage.out -o coverage.html  ====   convert the printout into html so you can see it on the web
         go tool cover -func=coverage.out  ===  see the total average of your test cover for all the test
         go test -v && go test -v ./... ===  verbose testing
     }
+
     read_response_for_test {
 		// Read the response body
 		responseBody, _ := io.ReadAll(resp.Body)
