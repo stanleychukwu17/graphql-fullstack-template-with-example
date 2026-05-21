@@ -32,7 +32,7 @@ jobs:
           JWT_TIME_2: 365
 
         steps:
-          - name: see environemnt variables
+          - name: see environment variables
             run: |
               echo $ENV
               echo $PORT
