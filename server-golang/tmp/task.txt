@@ -1,0 +1,244 @@
+https://www.youtube.com/@realjudebela/videos
+inspiration: see every morning
+https://www.tripadvisor.com/Tourism-g189498-Alonnisos_Sporades-Vacations.html
+
+keep it at 80% coverage for testing
+format {
+  7-8: 
+  8-9: 
+  9-10: 
+  10-11: 
+  11-12: 
+  12-1: 
+  1-2: 
+  2-3: 
+  3-4: 
+  4-5: 
+  5-6: 
+  6-7: 
+  7-8: 
+  8-9: 
+  9-10: DONE: exercise
+  10-2: sleep
+  2-3: 
+  3-4: 
+  4-5: 
+  5-6: 
+  6-7: sleep
+}
+
+
+thur: FAILED: 1. finish the registration; 2. Finish login
+fri FAILED: finish registration
+sat: FAILED: finish the registration
+sun: FAILED: finish the registration, 2. Finish login
+mon: DONE: finish registration
+     FAILED: finish login
+tue: FAILED: finish login
+
+wed goals:
+  finish login
+  next goals {
+    finish forgot password
+    finish rate limiting
+  }
+
+    hours_used = 
+    hours_unused = 11/
+
+  10-11: DONE: planning and rules update
+  12-1: DONE:
+  1-2: DONE:
+  2-3: DONE:
+  3-4: DONE:
+  7-8: DONE:
+  2-7: sleep
+
+
+
+
+  the refreshToken sends all the details of the user, i will not send all details
+  save the accessToken returned and the refreshToken
+  now test to make-sure log-in is possible and easy
+
+  round up the login of a user {
+  }
+  when redirected from registration page, show successful registration, ask user to login with info used for registration
+  logout.tsx
+    get the userIp from the golang application, make it a middleware to attach the Ip to request
+    get the userIp from the tanstack backend from the request {check copilot tab}
+  ---
+  implement rate limiting using redis
+  implement login limiting using redis
+  ---
+  implement the meta tag recommendation from chatGPT
+  the header when page is forgot-password
+  the bottom when page is forgot-password
+  link to forgot password from the login page 
+  work on login in route header
+  add errorComponent to login route
+  ---
+  register 3 accounts and be sure all is working properly
+  if user logged in, no need to see the signup page
+
+
+
+
+pray
+pelvic exercise
+gallons
+
+sending emails {
+  https://react.email/
+  https://react.email/components
+  https://resend.com/docs/send-with-go
+}
+NOTE: get pvc before 10th July {
+  https://cvr.inecnigeria.org/Public/getStarted
+  location: INEC OFFICE BWARI, ADJACENT TO PRIMARYHEALTHCARE CENTRE, BWARI, BWARI, FCT
+}
+works {
+  signup works {
+    fix the swagger issue in the backend
+    add the input for state and city later
+    remove the are you a polling unit agent or normal user
+  }
+  header works {
+    the eagle logo needs to be clickable
+    see everything on mobile, does it make sense?
+    extracting all of the used styles that are hard-coded into variables
+    add link to ShadCn component of sideBar, telling everyone this belongs to sideBar
+    work on the footer, bring in the logo and a small writing
+  }
+
+  next in line {
+    using twi-llo to send whatsapp otp during signup
+    check if email or phone
+    fix the issue with the component not exporting Route @ onboarding.tsx
+    start working on connecting the frontend to the backend
+    implement redis rate limiting
+  }
+  twilio {
+    https://console.twilio.com/
+    i owe twilio, so when i pay i continue with these resources
+    i need to pay before i can create api keys: https://console.twilio.com/us1/account/keys-credentials/api-keys
+    whatsapp: https://console.twilio.com/us1/develop/sms/try-it-out/whatsapp-learn
+  }
+  iNec {
+    https://www.inecnigeria.org/polling-units/
+    https://app.edonkast.com/report/incident
+    https://app.edonkast.com/report/situation
+  }
+}
+
+NOTE: remaining sundays {
+  rules work on and read
+  sunday workflows
+  arrange videos for 3hr
+}
+
+finish frontend revision {
+  bash
+  3.js revision *2
+  D3-revision
+  css-grid revision
+  css-flex revision
+  tailwindCss
+  ShadCn
+  Figma
+  framerMotion
+  jest
+  cypress
+}
+
+Clean_up {
+  ask if the request goes to cloudfare or my golang backend
+  add some note from here: https://tanstack.com/router/v1/docs/guide/code-splitting#using-automatic-code-splitting
+  note-revision-v1
+  note-revision-v2
+  work on createServerFn
+  revision of Tanstack-query
+  Tanstack-Form-Crash course
+}
+
+1:30-3:15: read-rules
+2-15-3:00: sunday works
+
+add to time to use free AI: {
+  Best reliability: ~9pm – 8am
+  Good fallback: weekends anytime
+  Avoid if possible: ~12pm – 6pm (highest contention window globally)
+}
+
+
+login flow {
+  after all the details, send message to the whatsapp number
+  work on the page that exports these nin 
+  // show the users tip at the onboarduing page on how to get nin number: *346#
+}
+query prompt for sending images to 3.5Flash {
+  suggested by gemini:
+  Act as an expert data extraction assistant. Analyze the attached INEC EC8 form image and extract the polling unit results into a clean markdown table. Use the following columns:
+  - Party Acronym
+  - Votes in Figures
+  - Votes in Words
+  - Confidence Level (High/Medium/Low based on handwriting legibility)
+
+  If any field is blurry, illegible, or torn, write [ILLEGIBLE] instead of guessing.
+}
+
+
+add to tanstack assignment {
+  export const Route = createFileRoute("/auth/onboarding")({
+    validateSearch: (search) => {
+      const step = typeof search.step === "string" ? search.step : "details";
+
+      return {
+        step: STEPS.includes(step as OnboardingStep) ? (step as OnboardingStep) : "details",
+      };
+    },
+    loaderDeps: ({ search: { step } }) => ({ step }),
+    loader: ({ deps: { step } }) => ({ step }),
+    head: ({ loaderData }) => {
+      const step = loaderData?.step;
+      const title = (step && STEP_TITLES[step]) || "Onboarding";
+      return getPageHeader({ title, robotsAllowed: "no" });
+    },
+    component: RouteComponent,
+  });
+}
+---
+later {
+  user registration {
+    use twilio for whatsapp verification
+    when saving the user number to the database, specify if on_whatsapp
+  }
+  verification of nin behind the scene {
+    the platform upon which users nin are verified
+  }
+}
+
+dr yunusa tanko - can contact him for access to obi {
+  https://www.instagram.com/dr.yunusa_tanko/
+  also the guy that contested for amac chairman: Dr mo, is the brother of julius brother james boss.
+  contact him for direct access to peter obi
+}
+things that make the project stand out {
+  1. Build 2–3 serious, opinionated projects
+    Not tutorials. Something like:
+      real-time collaborative app (WebSockets + scaling)
+      analytics dashboard with D3 + backend pipeline
+      animation-heavy product site with performance focus
+    Document:
+      trade-offs
+      failures
+      architecture decisions
+
+  2. Show thinking, not just code
+    Write or record:
+      “Why I chose X over Y”
+      “How I scaled this feature”
+      “What broke in production”
+}
+
+
