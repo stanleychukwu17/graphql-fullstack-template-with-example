@@ -28,45 +28,80 @@ format {
 }
 
 
-thur: FAILED: 1. finish the registration; 2. Finish login
-fri FAILED: finish registration
-sat: FAILED: finish the registration
-sun: FAILED: finish the registration, 2. Finish login
 mon: DONE: finish registration
-     FAILED: finish login
 tue: FAILED: finish login
+wed: DONE: finish login
+thur: FAILED: Clean_up login, registration
 
-wed goals:
-  finish login
+fri goals:
+  clean up login
+  clean up registration
+  finish forgot password
+  finish verify otp for forgotten password
+  finish change password
+  --
   next goals {
     finish forgot password
     finish rate limiting
   }
 
-    hours_used = 
-    hours_unused = 11/
+  fri:
+  clean pelvic breathing
+  pelvic exercise
 
-  10-11: DONE: planning and rules update
-  12-1: DONE:
-  1-2: DONE:
-  2-3: DONE:
-  3-4: DONE:
-  7-8: DONE:
-  2-7: sleep
+  7-8: 
+  8-9: 
+  9-10: 
+  10-11: 
+  11-12: 
+  12-1: 
+  1-2: 
+  2-3: 
+  3-4: 
+  4-5: 
+  5-6: 
+  6-7: 
+  7-8: 
+  8-9: 
+  9-10: DONE: exercise
+  10-2: sleep
+  2-3: 
+  3-4: 
+  4-5: 
+  5-6: 
+  6-7: sleep
 
 
+  change the generateToken to be a generated string
+  hash the string and store in redis
+  send the string to the frontend
+  work on the logging out {
+    deactivate the access and refreshToken even on the backend
+    work on the logout button
+  }
+  test the whole login now to see it works well and redirects to the place coming from
+  work on logged in user not seeing the auth pages, redirect back to dashboard
+  decide on the expiration of countries, state, cities and others in redis
+  the countries, states and cities are not in the central redis key store
+  return all user details too from login fetch, so we can display user fullname + username
+  ---
+  show skeletons when the onboarding is checking if user is logged in or not, if isHydration is true, we can redirect back to login
 
+  for reset of password, use redis to store otp
 
+  implement login refresh token with redis, then store user details in redis {
+    strategy for storing user details in redis
+    store all id in set so it is easy to see users loaded
+    then store all users with the users:fakeId:key
+  }
   the refreshToken sends all the details of the user, i will not send all details
+  fetch all the user details
   save the accessToken returned and the refreshToken
   now test to make-sure log-in is possible and easy
 
-  round up the login of a user {
-  }
   when redirected from registration page, show successful registration, ask user to login with info used for registration
   logout.tsx
     get the userIp from the golang application, make it a middleware to attach the Ip to request
-    get the userIp from the tanstack backend from the request {check copilot tab}
   ---
   implement rate limiting using redis
   implement login limiting using redis
@@ -82,11 +117,15 @@ wed goals:
   if user logged in, no need to see the signup page
 
 
+  please add to tanstack assignment {
+    more on tanstack url at the end
+    https://claude.ai/chat/b53ce045-d899-421b-9193-74ff116ef0da
+  }
 
-
-pray
+add plantain to fry later
+pelvic breathing
 pelvic exercise
-gallons
+pray
 
 sending emails {
   https://react.email/
