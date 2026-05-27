@@ -56,32 +56,69 @@ tue goals:
 
   pelvic breathing
   pelvic exercise
+  12-noon: all pelvic
+  2nd fast start: 12noon, to do 8hr:30m
 
-  7-8: 
-    test the logout stuff, fake the details
-    implement the sending of token with twilio
-    clear all data from db and redis once everything is done and re-register again
-  8-9: 
-  9-10: 
-  10-11: 
-  11-12: 
-  12-1: 
+  7-8: DONE:
+  8-9: DONE:
+  9-10: DONE:
+  10-11: DONE:
+  12-1: DONE:
+  2-3: DONE:
+  3-4: FAILED:
+  4-5: FAILED:
+  5-6: DONE:
+  6-7: DONE:
+  7-8: DONE:
+  8-9: DONE:
+  9-10: FAILED:
+  10-11: DONE: exercise
+  11-4: sleep
+  5-6: FAILED:
+  6-7: DONE:
+
+fasting calculation
+change the route to security-questions
+save the details from the signup page if flow is sign-up
+make the link from login page if flow is forgot-password
+on submit: remove the verify-otp function part {
+  if flow is signup, add the answers to the onboardingData
+  if flow is forgot-password, send the details to the backend to start a new password process
+    create a function that deletes all the user logged in tokens from every device
+    then update the new password and return successful message
+    then create a function that updates the redis info with the latest user data
+}
+
+    --
+    test login
+    test log out
+    test refreshToken reassignment
+    test registration
+
+    optimize these functions to be redis first {
+      CheckCountry
+      CheckState
+      CheckCity
+    }
+
+    i need to delete {GetUserByEmail, GetUserByUsername, GetUserByPhone}
+
+
+    since we're using twilio sms, limit sending of otp to max 3 retries
+    pipe the redis add in login, check all redis command and see the ones to pipe
+      check country service and auth_service and any other service
+    cache all user info to never hit the db when registration completed
+    then when check-email or check-username or check-phone during login, search the cached record for the user fid
+    when you ban user, update the redis cache ooohhh
+    when user update info, update the redis cache
+    ---
+    add max retries to resend of otp, max 3 times
   1-2: 
-  2-3: 
-  3-4: 
-  4-5: 
-  5-6: 
-  6-7: 
-  7-8: 
-  8-9: 
-  9-10: DONE: exercise
-  10-2: sleep
-  2-3: 
-  3-4: 
-  4-5: 
-  5-6: 
-  6-7: sleep
 
+    test the redirecting and showing of successful message {
+      sign up page
+      onboarding page
+    }
     clean up, show the username in header section handle
       show correct last name and first name
       show it in dashboard
@@ -89,18 +126,15 @@ tue goals:
       work on the logout button from header
     }
     work on logged in user not seeing the auth pages, redirect back to dashboard
-    when redirected from registration page, show successful registration, ask user to login with info used for registration
+    clear all data from db and redis once everything is done and re-register again
     ---
-    failed { youtube *5 }
+    test twilio sending of message
+    forgot password work on try to finish today
     ---
-    integrate twilio sms sending with new account
+    use 2hr, reason the next step
     ---
-    the header when page is forgot-password
-    the bottom when page is forgot-password
-    link to forgot password from the login page
-    for reset of password, use redis to store otp
-    if user logged in, no need to see the signup page
-    ---
+    let the swagger work properly
+    test the whole stuff on a mobile device
 
 
 
@@ -183,6 +217,12 @@ works {
     add link to ShadCn component of sideBar, telling everyone this belongs to sideBar
     work on the footer, bring in the logo and a small writing
   }
+  forgot-password and reset-password {
+    the header when page is forgot-password
+    the bottom when page is forgot-password
+    link to forgot password from the login page
+    for reset of password, use redis to store otp
+  }
   next in line {
     using twi-llo to send whatsapp otp during signup
     check if email or phone
@@ -197,7 +237,14 @@ works {
     whatsapp: https://console.twilio.com/us1/develop/sms/try-it-out/whatsapp-learn
   }
   iNec {
-    https://www.inecnigeria.org/polling-units/
+    https://www.inecnigeria.org/polling-units/, https://cvr.inecnigeria.org/pu {
+      start with: https://github.com/stradox4u/inec-polling-units
+      https://raw.githubusercontent.com/stradox4u/inec-polling-units/refs/heads/main/statesAndLgas.json
+      https://github.com/stradox4u/inec-polling-units/blob/main/allWards.json
+      https://raw.githubusercontent.com/stradox4u/inec-polling-units/refs/heads/main/pollingUnits.json
+      https://github.com/stradox4u/inec-polling-units/blob/main/puCheck.js
+    }
+    https://cvr.inecnigeria.org/pu
     https://app.edonkast.com/report/incident
     https://app.edonkast.com/report/situation
   }
@@ -210,6 +257,10 @@ works {
     - Confidence Level (High/Medium/Low based on handwriting legibility)
 
     If any field is blurry, illegible, or torn, write [ILLEGIBLE] instead of guessing.
+  }
+  home page {
+    show people their wards, let them see the works that their local government is doing;
+    let there be a platform for citizens to report projects they'd like to be completed
   }
 }
 add to time to use free AI: {
