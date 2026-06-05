@@ -27,18 +27,13 @@ format {
   6-7: sleep
 }
 
-
-week4 goals {
-  FAILED: Clean_up login, Clean_up session revalidation, Clean_up registration, Clean_up logging out
-}
-
-tue goals:
-  Clean_up session revalidation
-  clean up login
-  clean up registration
-  finish logging out
-
+wed goals:
   next goals {
+    Clean_up session revalidation
+    clean up login
+    clean up registration
+    finish logging out
+    -
     finish forgot password
     finish verify otp for forgotten password
     finish change password
@@ -46,107 +41,67 @@ tue goals:
     finish rate limiting
   }
 
-  NOTE: must recover the time i lost on monday, no jokes
-  tue:
-  5-5(12hr): work
-  5-11(6hr): work
-  11-2(3hr): sleep
+  wed:
+  7-10(14hr): work
+  10-2(2hr): sleep
   2-6(4hr): work
   6-7(1hr): sleep
 
-  pelvic breathing
-  pelvic exercise
-  12-noon: all pelvic
-  2nd fast start: 12noon, to do 8hr:30m
+  arrange videos downloaded: 1hr
+  pelvic breathing: fri
+  pelvic exercise fri
+  pray
+  ---
+  6:30
+  eat
+  take drug
+  press eye with hot water
+  planning
+  clearing_time
+  exercise update
+  bring new biro for practice
 
-  7-8: DONE:
-  8-9: DONE:
-  9-10: DONE:
-  10-11: DONE:
-  12-1: DONE:
-  2-3: DONE:
-  3-4: FAILED:
-  4-5: FAILED:
-  5-6: DONE:
-  6-7: DONE:
-  7-8: DONE:
-  8-9: DONE:
-  9-10: FAILED:
-  10-11: DONE: exercise
-  11-4: sleep
-  5-6: FAILED:
-  6-7: DONE:
+  hours_used: 13/16
+  hours_unused: 3/16
 
-fasting calculation
-change the route to security-questions
-save the details from the signup page if flow is sign-up
-make the link from login page if flow is forgot-password
-on submit: remove the verify-otp function part {
-  if flow is signup, add the answers to the onboardingData
-  if flow is forgot-password, send the details to the backend to start a new password process
-    create a function that deletes all the user logged in tokens from every device
-    then update the new password and return successful message
-    then create a function that updates the redis info with the latest user data
-}
-
-    --
-    test login
-    test log out
-    test refreshToken reassignment
-    test registration
-
-    optimize these functions to be redis first {
-      CheckCountry
-      CheckState
-      CheckCity
-    }
-
-    i need to delete {GetUserByEmail, GetUserByUsername, GetUserByPhone}
-
-
-    since we're using twilio sms, limit sending of otp to max 3 retries
-    pipe the redis add in login, check all redis command and see the ones to pipe
-      check country service and auth_service and any other service
-    cache all user info to never hit the db when registration completed
-    then when check-email or check-username or check-phone during login, search the cached record for the user fid
-    when you ban user, update the redis cache ooohhh
-    when user update info, update the redis cache
-    ---
-    add max retries to resend of otp, max 3 times
+  7-8: 
+  8-9: 
+  9-10: 
+  10-11: 
+  11-12: 
+  12-1: 
   1-2: 
-
-    test the redirecting and showing of successful message {
-      sign up page
-      onboarding page
-    }
-    clean up, show the username in header section handle
-      show correct last name and first name
-      show it in dashboard
-    work on the logging out {
-      work on the logout button from header
-    }
-    work on logged in user not seeing the auth pages, redirect back to dashboard
-    clear all data from db and redis once everything is done and re-register again
-    ---
-    test twilio sending of message
-    forgot password work on try to finish today
-    ---
-    use 2hr, reason the next step
-    ---
-    let the swagger work properly
-    test the whole stuff on a mobile device
+  2-3: 
+  3-4: 
+  4-5: 
+  5-6: 
+  6-7: 
+  7-8: 
+  8-9: 
+  9-10: DONE: exercise
+  10-2: sleep
+  2-3: 
+  3-4: 
+  4-5: 
+  5-6: 
+  6-7: sleep
 
 
+  fix bug: when header is collapsed, if expanded and the user clicks on poopover, the names are empty
+  in the header no need for the selected icon and normal icon, just use one
+  sync the theme to siePreference, so we add it to the cookie
+  when the theme change, let the bottom theme adjust too
+  update the readme.md of the backend and the frontend
+  test the whole stuff on a mobile device
 
-  please add to tanstack assignment {
-    more on tanstack url at the end
-    https://claude.ai/chat/b53ce045-d899-421b-9193-74ff116ef0da
+
+  clear these guys {
+    use user ip address for redis rate limiting
+    use user ip address for aggressive rate limiting on auth paths
+  }
+  sunday {
   }
 
-
-pelvic breathing
-pelvic exercise
-pray
 
 revisions {
   finish frontend revision {
@@ -189,6 +144,10 @@ revisions {
       },
       component: RouteComponent,
     });
+    please add to tanstack assignment {
+      more on tanstack url at the end
+      https://claude.ai/chat/b53ce045-d899-421b-9193-74ff116ef0da
+    }
   }
 }
 
@@ -205,9 +164,12 @@ NOTE: get pvc before 10th July {
 
 
 works {
+  admin {
+    when you ban user, update the redis cache
+    when user update info, update the redis cache
+  }
   signup works {
     fix the swagger issue in the backend
-    add the input for state and city later
     remove the are you a polling unit agent or normal user
   }
   header works {
@@ -337,3 +299,6 @@ contacting the boss {
 
 
 
+https://votewatch.pro/
+https://www.votewatch.ng/
+https://app.edonkast.com/
