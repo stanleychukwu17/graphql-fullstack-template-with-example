@@ -27,7 +27,13 @@ format {
   6-7: sleep
 }
 
-wed goals:
+GOALS:
+tue:
+  fix the bug the caused aws not to work
+  make sure deployment of production working
+  bonus: deploy to railway using terraform
+
+thur:
   next goals {
     Clean_up session revalidation
     clean up login
@@ -41,64 +47,90 @@ wed goals:
     finish rate limiting
   }
 
-  wed:
-  7-10(14hr): work
-  10-2(2hr): sleep
-  2-6(4hr): work
-  6-7(1hr): sleep
-
   arrange videos downloaded: 1hr
-  pelvic breathing: fri
-  pelvic exercise fri
+  tue & fri: emma dog food
+  pelvic breathing: owe 17
+  pelvic exercise owe 17
   pray
   ---
-  6:30
-  eat
-  take drug
-  press eye with hot water
-  planning
-  clearing_time
-  exercise update
-  bring new biro for practice
+  Test every page on mobile to be sure it works well
+  ---
 
-  hours_used: 13/16
-  hours_unused: 3/16
-
-  7-8: 
-  8-9: 
-  9-10: 
-  10-11: 
-  11-12: 
-  12-1: 
-  1-2: 
-  2-3: 
-  3-4: 
-  4-5: 
-  5-6: 
-  6-7: 
-  7-8: 
-  8-9: 
-  9-10: DONE: exercise
-  10-2: sleep
-  2-3: 
-  3-4: 
-  4-5: 
-  5-6: 
-  6-7: sleep
+  hours_used: 4/4
+  hours_unused: 0/4
+  mon:
 
 
-  fix bug: when header is collapsed, if expanded and the user clicks on poopover, the names are empty
-  in the header no need for the selected icon and normal icon, just use one
-  sync the theme to siePreference, so we add it to the cookie
-  when the theme change, let the bottom theme adjust too
-  update the readme.md of the backend and the frontend
-  test the whole stuff on a mobile device
+
+    planning
+    exercise
+    clearing_time
+    fails {
+      youtube *5
+      purpose *5
+    }
+    add to rules. 2hr news in the morning, 2hrs in the evening {must follow these settings}
+      no more washing other plates that is not my cooler or chino cooler
+      only wash the round plates in my room
 
 
-  clear these guys {
-    use user ip address for redis rate limiting
-    use user ip address for aggressive rate limiting on auth paths
-  }
+    add to js assignment {
+      useEffect(() => {
+        const handleThemeSync = () => {
+          setThemeState(getInitialMode())
+        }
+
+        window.addEventListener('theme-change', handleThemeSync)
+        return () => {
+          window.removeEventListener('theme-change', handleThemeSync)
+        }
+      }, [])
+
+      const setTheme = (newTheme: ThemeMode) => {
+        setThemeState(newTheme)
+        applyThemeMode(newTheme)
+        window.localStorage.setItem('theme', newTheme)
+        window.dispatchEvent(new Event('theme-change'))
+      }
+    }
+    check the sideBar and footer in "admin" and in "partyApp" {
+      will there be any need to update?
+    }
+    test the whole stuff on a mobile device
+    after building our ip service {
+      - in the "func requestLoggerMiddleware", i added r.RemoteAddr to the logger and right now since we're proxying request from cloudflare backend,
+        it will not come with the userIp instead, the RemoteAddr will come empty because server to server communication does not include an IP address
+      - cache in redis for easier retrieval
+      - this should be deployed to railway and cached
+      - use user ip address for redis rate limiting
+      - use user ip address for aggressive rate limiting on auth paths
+    }
+    deploy ec2 instances for redis and postgres
+    deploy the api service to railway {
+      deploy app
+      deploy postgres
+      deploy redis
+      connect them
+    }
+
+    any notes to take on railway
+    take note on the cloudflare workers
+    take note on the cloudflare domain
+
+
+
+    pelvic breathing: owe 17
+    pelvic exercise owe 17
+    pray
+    ---
+    wash AC, Wash micro wave, wash water dispenser, fill water dispenser
+
+    work on the Rds connection note
+    if time, consider moving redis to an ec2 instance for staging, then continue to use elasticache for production
+    if time, consider moving postgres to an ec2 instance for staging, then continue to use rds for production
+    --
+    now ready to take on uploading of votes!!! kill it my bro!
+
   sunday {
   }
 
@@ -118,7 +150,7 @@ revisions {
     cypress
   }
   Clean_up {
-    ask if the request goes to cloudfare or my golang backend
+    ask if the request goes to cloudflare or my golang backend
     add some note from here: https://tanstack.com/router/v1/docs/guide/code-splitting#using-automatic-code-splitting
     note-revision-v1
     note-revision-v2
@@ -234,6 +266,12 @@ add to time to use free AI: {
 
 ---
 later {
+  aws {
+    instead of using elasticache for redis, chatGPT advices to use redis docker image on EC2
+    instead of using rds postgres, chatGPT advices using postgres docker image on EC2
+    ---
+    maybe you can use nginx to rotate traffic among them because of failover
+  }
   next inline, important {
     ---
     get the userIp from the golang application, make it a middleware to attach the Ip to request
@@ -263,6 +301,10 @@ later {
   countries, states, cities {
     they are saved in redis, so when ever we are updating them from the backend, lets update the redis tables
     countries:all, countries:states:, countries:cities:
+  }
+  ---
+  load testing {
+    https://k6.io/?utm_source=chatgpt.com
   }
   ---
   replacing redis with valKey because of cost
@@ -302,3 +344,20 @@ contacting the boss {
 https://votewatch.pro/
 https://www.votewatch.ng/
 https://app.edonkast.com/
+https://www.ballotwatchng.com/
+
+
+terraform-app:            https://app.terraform.io/app/free9ja_team/projects
+terraform-developer-docs: https://developer.hashicorp.com/terraform
+cloudflare-app:           https://dash.cloudflare.com/a085d4fa9c0c8c9f5b6b01b950e88610/free9ja.com/dns/records
+amazon-root-app:          https://us-east-1.console.aws.amazon.com/console/home?region=us-east-1#
+amazon-iam-app:           https://af-south-1.console.aws.amazon.com/elasticache/home?region=af-south-1#
+
+https://docs.railway.com/projects
+https://registry.terraform.io/providers/terraform-community-providers/railway/latest/docs
+https://developers.cloudflare.com/containers/get-started/
+
+
+
+
+ekiTi election: https://inecelectionresults.ng/elections/6a35bb87b4e45d80b33a6e38
