@@ -28,10 +28,6 @@ format {
 }
 
 GOALS:
-tue:
-  fix the bug the caused aws not to work
-  make sure deployment of production working
-  bonus: deploy to railway using terraform
 
 thur:
   next goals {
@@ -48,56 +44,61 @@ thur:
   }
 
   arrange videos downloaded: 1hr
-  tue & fri: emma dog food
-  pelvic breathing: owe 17
-  pelvic exercise owe 17
+  emma dog food: last give sunday
+  pelvic breathing: tue
+  pelvic exercise tue
   pray
   ---
   Test every page on mobile to be sure it works well
   ---
 
-  hours_used: 4/4
-  hours_unused: 0/4
-  mon:
 
-
+  tue:
+  7-8: 
+  8-9: 
+  9-10: 
+  10-11: 
+  11-12: 
+  12-1: 
+  1-2: 
+  2-3: 
+  3-4: 
+  4-5: 
+  5-6: 
+  6-7: 
+  7-8: 
+  8-9: 
+  9-10: DONE: exercise
+  10-2: sleep
+  2-3: 
+  3-4: 
+  4-5: 
+  5-6: 
+  6-7: sleep
 
     planning
     exercise
     clearing_time
     fails {
-      youtube *5
-      purpose *5
+      sleep
+      take punisment day to 13th
+      add rule: max aljazera or any news for 15mins a day
     }
-    add to rules. 2hr news in the morning, 2hrs in the evening {must follow these settings}
-      no more washing other plates that is not my cooler or chino cooler
-      only wash the round plates in my room
 
+    clean_room
+    dog_hair
+    pelvic breathing: tue
+    pelvic exercise tue
+    pray
 
-    add to js assignment {
-      useEffect(() => {
-        const handleThemeSync = () => {
-          setThemeState(getInitialMode())
-        }
-
-        window.addEventListener('theme-change', handleThemeSync)
-        return () => {
-          window.removeEventListener('theme-change', handleThemeSync)
-        }
-      }, [])
-
-      const setTheme = (newTheme: ThemeMode) => {
-        setThemeState(newTheme)
-        applyThemeMode(newTheme)
-        window.localStorage.setItem('theme', newTheme)
-        window.dispatchEvent(new Event('theme-change'))
+    test the whole stuff on a mobile device {
+      dark mode {
+        see login page
+        see registration page
+        see home page
       }
     }
-    check the sideBar and footer in "admin" and in "partyApp" {
-      will there be any need to update?
-    }
-    test the whole stuff on a mobile device
-    after building our ip service {
+    building our ip service {
       - in the "func requestLoggerMiddleware", i added r.RemoteAddr to the logger and right now since we're proxying request from cloudflare backend,
         it will not come with the userIp instead, the RemoteAddr will come empty because server to server communication does not include an IP address
       - cache in redis for easier retrieval
@@ -116,14 +117,11 @@ thur:
     any notes to take on railway
     take note on the cloudflare workers
     take note on the cloudflare domain
+    check the sideBar and footer in "admin" and in "partyApp" {
+      will there be any need to update?
+    }
 
 
-
-    pelvic breathing: owe 17
-    pelvic exercise owe 17
-    pray
-    ---
-    wash AC, Wash micro wave, wash water dispenser, fill water dispenser
 
     work on the Rds connection note
     if time, consider moving redis to an ec2 instance for staging, then continue to use elasticache for production
