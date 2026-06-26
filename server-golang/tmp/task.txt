@@ -1,6 +1,8 @@
 https://www.youtube.com/@realjudebela/videos
 inspiration: see every morning
 https://www.tripadvisor.com/Tourism-g189498-Alonnisos_Sporades-Vacations.html
+  hours_used:
+  hours_unused:
 
 keep it at 80% coverage for testing
 format {
@@ -44,16 +46,22 @@ thur:
   }
 
   arrange videos downloaded: 1hr
-  emma dog food: last give sunday
-  pelvic breathing: tue
-  pelvic exercise tue
-  pray
+  pelvic breathing: fri
+  pelvic exercise fri
+  pray: fri
   ---
   Test every page on mobile to be sure it works well
   ---
 
+  fri:
+  4-9(17hr): work
+  9-10(1hr): exercise
+  10-3(5hr): sleep
+  3-4(1hr): jug, pelvic
+  3-7(3hr): work
 
-  tue:
+
+  fri:
   7-8: 
   8-9: 
   9-10: 
@@ -76,56 +84,78 @@ thur:
   5-6: 
   6-7: sleep
 
-    planning
-    exercise
-    clearing_time
+
+
+    rules
+    pray thur
+    pray fri
+    pelvic breathing thur
+    pelvic exercise fri
+
+    ---
     fails {
-      sleep
-      take punisment day to 13th
-      add rule: max aljazera or any news for 15mins a day
-    }
+      youtube *10
+      on purpose *10
+      days to resume punishment *2
+      ---
+      read news *10
+      on purpose *10
+      days to resume *1
+      ---
+      read news *2
+      on purpose *2
+      days to resume *1
+      ---
+      youtube *5
+      on purpose *5
 
-    clean_room
-    dog_hair
-    pelvic breathing: tue
-    pelvic exercise tue
-    pray
-
-    test the whole stuff on a mobile device {
-      dark mode {
-        see login page
-        see registration page
-        see home page
-      }
     }
+    ---
+
+    DONE: inspect the returned value to see what is back
+    DONE: in production, i want the CORS to only receive request from free9ja domain
+    DONE: store everything as is returned
+    DONE: use both in login and signup
+    DONE: now attach the ip to every request sent to the backend
+    DONE: turn the country into an object to store both the user IP returned from the backend
+    see that the backend receives the ip from the frontend
     building our ip service {
       - in the "func requestLoggerMiddleware", i added r.RemoteAddr to the logger and right now since we're proxying request from cloudflare backend,
         it will not come with the userIp instead, the RemoteAddr will come empty because server to server communication does not include an IP address
-      - cache in redis for easier retrieval
-      - this should be deployed to railway and cached
-      - use user ip address for redis rate limiting
-      - use user ip address for aggressive rate limiting on auth paths
     }
-    deploy ec2 instances for redis and postgres
-    deploy the api service to railway {
-      deploy app
-      deploy postgres
-      deploy redis
-      connect them
+    --
+    move the videos downloaded to the inec to use session in making your case to the governors
+    now attach ip to all request going to the backend
+    verify from the back
+    ---
+
+    add note to always update the GeoMind db weekly
+
+    test the service on docker
+    think of deployment strategy for{
+      - ip-server
+      - staging backend
+    }
+    talk to google flash about the best values to use for a 1million traffic website {
+      - when you traffic drops to 100, should we downsize the rds instance type, the elasticache instance type without loss of data
+      - safe to drop the instance of
     }
 
-    any notes to take on railway
+
+    deploy all services and make sure they are working {
+      frontend, backend, ip-service
+      deploy to both staging and production
+    }
+    ---
     take note on the cloudflare workers
     take note on the cloudflare domain
+    work on the Rds connection note
+
+    --
     check the sideBar and footer in "admin" and in "partyApp" {
       will there be any need to update?
     }
-
-
-
-    work on the Rds connection note
-    if time, consider moving redis to an ec2 instance for staging, then continue to use elasticache for production
-    if time, consider moving postgres to an ec2 instance for staging, then continue to use rds for production
+    admin, partyApp: attach the ip to all request sent to the backend
     --
     now ready to take on uploading of votes!!! kill it my bro!
 
@@ -326,7 +356,41 @@ later {
         “How I scaled this feature”
         “What broke in production”
   }
+  poling unit agents {
+    - count number of voters on ground
+    - give feelings on election outcome
+    ---
+    - when giving report, there should be a category for on-going e.g
+      ongoing-voting-taking-place
+      ongoing-vote-buying
+      ongoing-violence
+      ongoing-thugs-attack
+      ongoing-ballot-snatching
+      ongoing-rigging
+      ---
+      Each of these ongoing should be like a live news thread, like the al-jaZeRa news live, so in the live page the party member can
+      be seeing live reports from they polling unit agent
+  }
 }
+use a case for free9ja: to use in as talking points to parties {
+  spoke with atiKu first daughter on wed-25th-feb-2026
+  https://www.canva.com/design/DAG-rLtk3LI/YcAuzH_9Pu2BxQyFZWA_qw/edit
+  ---
+  https://www.youtube.com/watch?v=wDWBDltKJvA {
+    - a guy killed because of elections
+    - voters did not come out in ekiTi
+    - they where buying votes in ekiTi, using slips instead of voters cards, pre-printed ballot papers
+  }
+  https://www.youtube.com/watch?v=t1-UzWn1OcU {
+    - baYo telling peter obi to wait for 2027, because he knows of they plan
+    - a man record election violence, but no where to collate these violences,
+      including the use of policemen and armed men to threaten voters
+  }
+  https://www.youtube.com/watch?v=EzcI137qrn0 {
+    EU supports inec again, they did an ad @40:48 and they stated that they where sponsored by EU
+  }
+}
+
 
 contacting the boss {
   dr yunusa tanko - can contact him for access to obi {
