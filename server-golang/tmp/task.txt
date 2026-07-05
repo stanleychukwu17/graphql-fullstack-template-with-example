@@ -45,23 +45,28 @@ thur:
     finish rate limiting
   }
 
-  arrange videos downloaded: 1hr
-  pelvic breathing: fri
-  pelvic exercise fri
-  pray: fri
+  always do every last day of the week {
+    arrange videos downloaded: 1hr
+    update the GeoMind db weekly
+    Test every page on mobile to be sure it works well
+  }
+  pelvic breathing: wed
+  pelvic exercise wed
+  pray: wed
   ---
-  Test every page on mobile to be sure it works well
   ---
 
-  fri:
-  4-9(17hr): work
-  9-10(1hr): exercise
-  10-3(5hr): sleep
-  3-4(1hr): jug, pelvic
-  3-7(3hr): work
+  sun:
+  7-7(12hr): work
+  7-10(3hr): work
+  10-11(1hr): exercise
+  11-3(4hr): sleep
+  3-4(1hr): exercise
+  4-6(2hr): work
+  6-7(1hr): sleep
 
 
-  fri:
+  sun:
   7-8: 
   8-9: 
   9-10: 
@@ -85,79 +90,128 @@ thur:
   6-7: sleep
 
 
+babe mental health stuff {
+  World Health Organization mhGAP – Free training in assessing and managing common mental health conditions in primary care. Widely respected, especially in low- and middle-income countries.
+  Beck Institute – Internationally recognized online Cognitive Behavioral Therapy (CBT) training and certification. Excellent if you want evidence-based psychotherapy skills.
+  HealthCert – Professional certificate courses in mental health designed for primary care clinicians and other healthcare practitioners.
+  OpenWHO – Free courses on mental health and psychosocial support with certificates of completion.
+  Coursera – Offers courses from universities such as Yale University and The University of Sydney in mental health, psychiatry, and psychological first aid. Certificates are available for many courses.
+}
 
-    rules
-    pray thur
-    pray fri
-    pelvic breathing thur
-    pelvic exercise fri
-
-    ---
-    fails {
-      youtube *10
-      on purpose *10
-      days to resume punishment *2
-      ---
-      read news *10
-      on purpose *10
-      days to resume *1
-      ---
-      read news *2
-      on purpose *2
-      days to resume *1
-      ---
-      youtube *5
-      on purpose *5
-
-    }
-    ---
-
-    DONE: inspect the returned value to see what is back
-    DONE: in production, i want the CORS to only receive request from free9ja domain
-    DONE: store everything as is returned
-    DONE: use both in login and signup
-    DONE: now attach the ip to every request sent to the backend
-    DONE: turn the country into an object to store both the user IP returned from the backend
-    see that the backend receives the ip from the frontend
-    building our ip service {
-      - in the "func requestLoggerMiddleware", i added r.RemoteAddr to the logger and right now since we're proxying request from cloudflare backend,
-        it will not come with the userIp instead, the RemoteAddr will come empty because server to server communication does not include an IP address
-    }
+  planning
+  exercise
+  clearing_time
+  fails {
+    youtube*5
+    on-purpose*5
+    -1
     --
-    move the videos downloaded to the inec to use session in making your case to the governors
-    now attach ip to all request going to the backend
-    verify from the back
+    music*5
+    purpose*5
+    -1
     ---
-
-    add note to always update the GeoMind db weekly
-
-    test the service on docker
-    think of deployment strategy for{
-      - ip-server
-      - staging backend
-    }
-    talk to google flash about the best values to use for a 1million traffic website {
-      - when you traffic drops to 100, should we downsize the rds instance type, the elasticache instance type without loss of data
-      - safe to drop the instance of
-    }
+    sleep*5
+    purpose*5
+    -1
+  }
 
 
-    deploy all services and make sure they are working {
-      frontend, backend, ip-service
-      deploy to both staging and production
-    }
-    ---
-    take note on the cloudflare workers
-    take note on the cloudflare domain
-    work on the Rds connection note
+    NOTE: once all is fix and tested, lets deploy
 
+    work on the sideBar
+    work on the login
+    work on the parties
+
+
+
+    design on paper what the control center will look like
     --
+    check why the admin login fails
+    fix the admin login
+    log-in into the admin
+    fix the sideBar of the admin
+    fix the sideBar of partyApp
+    fixe the sideBar of the partyAdmin
+
     check the sideBar and footer in "admin" and in "partyApp" {
       will there be any need to update?
     }
-    admin, partyApp: attach the ip to all request sent to the backend
-    --
+    admin, partyApp: attach the ip to all request sent to the backend {
+      leave party app update until after merging
+    }
+
+    after all changes, run terraform apply to provision infrastructure in staging v2
+    see if all changes are live
     now ready to take on uploading of votes!!! kill it my bro!
+
+    when deployed live {
+      test registration
+    }
+    fix the issue {
+      11:46AM WRN router\router.go:93 Monnify not configured — party/user wallet creation will be unavailable service=api env=development version=dev commit=none reason="MONNIFY_API_KEY or MONNIFY_SECRET_KEY is empty"
+      11:46AM WRN router\router.go:151 R2 service not configured — file upload endpoints will be unavailable service=api env=development version=dev commit=none reason="r2service: AccountID is required"
+      11:46AM INF api\main.go:134 starting server service=api env=development version=dev commit=none addr=:4000
+      11:46AM INF worker\worker.go:72 cron rollup scheduler started service=api env=development version=dev commit=none
+      asynq: pid=15004 2026/07/03 10:46:06.639473 INFO: Starting processing
+      11:48AM INF worker\rollup_task.go:17 ProcessRollupWard is temporarily disabled due to schema migration service=api env=development version=dev commit=none
+      11:50AM INF worker\rollup_task.go:32 ProcessRollupSenatorialDistrict is temporarily disabled due to schema migration service=api env=development version=dev commit=none
+      11:50AM INF worker\rollup_task.go:47 ProcessRollupElection is temporarily disabled due to schema migration service=api env=development version=dev commit=none
+      11:50AM INF worker\rollup_task.go:22 ProcessRollupStateConstituency is temporarily disabled due to schema migration service=api env=development version=dev commit=none
+      11:50AM INF worker\rollup_task.go:17 ProcessRollupWard is temporarily disabled due to schema migration service=api env=development version=dev commit=none
+      11:50AM INF worker\rollup_task.go:42 ProcessRollupState is temporarily disabled due to schema migration service=api env=development version=dev commit=none
+      11:50AM INF worker\rollup_task.go:27 ProcessRollupLGA is temporarily disabled due to schema migration service=api env=development version=dev commit=none
+      11:50AM INF worker\rollup_task.go:37 ProcessRollupFederalConstituency is temporarily disabled due to schema migration service=api env=development version=dev commit=none
+      11:52AM INF worker\rollup_task.go:17 ProcessRollupWard is temporarily disabled due to schema migration service=api env=development version=dev commit=none
+      11:54AM INF worker\rollup_task.go:17 ProcessRollupWard is temporarily disabled due to schema migration service=api env=development version=dev commit=none
+      11:55AM INF worker\rollup_task.go:27 ProcessRollupLGA is temporarily disabled due to schema migration service=api env=development version=dev commit=none
+      11:55AM INF worker\rollup_task.go:22 ProcessRollupStateConstituency is temporarily disabled due to schema migration service=api env=development version=dev commit=none
+      11:56AM INF worker\rollup_task.go:17 ProcessRollupWard is temporarily disabled due to schema migration service=api env=development version=dev commit=none
+      11:58AM INF worker\rollup_task.go:17 ProcessRollupWard is temporarily disabled due to schema migration service=api env=development version=dev commit=none
+      12:00PM INF worker\rollup_task.go:17 ProcessRollupWard is temporarily disabled due to schema migration service=api env=development version=dev commit=none
+      12:00PM INF worker\rollup_task.go:47 ProcessRollupElection is temporarily disabled due to schema migration service=api env=development version=dev commit=none
+      12:00PM INF worker\rollup_task.go:27 ProcessRollupLGA is temporarily disabled due to schema migration service=api env=development version=dev commit=none
+      12:00PM INF worker\rollup_task.go:32 ProcessRollupSenatorialDistrict is temporarily disabled due to schema migration service=api env=development version=dev commit=none
+      12:00PM INF worker\rollup_task.go:37 ProcessRollupFederalConstituency is temporarily disabled due to schema migration service=api env=development version=dev commit=none
+      12:00PM INF worker\rollup_task.go:42 ProcessRollupState is temporarily disabled due to schema migration service=api env=development version=dev commit=none
+      12:00PM INF worker\rollup_task.go:22 ProcessRollupStateConstituency is temporarily disabled due to schema migration service=api env=development version=dev commit=none
+      12:02PM INF worker\rollup_task.go:17 ProcessRollupWard is temporarily disabled due to schema migration service=api env=development version=dev commit=none
+      12:04PM INF worker\rollup_task.go:17 ProcessRollupWard is temporarily disabled due to schema migration service=api env=development version=dev commit=none
+      12:05PM INF worker\rollup_task.go:27 ProcessRollupLGA is temporarily disabled due to schema migration service=api env=development version=dev commit=none
+      12:05PM INF worker\rollup_task.go:22 ProcessRollupStateConstituency is temporarily disabled due to schema migration service=api env=development version=dev commit=none
+      12:06PM INF worker\rollup_task.go:17 ProcessRollupWard is temporarily disabled due to schema migration service=api env=development version=dev commit=none
+      12:08PM INF worker\rollup_task.go:17 ProcessRollupWard is temporarily disabled due to schema migration service=api env=development version=dev commit=none
+      12:10PM INF worker\rollup_task.go:22 ProcessRollupStateConstituency is temporarily disabled due to schema migration service=api env=development version=dev commit=none
+      12:10PM INF worker\rollup_task.go:27 ProcessRollupLGA is temporarily disabled due to schema migration service=api env=development version=dev commit=none
+      12:10PM INF worker\rollup_task.go:32 ProcessRollupSenatorialDistrict is temporarily disabled due to schema migration service=api env=development version=dev commit=none
+      12:10PM INF worker\rollup_task.go:42 ProcessRollupState is temporarily disabled due to schema migration service=api env=development version=dev commit=none
+      12:10PM INF worker\rollup_task.go:17 ProcessRollupWard is temporarily disabled due to schema migration service=api env=development version=dev commit=none
+      12:10PM INF worker\rollup_task.go:37 ProcessRollupFederalConstituency is temporarily disabled due to schema migration service=api env=development version=dev commit=none
+      12:10PM INF worker\rollup_task.go:47 ProcessRollupElection is temporarily disabled due to schema migration service=api env=development version=dev commit=none
+      12:12PM INF worker\rollup_task.go:17 ProcessRollupWard is temporarily disabled due to schema migration service=api env=development version=dev commit=none
+      12:14PM INF worker\rollup_task.go:17 ProcessRollupWard is temporarily disabled due to schema migration service=api env=development version=dev commit=none
+      12:15PM INF worker\rollup_task.go:27 ProcessRollupLGA is temporarily disabled due to schema migration service=api env=development version=dev commit=none
+      12:15PM INF worker\rollup_task.go:22 ProcessRollupStateConstituency is temporarily disabled due to schema migration service=api env=development version=dev commit=none
+      12:16PM INF worker\rollup_task.go:17 ProcessRollupWard is temporarily disabled due to schema migration service=api env=development version=dev commit=none
+      12:18PM INF worker\rollup_task.go:17 ProcessRollupWard is temporarily disabled due to schema migration service=api env=development version=dev commit=none
+      12:20PM INF worker\rollup_task.go:47 ProcessRollupElection is temporarily disabled due to schema migration service=api env=development version=dev commit=none
+      12:20PM INF worker\rollup_task.go:17 ProcessRollupWard is temporarily disabled due to schema migration service=api env=development version=dev commit=none
+      12:20PM INF worker\rollup_task.go:37 ProcessRollupFederalConstituency is temporarily disabled due to schema migration service=api env=development version=dev commit=none
+      12:20PM INF worker\rollup_task.go:32 ProcessRollupSenatorialDistrict is temporarily disabled due to schema migration service=api env=development version=dev commit=none
+      12:20PM INF worker\rollup_task.go:22 ProcessRollupStateConstituency is temporarily disabled due to schema migration service=api env=development version=dev commit=none
+      12:20PM INF worker\rollup_task.go:27 ProcessRollupLGA is temporarily disabled due to schema migration service=api env=development version=dev commit=none
+      12:20PM INF worker\rollup_task.go:42 ProcessRollupState is temporarily disabled due to schema migration service=api env=development version=dev commit=none
+    }
+
+    ---
+    pray mon, tue, wed, thur
+    pelvic breathing: thur
+    pelvic exercise thur
+    ---
+    ---
+    work on the Rds connection note (my advice, don't worry much about this for now)
+    ---
+    ---
+
 
   sunday {
   }
@@ -291,9 +345,14 @@ add to time to use free AI: {
   Avoid if possible: ~12pm – 6pm (highest contention window globally)
 }
 
-
 ---
 later {
+  super-visors {
+    ward supervisors
+    lga supervisors
+    state supervisors
+    national supervisors
+  }
   aws {
     instead of using elasticache for redis, chatGPT advices to use redis docker image on EC2
     instead of using rds postgres, chatGPT advices using postgres docker image on EC2
@@ -371,6 +430,40 @@ later {
       Each of these ongoing should be like a live news thread, like the al-jaZeRa news live, so in the live page the party member can
       be seeing live reports from they polling unit agent
   }
+  controllers {
+    national, state, lga, ward, polling-units(maybe 10 units per person)
+    ---
+    - let the controllers be able to call the people under them or message the people
+      - let each controller, polling unit agent provide or chose their preferred option when it comes to calling them
+  }
+  ---
+  before final launch and real world testing {
+    talk to google flash about the best values to use for a 1million traffic website {
+      - when you traffic drops to 100,000 per day, should we downsize the rds instance type, the elasticache instance type without loss of data
+    }
+  }
+}
+resources {
+  cloudflare ip range: https://www.cloudflare.com/ips/
+
+  git conflict {
+    check diff btw branches: git diff fix/merge-dev..2dev > dev-changes.patch
+    show only titles with changes: cat dev-changes.patch | grep -i "diff --git" > total_diff.txt
+    copy from the best branch: git restore --source=2dev "apps/api/db/query/20260606103546copy.sql"
+  }
+  git clean old commits and rebase into main commit {
+    The cleanest way is to rebase interactively onto main if you want to preserve individual commits, or create a new root commit if you don't care about the old commits.:
+    always do this before merging into main:
+    ---
+    # Create the new branch
+    git switch -c feature-clean
+
+    # Reset the branch to main, but keep all your changes
+    git reset --soft main
+
+    # Create a single commit
+    git commit -m "Implement feature"
+  }
 }
 use a case for free9ja: to use in as talking points to parties {
   spoke with atiKu first daughter on wed-25th-feb-2026
@@ -388,6 +481,15 @@ use a case for free9ja: to use in as talking points to parties {
   }
   https://www.youtube.com/watch?v=EzcI137qrn0 {
     EU supports inec again, they did an ad @40:48 and they stated that they where sponsored by EU
+  }
+  https://www.thecable.ng/igp-meets-adeleke-over-osun-pre-election-violence-says-suspects-hiding-in-government-house/ {
+    tell the governor, we can work hand in hand with the police to make the stealing of votes nearly impossible
+  }
+  https://www.youtube.com/watch?v=b2cGxslU2pY {
+    inec will not allow register users
+  }
+  https://www.youtube.com/watch?v=5YICWkC79EU {
+    osun governor talks about elections
   }
 }
 
@@ -423,3 +525,4 @@ https://developers.cloudflare.com/containers/get-started/
 
 
 ekiTi election: https://inecelectionresults.ng/elections/6a35bb87b4e45d80b33a6e38
+inec upcoming elections: https://www.inecnigeria.org/upcoming-elections/
