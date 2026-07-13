@@ -1,6 +1,8 @@
 https://www.youtube.com/@realjudebela/videos
 inspiration: see every morning
 https://www.tripadvisor.com/Tourism-g189498-Alonnisos_Sporades-Vacations.html
+C:\Users\STANLEY\AppData\Local\go-build
+
   hours_used:
   hours_unused:
 
@@ -30,6 +32,9 @@ format {
 }
 
 GOALS:
+finish becoming a member of a party from the website
+the process of setting an upcoming election
+people applying to be agents to the upcoming election
 
 thur:
   next goals {
@@ -50,27 +55,27 @@ thur:
     update the GeoMind db weekly
     Test every page on mobile to be sure it works well
   }
-  pelvic breathing: wed
-  pelvic exercise wed
-  pray: wed
+  pelvic breath & exercise: mon
+  squat sex mon
+  pray: mon
   ---
   ---
 
   sun:
-  7-7(12hr): work
-  7-10(3hr): work
-  10-11(1hr): exercise
-  11-3(4hr): sleep
+  9-9(12hr): work
+  9-10(1hr): exercise
+  10-3(5hr): sleep
   3-4(1hr): exercise
-  4-6(2hr): work
-  6-7(1hr): sleep
+  3-7(4hr): work
+
+
 
 
   sun:
-  7-8: 
-  8-9: 
-  9-10: 
-  10-11: 
+  7-8: FAILED:
+  8-9: FAILED:
+  9-10: DONE:
+  10-11: DONE:
   11-12: 
   12-1: 
   1-2: 
@@ -90,52 +95,68 @@ thur:
   6-7: sleep
 
 
-babe mental health stuff {
-  World Health Organization mhGAP – Free training in assessing and managing common mental health conditions in primary care. Widely respected, especially in low- and middle-income countries.
-  Beck Institute – Internationally recognized online Cognitive Behavioral Therapy (CBT) training and certification. Excellent if you want evidence-based psychotherapy skills.
-  HealthCert – Professional certificate courses in mental health designed for primary care clinicians and other healthcare practitioners.
-  OpenWHO – Free courses on mental health and psychosocial support with certificates of completion.
-  Coursera – Offers courses from universities such as Yale University and The University of Sydney in mental health, psychiatry, and psychological first aid. Certificates are available for many courses.
-}
 
-  planning
-  exercise
-  clearing_time
-  fails {
-    youtube*5
-    on-purpose*5
-    -1
-    --
-    music*5
-    purpose*5
-    -1
+
+    add new rule, check latest on iran usa on sunday and oil price on sunday
+    add to rule, no watching whatsapp stories { check youtube channel every  }
+    add to rule that no more watching youtube based on interest topic {yul edochie, oyo kidnapped}
+    active: from url, create super-admin
+      delete RegisterAdmin
     ---
-    sleep*5
-    purpose*5
-    -1
-  }
+    big: from UI, assign a role to a user
+
+
+    {
+      am thinking to optimize this function: (userRoles, err := s.queries.GetUserRoles(ctx, user.ID)), i feel like it will make sense
+    }
+
+
+
+    design the assign of role from the admin app
+    design the super url that creates admin
+    remove the register endpoint for admin
+    work on the election-app to stop using provider.tsx
+    ---
+    activate the comments for rollup_task.go
+    ---
+    aggressive work on been a member of a party
+
+    ---
+    pray *30m
+    use paper to tape areas that are inverter extension
+    dog_hair brush
+    pelvic breath & exercise: owe
+    squat sex owe
+    pray: owe
+    ---
+
+
+    deploy to staging, all applications
+    make sure all staging domains and subdomains are working properly {
+      first start with the api
+    }
+
+    work on the admin section
+    make someone an admin without going to the admin page
+      - use number 2 of creating an admin
+      - in the programming, reserve all usernames (stanley, stanleychukwu, chukwustanley)
+      - if username is any of this value, then make admin
+      - do this through 
+      - update the redis cached details of the user
+    delete the end point of registering a user as admin from api
+    index page of admin is broken
 
 
     NOTE: once all is fix and tested, lets deploy
-
-    work on the sideBar
-    work on the login
-    work on the parties
-
-
+    NOTE: create the accord party {
+      add the accord party
+    }
 
     design on paper what the control center will look like
-    --
-    check why the admin login fails
-    fix the admin login
-    log-in into the admin
     fix the sideBar of the admin
     fix the sideBar of partyApp
     fixe the sideBar of the partyAdmin
-
-    check the sideBar and footer in "admin" and in "partyApp" {
-      will there be any need to update?
-    }
+    --
     admin, partyApp: attach the ip to all request sent to the backend {
       leave party app update until after merging
     }
@@ -201,13 +222,21 @@ babe mental health stuff {
       12:20PM INF worker\rollup_task.go:27 ProcessRollupLGA is temporarily disabled due to schema migration service=api env=development version=dev commit=none
       12:20PM INF worker\rollup_task.go:42 ProcessRollupState is temporarily disabled due to schema migration service=api env=development version=dev commit=none
     }
+    key things to work on {
+      - assign role from an end point from the frontend
+      - assign role from admin panel
+      - party member ship
+      - elections set_up
+      - polling unit applications from polling unit agents
+      - election day uploading
+      - control centers see election day upload
+    }
+
 
     ---
-    pray mon, tue, wed, thur
-    pelvic breathing: thur
-    pelvic exercise thur
     ---
-    ---
+    look what this seeding of user is for in auth_Service.go
+    review all the urls in router.go to see which to optimize
     work on the Rds connection note (my advice, don't worry much about this for now)
     ---
     ---
@@ -445,25 +474,6 @@ later {
 }
 resources {
   cloudflare ip range: https://www.cloudflare.com/ips/
-
-  git conflict {
-    check diff btw branches: git diff fix/merge-dev..2dev > dev-changes.patch
-    show only titles with changes: cat dev-changes.patch | grep -i "diff --git" > total_diff.txt
-    copy from the best branch: git restore --source=2dev "apps/api/db/query/20260606103546copy.sql"
-  }
-  git clean old commits and rebase into main commit {
-    The cleanest way is to rebase interactively onto main if you want to preserve individual commits, or create a new root commit if you don't care about the old commits.:
-    always do this before merging into main:
-    ---
-    # Create the new branch
-    git switch -c feature-clean
-
-    # Reset the branch to main, but keep all your changes
-    git reset --soft main
-
-    # Create a single commit
-    git commit -m "Implement feature"
-  }
 }
 use a case for free9ja: to use in as talking points to parties {
   spoke with atiKu first daughter on wed-25th-feb-2026
@@ -491,6 +501,29 @@ use a case for free9ja: to use in as talking points to parties {
   https://www.youtube.com/watch?v=5YICWkC79EU {
     osun governor talks about elections
   }
+  https://www.youtube.com/watch?v=zcOQReIOlwg {
+    usa will be watching nigeria's election
+  }
+  https://dailypost.ng/2026/06/25/2027-presidential-election-between-tinubu-atiku-segun-sowunmi-predicts/
+  ---
+  https://saharareporters.com/2026/06/25/breaking-nigerian-soldiers-reject-fresh-move-deploy-repentant-terrorists-military
+}
+peter obi {
+  - our app will improve governance like what is happening in ukraine with the dia app
+  - we propose an increase in salary so civil servants and politicians will not be focused on stealing
+  - this app will be the linkedIn for politicians for now, it will show and track every single office in nigeria,
+    it will tell how much of money was given to them,
+    the things they spent it on,
+    if the things have been verified by our partners or the citizen, the citizen will be paid for each verification
+  - it is important for this app to not just be used by polling unit agents, but also by citizens. and it takes so much marketing efforts to get this app
+    in the face of everyone.. because when it gets to this we as a people will have an unlimited amount of evidence
+  - we will hire agents through our networks and partnership with universities and the nySc
+  - the ability to get feelings from voters and polling unit agents will make the final result before the end of the day
+  - agents will be paid directly from the application, because in the past agents have not been paid. and they will only be paid upon completion of their assigned task
+}
+
+request for funding {
+  https://rileymoore.house.gov/contact
 }
 
 
