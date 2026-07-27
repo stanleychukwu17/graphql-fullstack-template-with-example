@@ -1,0 +1,25 @@
+git conflict {
+  check diff btw branches: git diff fix/merge-dev..2dev > dev-changes.patch
+  show only titles with changes: cat dev-changes.patch | grep -i "diff --git" > total_diff.txt
+  copy from the best branch: git restore --source=2dev "apps/api/db/query/20260606103546copy.sql"
+}
+
+
+git clean old commits and rebase into main commit {
+  The cleanest way is to rebase interactively onto main if you want to preserve individual commits, or create a new root commit if you don't care about the old commits.:
+  always do this before merging into main:
+  ---
+  # Create the new branch
+  git switch -c feature-clean
+
+  # Reset the branch to main, but keep all your changes
+  git reset --soft main
+
+  # Create a single commit
+  git commit -m "cleaned history"
+}
+
+
+undo a commit, i.e bring back all the files committed (useful when you want to commit one by one) {
+  git reset --soft HEAD~1
+}
