@@ -2,6 +2,26 @@ https://www.youtube.com/@realjudebela/videos
 inspiration: see every morning
 https://www.tripadvisor.com/Tourism-g189498-Alonnisos_Sporades-Vacations.html
 C:\Users\STANLEY\AppData\Local\go-build
+C:\Users\STANLEY\AppData\Roaming
+
+karen socials {
+  https://www.facebook.com/karen.ihenebiri.98/photos
+  https://www.instagram.com/kareninnocent/
+}
+seeding {
+  1. seed normal users
+  2. seed verified users
+  3. seed parties_chapters creation
+  4. seed parties membership
+  5. seed politicians
+  ---
+  seed users {
+    consider using go routine for the seeding:
+    ---
+    work on seeding verified users
+    work on seeding parties to verified accounts
+  }
+}
 
   hours_used:
   hours_unused:
@@ -31,56 +51,63 @@ format {
   6-7: sleep
 }
 
-GOALS:
-finish becoming a member of a party from the website
-the process of setting an upcoming election
-people applying to be agents to the upcoming election
+GOALS: {
+  finish user profile page and settings for a user account
+  finish the parties page design
+}
+sat:
+  finish everything basic info and phone number edit and saves
+  finish role assignment
+  finish searching of users
+  finish filtering of search
+  finish deleting of account
+sun:
+  finish creating of a new user account, i.e a placeholder account
+  finish admin & party members loading of users
+  finish filter searching of user
 
-thur:
-  next goals {
-    Clean_up session revalidation
-    clean up login
-    clean up registration
-    finish logging out
-    -
-    finish forgot password
-    finish verify otp for forgotten password
-    finish change password
-    finish forgot password
-    finish rate limiting
-  }
 
+next goals {
+  the staring of users profile that have been verified
+  the process of setting an upcoming election
+  people applying to be agents to the upcoming election
+  finish rate limiting
+}
+
+sat:
   always do every last day of the week {
     arrange videos downloaded: 1hr
     update the GeoMind db weekly
     Test every page on mobile to be sure it works well
   }
-  pelvic breath & exercise: mon
-  squat sex mon
-  pray: mon
+  planning, exercise, clearing_time, failing_streak-and-fasting
+  ---
+  pelvic breath & exercise: sun
+  squat sex sun
+  pray: sun
+  news today total: 8m
   ---
   ---
 
   sun:
-  9-9(12hr): work
+  7-7(12hr): work
+  7-9(2hr): work
   9-10(1hr): exercise
-  10-3(5hr): sleep
-  3-4(1hr): exercise
-  3-7(4hr): work
-
-
+  10-2(5hr): sleep
+  2-3(1hr): exercise
+  3-6(3hr): work
 
 
   sun:
   7-8: FAILED:
-  8-9: FAILED:
+  8-9: DONE:
   9-10: DONE:
   10-11: DONE:
-  11-12: 
-  12-1: 
-  1-2: 
-  2-3: 
-  3-4: 
+  11-12: FAILED:
+  12-1: FAILED:
+  1-2: DONE:
+  2-3: DONE:
+  3-4: DONE:
   4-5: 
   5-6: 
   6-7: 
@@ -94,80 +121,217 @@ thur:
   5-6: 
   6-7: sleep
 
+  small-works waiting {
+    squat sex sat owe
+    pelvic breath & exercise: sun
+    squat sex sun
+    pray sun
+  }
+  bugs {
+    i.p address and user_agent not working in audit_logs, they are not been saved to the table
+  }
+  files of special interest, review them {
+    D:\Sz-projects\50-main-projects\3-free9ja\apps\api\db\migrations\20260607120000_elections_schema.sql
+    D:\Sz-projects\50-main-projects\3-free9ja\apps\api\db\migrations\20260607121000_create_party_election_groups_trigger.sql
+  }
 
 
+  NOTE: call oga emma by 5pm
 
-    add new rule, check latest on iran usa on sunday and oil price on sunday
-    add to rule, no watching whatsapp stories { check youtube channel every  }
-    add to rule that no more watching youtube based on interest topic {yul edochie, oyo kidnapped}
-    active: from url, create super-admin
-      delete RegisterAdmin
+  NOTE: fix this in assign userRole {
+    err := h.authService.CheckAndAssignRole(r.Context(), req.UserID, 0, req.Role, claims.UserID), in auth_handler.go
+    remove the 0 and replace with the user fakeID
+  }
+  work on roles {
+    chino too messed up there
+  }
+  back to editing phone numbers {
+    if user is verified, only super_admin can see their numbers
+    verified accounts numbers can only be visible to super party admins
+    make sure only super_admin can see verified accounts phone number
     ---
-    big: from UI, assign a role to a user
+    saving of new phone numbers {}
+    remember , before saving a new number to the database for a user make sure it he/she does not have more than 20 numbers
+    ---
+    deleting of a number; {
+      comment on the code, send the id of the phone to delete, send the user_id, send the user_fakeId
+    }
+    ---
+    changing active numbers
+    updating numbers to be on whatsapp
+    change the user_phone_numbers table to have a row called active(boolean), when number deleted, then this is set to false
+  }
 
-
-    {
-      am thinking to optimize this function: (userRoles, err := s.queries.GetUserRoles(ctx, user.ID)), i feel like it will make sense
+  index the tables in partyChapter
+  the enum, can we only create if they do not exist?
+  adding of phone numbers to the db has to be from one source {
+    if phone != "" {
+      pipe.Set(ctx, db.RedisPhoneFakeID+phone, fakeID, 0)
+    }
+    if nin != "" {
+      pipe.Set(ctx, db.RedisNINFakeID+nin, fakeID, 0)
     }
 
+    _, err := pipe.Exec(ctx)
+    if err != nil {
+      return err
+    }
+
+    // save to db
+    if phone != "" {
+      s.queries.CreatePhoneNumber(ctx, queries.CreatePhoneNumberParams{
+        Phone:     phone,
+        UserID:    userID,
+        IsDefault: pgtype.Bool{Bool: true, Valid: true},
+      })
+    }
+  }
+
+  GetUserPhoneNumbersByUserID - this should be cached
+  DeleteUserPhoneNumber - remove from redis cache
+  back to editing of basic info and more info
+  deleting of user
+
+  edit the phone_number migration to have space for default_phone
+  when saving the new user number, save the default_phone as true
+  load the numbers of the user
+  let a user ever have a max of 10phone numbers on the database
+  don't delete numbers, update them to deleted so that people cannot reuse that number
+  don't delete primary phone number of a user
+    referral_code:
+    referral_code in users table will fail, because it is unique and many first name will clash, we need a better referral_code, which should be
+      the user first_name and the user fake_id, may first 3 letters of the user first_name.
+
+  next3:
+  List users: the searching and filtering of users when listing users should include (active, in-active accounts), currently its fetching both active and in-active users
+    search should include the party they belong to, current city, state, country
+  List users: {
+    no need for ListAdmins anymore, ListUsers handles it
+    -- name: ListAdmins :many
+    SELECT u.id, u.fake_id, u.email, u.phone, u.username, u.first_name, u.last_name, u.gender, u.date_of_birth, u.current_country, u.current_state, u.current_city, u.account_status, u.created_at, u.updated_at
+    FROM users u
+    JOIN user_roles ur ON u.id = ur.user_id
+    JOIN roles r ON ur.role_id = r.id
+    WHERE r.code = 'admin'
+    ORDER BY u.id DESC;
+  }
+  ---
 
 
-    design the assign of role from the admin app
-    design the super url that creates admin
-    remove the register endpoint for admin
-    work on the election-app to stop using provider.tsx
+  redesign phone tab, +234 [phone] [whatsapp] icon for delete
+  editing existing numbers or?
+  saving the tabs, more info and phone numbers {
+
+  }
+  normal admin cannot edit account of a super_admin
+  normal party_admin cannot edit the account of super_party_admin 
+
+
+  no need to fetch the user roles on listing of roles, when the user wants to edit the roles, we will fetch it {
+    responses := make([]UserResponse, len(paginatedUsers))
+    for i, u := range paginatedUsers {
+      uRoles, _ := h.usersService.GetUserRoles(r.Context(), u.ID)
+      responses[i] = mapListUserRowToResponse(u, uRoles)
+    }
+    only fetch roles if the view is for admins
+  }
+
+  get the current time based on nigeria time, use the nigerian time to update the audit log
+
+  ---
+  saving the more info
+  saving the phone numbers
+  if updating user details, the password input should not show
+  ---
+  on load: loading the more info
+  on load: loading the phone numbers
+
+
+  any need to refresh the whole users? or just update the user-slice?
+  stop the react-query for refreshing the query every time
+  "Refresh" in auth_Service, i don't see why we are fetching more info about the user when refreshing token: GetMoreInfoAboutThisUser
+
+    when party admin creates an account, what is the status of the account, does it remain in place holder or?
+
+    how the profile image is been added
+    when creating user from admin, make sure user details is cached. decide best way for placeholder account
+
+      users table need to be worked on {
+        "whatsapp_phone" and "data_phone" should be removed from here
+      }
+
+
+
+  after osun elections {
+    next3:
+    create the handler for activation {
+      open open of state national page, open all the way to the polling unit, you can use go routine
+
+      have a handler that activates once a party page is open; activates up until the lga Level
+      use go-routines to do it
+      then have an endpoint to activate countries chapter
+    }
+    do verification of parties {
+      Work on the national chapter {
+        On load of the party home page: get the
+          -> national-chapter
+          -> if no national chapter, open one, open zonal chapter, open state chapter, open LGA chapters, open ward chapters, open polling unit chapters
+          -> next if following each chapter
+      }
+      ---
+      design the page on how you want it to be {
+        design on paper
+        design on system
+      }
+      work on the function for been a member of a party
+      let there be party log to see {
+        summary of user who became member in the last 24hours, 7days, 1month, 1year
+      }
+      ---  
+      in user DropDown, stop invalidating queries, only update the one we're working on
+      ---
+      parties page mobile display fix
+    }
+    when updating users account, been a member of a party should no be on the fly, an application has to be sent
+    each member of a party should have the logo attached to they username
+    {add a new tab in web for politicians, it will show you everyone from users that is_politician = true}
+    ---
+    update the seed file to have is politicians
+    ---
+    in the users seeding, once you finish party membership, you can do the seeding of users to be added to party members even down to lga members
+    ---
+    partyAdmin {
+      allow admins to open different countries chapter for parties
+    }
+    to chino: instead of taking the messaging outside this app, can we quickly build a messaging system inside the app?
+    ---
+    after merge {
+      look at this rand.Seed(time.Now().UnixNano()) in registration handler in auth, so we can update the register service
+      CreateUserWallet, needs serious optimization
+    }
+    we need to save the last seen of users on each request they make to the backend, should we use redis for this? i think best to use redis
     ---
     activate the comments for rollup_task.go
-    ---
     aggressive work on been a member of a party
-
+    i need to review this function "GetMe" in "users_handler.go", we are getting the user details with fakeId and still fetching the user Profile details
     ---
-    pray *30m
-    use paper to tape areas that are inverter extension
-    dog_hair brush
-    pelvic breath & exercise: owe
-    squat sex owe
-    pray: owe
+    we need to move the columns "referral_code, referred_by_code"  table off the users database. so that we can track who has been paid or not
+    we need to move these out the user table too {
+      whatsapp_phone VARCHAR(25),
+      data_phone VARCHAR(25),
+      educational_status VARCHAR(20) CHECK (educational_status IN ('graduate', 'student', 'none')),
+      highest_degree VARCHAR(100),
+      graduation_year VARCHAR(4),
+      school_name VARCHAR(255),
+    }
+    address VARCHAR(255), the address is highlighted in blue, ask AI if i should change to user_address
+    move these column to a separate table {
+      nin_verified VARCHAR(5) CHECK (nin_verified IN ('true', 'false')) DEFAULT 'false',
+      phone_verified VARCHAR(5) CHECK (phone_verified IN ('true', 'false')) DEFAULT 'false',
+      email_verified VARCHAR(5) CHECK (email_verified IN ('true', 'false')) DEFAULT 'false',
+    }
     ---
 
-
-    deploy to staging, all applications
-    make sure all staging domains and subdomains are working properly {
-      first start with the api
-    }
-
-    work on the admin section
-    make someone an admin without going to the admin page
-      - use number 2 of creating an admin
-      - in the programming, reserve all usernames (stanley, stanleychukwu, chukwustanley)
-      - if username is any of this value, then make admin
-      - do this through 
-      - update the redis cached details of the user
-    delete the end point of registering a user as admin from api
-    index page of admin is broken
-
-
-    NOTE: once all is fix and tested, lets deploy
-    NOTE: create the accord party {
-      add the accord party
-    }
-
-    design on paper what the control center will look like
-    fix the sideBar of the admin
-    fix the sideBar of partyApp
-    fixe the sideBar of the partyAdmin
-    --
-    admin, partyApp: attach the ip to all request sent to the backend {
-      leave party app update until after merging
-    }
-
-    after all changes, run terraform apply to provision infrastructure in staging v2
-    see if all changes are live
-    now ready to take on uploading of votes!!! kill it my bro!
-
-    when deployed live {
-      test registration
-    }
     fix the issue {
       11:46AM WRN router\router.go:93 Monnify not configured — party/user wallet creation will be unavailable service=api env=development version=dev commit=none reason="MONNIFY_API_KEY or MONNIFY_SECRET_KEY is empty"
       11:46AM WRN router\router.go:151 R2 service not configured — file upload endpoints will be unavailable service=api env=development version=dev commit=none reason="r2service: AccountID is required"
@@ -231,20 +395,29 @@ thur:
       - election day uploading
       - control centers see election day upload
     }
-
-
-    ---
-    ---
-    look what this seeding of user is for in auth_Service.go
-    review all the urls in router.go to see which to optimize
-    work on the Rds connection note (my advice, don't worry much about this for now)
-    ---
-    ---
-
-
-  sunday {
   }
 
+
+designs {
+  parties page design {
+    https://dribbble.com/shots/23681946-Profile-Page
+    https://dribbble.com/shots/27406497-AI-Driven-Real-Estate-Analytics-Dashboard-UI-Settings-page
+    https://dribbble.com/shots/27408191-Delay-Effect-UI-Redesign
+  }
+  profile page design {
+    https://dribbble.com/shots/25225929-Omostate-Real-Estate-Mobile-App-Design-Profile-screen
+    https://dribbble.com/shots/24084525-Patient-Profile-Healthtech-Platform-UI-UX-Design
+    https://dribbble.com/shots/27406497-AI-Driven-Real-Estate-Analytics-Dashboard-UI-Settings-page
+    https://dribbble.com/shots/27408191-Delay-Effect-UI-Redesign
+  }
+  politicians contesting design {
+    https://dribbble.com/shots/27136767-GameDay-Athlete-Profile-Experience
+    https://dribbble.com/shots/27360424-Fit-Fitness-Workout-Website-Design
+  }
+  home page {
+    https://dribbble.com/shots/23653786-Buddy-AI-Landing-Page-for-UAVC
+  }
+}
 
 revisions {
   finish frontend revision {
@@ -475,39 +648,25 @@ later {
 resources {
   cloudflare ip range: https://www.cloudflare.com/ips/
 }
-use a case for free9ja: to use in as talking points to parties {
-  spoke with atiKu first daughter on wed-25th-feb-2026
-  https://www.canva.com/design/DAG-rLtk3LI/YcAuzH_9Pu2BxQyFZWA_qw/edit
-  ---
-  https://www.youtube.com/watch?v=wDWBDltKJvA {
-    - a guy killed because of elections
-    - voters did not come out in ekiTi
-    - they where buying votes in ekiTi, using slips instead of voters cards, pre-printed ballot papers
+parties {
+  https://www.inecnigeria.org/political-parties/peoples-democratic-party-pdp/
+
+  pdp {
+    https://peoplesdemocraticparty.com.ng/en/
+    https://peoplesdemocraticparty.com.ng/en/nec/
+    https://peoplesdemocraticparty.com.ng/en/manifesto/
   }
-  https://www.youtube.com/watch?v=t1-UzWn1OcU {
-    - baYo telling peter obi to wait for 2027, because he knows of they plan
-    - a man record election violence, but no where to collate these violences,
-      including the use of policemen and armed men to threaten voters
+  apc {
+    https://apc.com.ng/
+    https://apc.com.ng/apc_nwc_2022.php
   }
-  https://www.youtube.com/watch?v=EzcI137qrn0 {
-    EU supports inec again, they did an ad @40:48 and they stated that they where sponsored by EU
+  ndc {
+    https://ndcnigeria.com/
+    https://ndcnigeria.com/nwc
   }
-  https://www.thecable.ng/igp-meets-adeleke-over-osun-pre-election-violence-says-suspects-hiding-in-government-house/ {
-    tell the governor, we can work hand in hand with the police to make the stealing of votes nearly impossible
-  }
-  https://www.youtube.com/watch?v=b2cGxslU2pY {
-    inec will not allow register users
-  }
-  https://www.youtube.com/watch?v=5YICWkC79EU {
-    osun governor talks about elections
-  }
-  https://www.youtube.com/watch?v=zcOQReIOlwg {
-    usa will be watching nigeria's election
-  }
-  https://dailypost.ng/2026/06/25/2027-presidential-election-between-tinubu-atiku-segun-sowunmi-predicts/
-  ---
-  https://saharareporters.com/2026/06/25/breaking-nigerian-soldiers-reject-fresh-move-deploy-repentant-terrorists-military
 }
+
+
 peter obi {
   - our app will improve governance like what is happening in ukraine with the dia app
   - we propose an increase in salary so civil servants and politicians will not be focused on stealing
@@ -521,11 +680,10 @@ peter obi {
   - the ability to get feelings from voters and polling unit agents will make the final result before the end of the day
   - agents will be paid directly from the application, because in the past agents have not been paid. and they will only be paid upon completion of their assigned task
 }
-
 request for funding {
   https://rileymoore.house.gov/contact
 }
-
+https://pollingagents.inecnigeria.org/?utm_source=chatgpt.com
 
 contacting the boss {
   dr yunusa tanko - can contact him for access to obi {
@@ -542,6 +700,23 @@ https://votewatch.pro/
 https://www.votewatch.ng/
 https://app.edonkast.com/
 https://www.ballotwatchng.com/
+add to learning {
+  passing component as a prop {
+    <PageSearchLayer
+      rightComponent={
+        <>
+          <FilterButton />
+          <AddButton onClick={handleCreateClick} />
+        </>
+      }
+      ---
+      i never knew you could pass components in props like the above, i only knew of this:
+       <PageSearchLayer>
+        <Comp />
+      </PageSearchLayer>
+    />
+  }
+}
 
 
 terraform-app:            https://app.terraform.io/app/free9ja_team/projects
